@@ -1,25 +1,33 @@
 package com.hrevfdz.view.sale;
 
+import com.hrevfdz.controller.SaleController;
+import com.hrevfdz.model.Sale;
 import com.hrevfdz.util.ActionNamesUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class SaleView extends javax.swing.JInternalFrame {
-    
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+    private SimpleDateFormat sdf;
     private Date fec;
-    
+
+    private final SaleController sc;
+
     public SaleView() {
         initComponents();
         try {
+            sdf = new SimpleDateFormat("dd/MM/yyyy");
             fec = sdf.parse(sdf.format(new Date()));
             dcFecha.setDate(fec);
         } catch (ParseException ex) {
             Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        sc = new SaleController();
 
 //        ResourceBundle.getBundle("com.hrevfdz.util.ActionNames", Locale.ENGLISH).getString("SEARCH_ALL");
         btnSearchAll.setToolTipText(ActionNamesUtil.SEARCH_ALL);
@@ -27,8 +35,36 @@ public class SaleView extends javax.swing.JInternalFrame {
         btnAdd.setToolTipText(ActionNamesUtil.ADD);
         btnUpdate.setToolTipText(ActionNamesUtil.UPDATE);
         btnDelete.setToolTipText(ActionNamesUtil.DELETE);
+
+        sc.doFindAll();
+        try {
+            loadData();
+        } catch (ParseException ex) {
+            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
+    private void loadData() throws ParseException {
+        DefaultTableModel dtm = new DefaultTableModel();
+        Object[] row = new Object[8];
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (Sale s : sc.getSales()) {
+            row[0] = s.getCodSale();
+            row[1] = s.getCodStock().getNombre();
+            row[2] = sdf.parse(sdf.format(s.getFecha()));
+            sdf = new SimpleDateFormat("hh:mm:ss");
+            row[3] = sdf.parse(sdf.format(s.getHora()));
+            row[4] = s.getCantidad();
+            row[5] = s.getPrecio();
+            row[6] = s.getSubtotal();
+            row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
+            dtm.addRow(row);
+        }
+
+        tblSales.setModel(dtm);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

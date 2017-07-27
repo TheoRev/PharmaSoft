@@ -1,5 +1,8 @@
 package com.hrevfdz.view;
 
+import java.awt.Color;
+import javax.swing.UIManager;
+
 public final class LoadingDialogView extends javax.swing.JFrame {
 
     public LoadingDialogView() {
@@ -7,7 +10,7 @@ public final class LoadingDialogView extends javax.swing.JFrame {
         initComponents();
 
         setLocationRelativeTo(null);
-        loading();        
+        loading();
     }
 
     private void loading() {
@@ -18,7 +21,8 @@ public final class LoadingDialogView extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            int n;
+//            UIManager.put("pbLoadPharmaSoft.background", Color.RGBtoHSB(0, 153, 153, null));
+            int n = 0;
 
             for (int i = 1; i <= 100; i++) {
                 pbLoadPharmaSoft.setValue(i);
@@ -50,8 +54,11 @@ public final class LoadingDialogView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
-        pbLoadPharmaSoft.setBackground(new java.awt.Color(0, 102, 102));
-        pbLoadPharmaSoft.setForeground(new java.awt.Color(255, 255, 255));
+        pbLoadPharmaSoft.setBackground(new java.awt.Color(0, 153, 153));
+        pbLoadPharmaSoft.setForeground(new java.awt.Color(0, 102, 255));
+        pbLoadPharmaSoft.setBorder(null);
+        pbLoadPharmaSoft.setDebugGraphicsOptions(javax.swing.DebugGraphics.LOG_OPTION);
+        pbLoadPharmaSoft.setOpaque(false);
         pbLoadPharmaSoft.setStringPainted(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

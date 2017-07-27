@@ -6,7 +6,7 @@ import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
-public final class HomeView extends javax.swing.JFrame {
+public class HomeView extends javax.swing.JFrame {
 
     public HomeView() {
         initComponents();
