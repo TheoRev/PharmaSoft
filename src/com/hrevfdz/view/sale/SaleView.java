@@ -48,9 +48,9 @@ public class SaleView extends javax.swing.JInternalFrame {
 
     private void loadData() throws ParseException {
         DefaultTableModel dtm = (DefaultTableModel) tblSales.getModel();
-        sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         for (Sale s : sc.getSales()) {
+            sdf = new SimpleDateFormat("dd/MM/yyyy");
             String[] row = new String[8];
             row[0] = s.getCodSale().toString();
             row[1] = s.getCodStock().getNombre();
@@ -253,6 +253,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
 
         tblSales.setBackground(new java.awt.Color(255, 255, 255));
+        tblSales.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         tblSales.setForeground(new java.awt.Color(0, 0, 0));
         tblSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
