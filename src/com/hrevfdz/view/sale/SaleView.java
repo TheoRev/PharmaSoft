@@ -3,6 +3,7 @@ package com.hrevfdz.view.sale;
 import com.hrevfdz.controller.SaleController;
 import com.hrevfdz.model.Sale;
 import com.hrevfdz.util.ActionNamesUtil;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,6 +17,7 @@ public class SaleView extends javax.swing.JInternalFrame {
     private Date fec;
 
     private final SaleController sc;
+    DecimalFormat df = new DecimalFormat("###,###.##");
 
     public SaleView() {
         initComponents();
@@ -45,19 +47,19 @@ public class SaleView extends javax.swing.JInternalFrame {
     }
 
     private void loadData() throws ParseException {
-        DefaultTableModel dtm = new DefaultTableModel();
-        Object[] row = new Object[8];
+        DefaultTableModel dtm = (DefaultTableModel) tblSales.getModel();
         sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         for (Sale s : sc.getSales()) {
-            row[0] = s.getCodSale();
+            String[] row = new String[8];
+            row[0] = s.getCodSale().toString();
             row[1] = s.getCodStock().getNombre();
-            row[2] = sdf.parse(sdf.format(s.getFecha()));
+            row[2] = sdf.format(s.getFecha());
             sdf = new SimpleDateFormat("hh:mm:ss");
-            row[3] = sdf.parse(sdf.format(s.getHora()));
-            row[4] = s.getCantidad();
-            row[5] = s.getPrecio();
-            row[6] = s.getSubtotal();
+            row[3] = sdf.format(s.getHora());
+            row[4] = String.valueOf(s.getCantidad());
+            row[5] = String.valueOf(df.format(s.getPrecio()));
+            row[6] = String.valueOf(df.format(s.getSubtotal()));
             row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
             dtm.addRow(row);
         }
@@ -254,10 +256,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         tblSales.setForeground(new java.awt.Color(0, 0, 0));
         tblSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Código", "Producto", "Fecha", "Hora", "Cantidad", "Precio Unit.", "Subtotal", "Usuario"

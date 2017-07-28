@@ -36,8 +36,8 @@ public final class LoadingDialogView extends javax.swing.JFrame {
                 }
 
                 if (pbLoadPharmaSoft.getValue() == 100) {
-                    HomeView princioal = new HomeView();
-                    princioal.setVisible(true);
+                    HomeView principal = new HomeView();
+                    principal.setVisible(true);
                     LoadingDialogView.this.dispose();
                 }
             }
