@@ -6,6 +6,7 @@
 package com.hrevfdz.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,6 +21,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StockProducto.findByLote", query = "SELECT s FROM StockProducto s WHERE s.lote = :lote")
     , @NamedQuery(name = "StockProducto.findByMonto", query = "SELECT s FROM StockProducto s WHERE s.monto = :monto")
     , @NamedQuery(name = "StockProducto.findByCantidad", query = "SELECT s FROM StockProducto s WHERE s.cantidad = :cantidad")
-    , @NamedQuery(name = "StockProducto.findByCosto", query = "SELECT s FROM StockProducto s WHERE s.costo = :costo")})
+    , @NamedQuery(name = "StockProducto.findByCosto", query = "SELECT s FROM StockProducto s WHERE s.costo = :costo")
+    , @NamedQuery(name = "StockProducto.findByFecVen", query = "SELECT s FROM StockProducto s WHERE s.fecVen = :fecVen")})
 public class StockProducto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,6 +64,9 @@ public class StockProducto implements Serializable {
     private Integer cantidad;
     @Column(name = "costo")
     private Double costo;
+    @Column(name = "fec_ven")
+    @Temporal(TemporalType.DATE)
+    private Date fecVen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codStock")
     private List<IngresoProducto> ingresoProductoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codStock")
@@ -131,6 +138,14 @@ public class StockProducto implements Serializable {
 
     public void setCosto(Double costo) {
         this.costo = costo;
+    }
+
+    public Date getFecVen() {
+        return fecVen;
+    }
+
+    public void setFecVen(Date fecVen) {
+        this.fecVen = fecVen;
     }
 
     @XmlTransient

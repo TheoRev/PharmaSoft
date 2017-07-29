@@ -1,5 +1,6 @@
 package com.hrevfdz.view;
 
+import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.view.sale.SaleView;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -7,10 +8,10 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 public class HomeView extends javax.swing.JFrame {
-
+    
     public HomeView() {
         initComponents();
-
+        
         this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
 
 //        try {
@@ -23,12 +24,12 @@ public class HomeView extends javax.swing.JFrame {
 //            System.out.println("Err: " + e.getMessage());
 //        }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
+        pnlMainContainer = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         btnSale = new javax.swing.JButton();
         btnStock = new javax.swing.JButton();
@@ -41,7 +42,7 @@ public class HomeView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(36, 47, 65));
+        pnlMainContainer.setBackground(new java.awt.Color(36, 47, 65));
 
         jPanel1.setBackground(new java.awt.Color(36, 47, 65));
 
@@ -152,17 +153,17 @@ public class HomeView extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlMainContainerLayout = new javax.swing.GroupLayout(pnlMainContainer);
+        pnlMainContainer.setLayout(pnlMainContainerLayout);
+        pnlMainContainerLayout.setHorizontalGroup(
+            pnlMainContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainContainerLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dskContainer))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlMainContainerLayout.setVerticalGroup(
+            pnlMainContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(dskContainer)
         );
@@ -171,27 +172,28 @@ public class HomeView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMainContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMainContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaleActionPerformed
-        SaleView sv = new SaleView();
+        SaleView sv = new SaleView(dskContainer);
         sv.setClosable(true);
         sv.setMaximizable(true);
         sv.setIconifiable(true);
         sv.setTitle("LISTA DE VENTAS");
         sv.setToolTipText("LISTA DE VENTAS");
         dskContainer.add(sv);
-        sv.setVisible(true);
+        FramesUtil.setPosition(dskContainer, sv);
+        sv.show();
     }//GEN-LAST:event_btnSaleActionPerformed
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -233,7 +235,7 @@ public class HomeView extends javax.swing.JFrame {
     private javax.swing.JButton btnSuppliers;
     private javax.swing.JDesktopPane dskContainer;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel pnlMainContainer;
     // End of variables declaration//GEN-END:variables
 }

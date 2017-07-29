@@ -53,6 +53,8 @@ public class Users implements Serializable {
     private List<StartWork> startWorkList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<Payments> paymentsList;
+    @OneToMany(mappedBy = "userId")
+    private List<Recarga> recargaList;
 
     public Users() {
     }
@@ -119,6 +121,15 @@ public class Users implements Serializable {
 
     public void setPaymentsList(List<Payments> paymentsList) {
         this.paymentsList = paymentsList;
+    }
+
+    @XmlTransient
+    public List<Recarga> getRecargaList() {
+        return recargaList;
+    }
+
+    public void setRecargaList(List<Recarga> recargaList) {
+        this.recargaList = recargaList;
     }
 
     @Override

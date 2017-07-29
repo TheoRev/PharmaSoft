@@ -1,17 +1,21 @@
 package com.hrevfdz.view.sale;
 
 import com.hrevfdz.controller.SaleController;
-import com.hrevfdz.model.Sale;
 import com.hrevfdz.util.ActionNamesUtil;
+import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.view.stock.StockSelectorView;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
 import javax.swing.table.DefaultTableModel;
 
 public class SaleView extends javax.swing.JInternalFrame {
+
+    private JDesktopPane container;
 
     private SimpleDateFormat sdf;
     private Date fec;
@@ -19,8 +23,11 @@ public class SaleView extends javax.swing.JInternalFrame {
     private final SaleController sc;
     DecimalFormat df = new DecimalFormat("###,###.##");
 
-    public SaleView() {
+    public SaleView(JDesktopPane container) {
         initComponents();
+
+        this.container = container;
+
         try {
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             fec = sdf.parse(sdf.format(new Date()));
@@ -49,8 +56,10 @@ public class SaleView extends javax.swing.JInternalFrame {
     private void loadData() throws ParseException {
         DefaultTableModel dtm = (DefaultTableModel) tblSales.getModel();
 
-        for (Sale s : sc.getSales()) {
+        sc.getSales().stream().map((s) -> {
             sdf = new SimpleDateFormat("dd/MM/yyyy");
+            return s;
+        }).map((s) -> {
             String[] row = new String[8];
             row[0] = s.getCodSale().toString();
             row[1] = s.getCodStock().getNombre();
@@ -61,8 +70,10 @@ public class SaleView extends javax.swing.JInternalFrame {
             row[5] = String.valueOf(df.format(s.getPrecio()));
             row[6] = String.valueOf(df.format(s.getSubtotal()));
             row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
+            return row;
+        }).forEachOrdered((row) -> {
             dtm.addRow(row);
-        }
+        });
 
         tblSales.setModel(dtm);
     }
@@ -148,6 +159,11 @@ public class SaleView extends javax.swing.JInternalFrame {
         btnAdd.setContentAreaFilled(false);
         btnAdd.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/add/icons8-Add List-28.png"))); // NOI18N
         btnAdd.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/add/icons8-Add List-40.png"))); // NOI18N
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setBackground(new java.awt.Color(5, 67, 98));
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/update/icons8-Edit Property-34.png"))); // NOI18N
@@ -316,6 +332,23 @@ public class SaleView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        StockSelectorView ssv = new StockSelectorView(sc, this, container);
+        container.add(ssv);
+        FramesUtil.setPosition(container, ssv);
+        ssv.show();
+//        this.setVisible(false);
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void openNewSale(String title) {
+        CUSaleView cUSaleView = new CUSaleView(sc);
+        cUSaleView.txtCodigo.setEnabled(false);
+        cUSaleView.setClosable(true);
+        cUSaleView.setTitle(title + cUSaleView.getTitle());
+        container.add(cUSaleView);
+        FramesUtil.setPosition(this.container, cUSaleView);
+        cUSaleView.setVisible(true);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

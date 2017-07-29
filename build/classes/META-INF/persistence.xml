@@ -11,6 +11,7 @@
     <class>com.hrevfdz.model.IngresoProducto</class>
     <class>com.hrevfdz.model.Users</class>
     <class>com.hrevfdz.model.Payments</class>
+    <class>com.hrevfdz.model.Recarga</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/farmasur"/>
       <property name="javax.persistence.jdbc.user" value="theo_admin"/>
