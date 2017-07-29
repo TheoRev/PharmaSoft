@@ -2,7 +2,9 @@ package com.hrevfdz.util;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -48,13 +50,12 @@ public class FramesUtil {
     }
 
     public static void setPosition(JDesktopPane jdp, JInternalFrame iframe) {
-//        for (int i = 0; i < jdp.getComponents().length; i++) {
-//            if (jdp.getComponents()[i] instanceof JInternalFrame) {
-//                iframe = ((JInternalFrame) jdp.getComponents()[i]);
-//            }
-//        }
         Dimension dimDesk = jdp.getSize();
         Dimension dimFrame = iframe.size();
         iframe.setLocation((dimDesk.width - dimFrame.getSize().width) / 2, (dimDesk.height - dimFrame.getSize().height) / 2);
+    }
+
+    public static void setIcon(JFrame frame) {
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(frame.getClass().getResource("/icons/PharmaSoft_Icon.png")));
     }
 }

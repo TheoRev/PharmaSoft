@@ -3,6 +3,7 @@ package com.hrevfdz.view;
 import com.hrevfdz.controller.StartWorkController;
 import com.hrevfdz.model.StartWork;
 import com.hrevfdz.model.Users;
+import com.hrevfdz.util.FramesUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,7 @@ public final class StartWorkView extends javax.swing.JFrame {
 
     public StartWorkView() {
         initComponents();
+        FramesUtil.setIcon(this);
         setLocationRelativeTo(null);
         try {
             jdtFecha.setDate(sdf.parse(sdf.format(fecAct)));

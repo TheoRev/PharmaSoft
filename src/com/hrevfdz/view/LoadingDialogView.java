@@ -1,5 +1,6 @@
 package com.hrevfdz.view;
 
+import com.hrevfdz.util.FramesUtil;
 import java.awt.Color;
 import javax.swing.UIManager;
 
@@ -8,6 +9,8 @@ public final class LoadingDialogView extends javax.swing.JFrame {
     public LoadingDialogView() {
         super();
         initComponents();
+        
+        FramesUtil.setIcon(this);
 
         setLocationRelativeTo(null);
         loading();

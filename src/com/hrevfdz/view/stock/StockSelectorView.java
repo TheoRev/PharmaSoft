@@ -2,35 +2,41 @@ package com.hrevfdz.view.stock;
 
 import com.hrevfdz.controller.SaleController;
 import com.hrevfdz.controller.StockController;
+import com.hrevfdz.model.Laboratory;
+import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.view.sale.CUSaleView;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class StockSelectorView extends javax.swing.JInternalFrame {
-
+    
     private StockController stc = null;
     private SaleController sc = null;
     private JInternalFrame iframe = null;
     private JDesktopPane container = null;
-
+    
     private DefaultTableModel dtm;
     private SimpleDateFormat sdf;
-
+    
     public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container) {
         initComponents();
         this.sc = sc;
         this.iframe = iframe;
         this.container = container;
-
+        
         stc = new StockController();
         doFindAll();
     }
-
+    
     private void doFindAll() {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         dtm = (DefaultTableModel) tblProductos.getModel();
@@ -40,7 +46,8 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
             row[0] = p.getCodStock();
             row[1] = p.getNombre();
             row[2] = p.getPresentacion();
-            row[3] = p.getCodLab().getNomLab();
+//            row[3] = p.getCodLab().getNomLab();
+            row[3] = p.getCodLab();
             row[4] = p.getLote();
             row[5] = p.getMonto();
             row[6] = p.getCantidad();
@@ -49,10 +56,10 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         }).forEachOrdered((row) -> {
             dtm.addRow(row);
         });
-
+        
         tblProductos.setModel(dtm);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -129,12 +136,13 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNomProd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)))
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtNomProd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -227,16 +235,41 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
-//        JOptionPane.showMessageDialog(null, tblProductos.getValueAt(tblProductos.getSelectedRow(), 1));
-        openNewSale(AccionUtil.NUEVA);
-        this.dispose();
+        try {
+            //        JOptionPane.showMessageDialog(null, tblProductos.getValueAt(tblProductos.getSelectedRow(), 1));
+            sdf = new SimpleDateFormat("dd/MM/yyyy");
+            StockProducto sp = new StockProducto();
+            sp.setCodStock(Integer.parseInt(tblProductos.getValueAt(tblProductos.getSelectedRow(), 0).toString()));
+            sp.setNombre(tblProductos.getValueAt(tblProductos.getSelectedRow(), 1).toString());
+            sp.setPresentacion(tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString());
+            sp.setCodLab((Laboratory) tblProductos.getValueAt(tblProductos.getSelectedRow(), 3));
+            sp.setLote(tblProductos.getValueAt(tblProductos.getSelectedRow(), 4).toString());
+            sp.setMonto((double) tblProductos.getValueAt(tblProductos.getSelectedRow(), 5));
+            sp.setCantidad((Integer) tblProductos.getValueAt(tblProductos.getSelectedRow(), 6));
+            Date fecv = sdf.parse(tblProductos.getValueAt(tblProductos.getSelectedRow(), 7).toString());
+            sp.setFecVen(sdf.parse(sdf.format(fecv)));
+            openNewSale(AccionUtil.NUEVA, sp);
+            this.dispose();
+        } catch (ParseException ex) {
+            Logger.getLogger(StockSelectorView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_tblProductosMouseClicked
-
-    private void openNewSale(String title) {
+    
+    private void openNewSale(String title, StockProducto sp) throws ParseException {
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
+        DecimalFormat df = new DecimalFormat("##,##.##");
+        Date fecact = new Date();
+        fecact = sdf.parse(sdf.format(fecact));
         CUSaleView cUSaleView = new CUSaleView(sc);
         cUSaleView.txtCodigo.setEnabled(false);
         cUSaleView.setClosable(true);
         cUSaleView.setTitle(title + cUSaleView.getTitle());
+        cUSaleView.getSc().setProducto(sp);
+        cUSaleView.txtProducto.setText(sp.getNombre());
+        cUSaleView.dcFecha.setDate(fecact);
+        cUSaleView.spCantidad.requestFocus();
+        cUSaleView.txtPrecio.setText(df.format(sp.getMonto()));
+        cUSaleView.getSc().doNew();
         container.add(cUSaleView);
         FramesUtil.setPosition(this.container, cUSaleView);
         cUSaleView.setVisible(true);

@@ -111,7 +111,8 @@ public class Laboratory implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hrevfdz.model.Laboratory[ codLab=" + codLab + " ]";
+//        return "com.hrevfdz.model.Laboratory[ codLab=" + codLab + " ]";
+        return this.nomLab;
     }
-    
+
 }

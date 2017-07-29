@@ -1,7 +1,6 @@
 package com.hrevfdz.view.sale;
 
 import com.hrevfdz.controller.SaleController;
-import com.hrevfdz.model.StockProducto;
 import javax.swing.DefaultComboBoxModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -9,7 +8,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     
     DefaultComboBoxModel model;
     
-    SaleController sc;
+    private SaleController sc;
     
     public CUSaleView(SaleController sc) {
         initComponents();
@@ -81,6 +80,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
 
         dcFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
+        spCantidad.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         spCantidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         spCantidad.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
@@ -158,10 +158,13 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(spCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -175,7 +178,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                     .addComponent(dcFecVenc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -194,13 +197,13 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void spCantidadInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_spCantidadInputMethodTextChanged
-        
+        txtSubtotal.setText(spCantidad.v);
     }//GEN-LAST:event_spCantidadInputMethodTextChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser dcFecVenc;
-    private com.toedter.calendar.JDateChooser dcFecha;
+    public com.toedter.calendar.JDateChooser dcFecha;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -210,10 +213,18 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSpinner spCantidad;
+    public javax.swing.JSpinner spCantidad;
     public javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtPrecio;
+    public javax.swing.JTextField txtPrecio;
     public javax.swing.JTextField txtProducto;
     private javax.swing.JTextField txtSubtotal;
     // End of variables declaration//GEN-END:variables
+
+    public SaleController getSc() {
+        return sc;
+    }
+
+    public void setSc(SaleController sc) {
+        this.sc = sc;
+    }
 }

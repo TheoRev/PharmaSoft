@@ -7,10 +7,11 @@ import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
-public class HomeView extends javax.swing.JFrame {
+public final class HomeView extends javax.swing.JFrame {
     
     public HomeView() {
         initComponents();
+        FramesUtil.setIcon(this);        
         
         this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
 
@@ -41,6 +42,7 @@ public class HomeView extends javax.swing.JFrame {
         dskContainer = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("PharmaSoft");
 
         pnlMainContainer.setBackground(new java.awt.Color(36, 47, 65));
 
