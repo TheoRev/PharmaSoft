@@ -15,28 +15,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class StockSelectorView extends javax.swing.JInternalFrame {
-    
+
     private StockController stc = null;
     private SaleController sc = null;
     private JInternalFrame iframe = null;
     private JDesktopPane container = null;
-    
+
     private DefaultTableModel dtm;
     private SimpleDateFormat sdf;
-    
-    public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container) {
+
+    JTable tblSale;
+    DefaultTableModel modelSale;
+
+    public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container, JTable tblSale, DefaultTableModel modelSale) {
         initComponents();
         this.sc = sc;
         this.iframe = iframe;
         this.container = container;
-        
+        this.tblSale = tblSale;
+        this.modelSale = modelSale;
+
         stc = new StockController();
         doFindAll();
     }
-    
+
     private void doFindAll() {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         dtm = (DefaultTableModel) tblProductos.getModel();
@@ -56,10 +62,10 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         }).forEachOrdered((row) -> {
             dtm.addRow(row);
         });
-        
+
         tblProductos.setModel(dtm);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -254,13 +260,13 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
             Logger.getLogger(StockSelectorView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tblProductosMouseClicked
-    
+
     private void openNewSale(String title, StockProducto sp) throws ParseException {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         DecimalFormat df = new DecimalFormat("00.00");
         Date fecact = new Date();
         fecact = sdf.parse(sdf.format(fecact));
-        CUSaleView cUSaleView = new CUSaleView(sc);
+        CUSaleView cUSaleView = new CUSaleView(sc, this.tblSale, this.modelSale);
         cUSaleView.txtCodigo.setEnabled(false);
         cUSaleView.setClosable(true);
         cUSaleView.setTitle(title + cUSaleView.getTitle());
@@ -272,7 +278,7 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         cUSaleView.getSc().doNew();
         container.add(cUSaleView);
         FramesUtil.setPosition(this.container, cUSaleView);
-        cUSaleView.setVisible(true);
+        cUSaleView.show();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -282,7 +288,7 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblProductos;
+    public javax.swing.JTable tblProductos;
     private javax.swing.JTextField txtLaboratorio;
     private javax.swing.JTextField txtNomProd;
     // End of variables declaration//GEN-END:variables

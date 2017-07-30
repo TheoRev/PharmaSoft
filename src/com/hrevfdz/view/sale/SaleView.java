@@ -3,6 +3,7 @@ package com.hrevfdz.view.sale;
 import com.hrevfdz.controller.SaleController;
 import com.hrevfdz.util.ActionNamesUtil;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.view.stock.StockSelectorView;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class SaleView extends javax.swing.JInternalFrame {
@@ -19,6 +21,8 @@ public class SaleView extends javax.swing.JInternalFrame {
 
     private SimpleDateFormat sdf;
     private Date fec;
+
+    DefaultTableModel dtm;
 
     private final SaleController sc;
     DecimalFormat df = new DecimalFormat("###,###.##");
@@ -47,37 +51,36 @@ public class SaleView extends javax.swing.JInternalFrame {
 
         sc.doFindAll();
         try {
-            loadData();
+            sc.loadData(dtm, tblSales);
         } catch (ParseException ex) {
-            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void loadData() throws ParseException {
-        DefaultTableModel dtm = (DefaultTableModel) tblSales.getModel();
-
-        sc.getSales().stream().map((s) -> {
-            sdf = new SimpleDateFormat("dd/MM/yyyy");
-            return s;
-        }).map((s) -> {
-            String[] row = new String[8];
-            row[0] = s.getCodSale().toString();
-            row[1] = s.getCodStock().getNombre();
-            row[2] = sdf.format(s.getFecha());
-            sdf = new SimpleDateFormat("hh:mm:ss");
-            row[3] = sdf.format(s.getHora());
-            row[4] = String.valueOf(s.getCantidad());
-            row[5] = String.valueOf(df.format(s.getPrecio()));
-            row[6] = String.valueOf(df.format(s.getSubtotal()));
-            row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
-            return row;
-        }).forEachOrdered((row) -> {
-            dtm.addRow(row);
-        });
-
-        tblSales.setModel(dtm);
-    }
-
+//    public void loadData() throws ParseException {
+//        dtm = (DefaultTableModel) tblSales.getModel();
+//
+//        sc.getSales().stream().map((s) -> {
+//            sdf = new SimpleDateFormat("dd/MM/yyyy");
+//            return s;
+//        }).map((s) -> {
+//            String[] row = new String[8];
+//            row[0] = s.getCodSale().toString();
+//            row[1] = s.getCodStock().getNombre();
+//            row[2] = sdf.format(s.getFecha());
+//            sdf = new SimpleDateFormat("hh:mm:ss");
+//            row[3] = sdf.format(s.getHora());
+//            row[4] = String.valueOf(s.getCantidad());
+//            row[5] = String.valueOf(df.format(s.getPrecio()));
+//            row[6] = String.valueOf(df.format(s.getSubtotal()));
+//            row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
+//            return row;
+//        }).forEachOrdered((row) -> {
+//            dtm.addRow(row);
+//        });
+//
+//        tblSales.setModel(dtm);
+//    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -333,7 +336,7 @@ public class SaleView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        StockSelectorView ssv = new StockSelectorView(sc, this, container);
+        StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSales, dtm);
         container.add(ssv);
         FramesUtil.setPosition(container, ssv);
         ssv.show();
@@ -341,7 +344,7 @@ public class SaleView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void openNewSale(String title) {
-        CUSaleView cUSaleView = new CUSaleView(sc);
+        CUSaleView cUSaleView = new CUSaleView(sc, null, null);
         cUSaleView.txtCodigo.setEnabled(false);
         cUSaleView.setClosable(true);
         cUSaleView.setTitle(title + cUSaleView.getTitle());

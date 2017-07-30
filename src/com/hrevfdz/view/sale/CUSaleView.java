@@ -2,27 +2,38 @@ package com.hrevfdz.view.sale;
 
 import com.hrevfdz.controller.SaleController;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.util.MessagesUtil;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class CUSaleView extends javax.swing.JInternalFrame {
-    
+
     DefaultComboBoxModel model;
-    
+    JTable tblSale;
+    DefaultTableModel modelSale;
+
     private SaleController sc;
-    
-    public CUSaleView(SaleController sc) {
+
+    public CUSaleView(SaleController sc, JTable tblSale, DefaultTableModel modelSale) {
         initComponents();
-        
+
         this.sc = sc;
+        this.tblSale = tblSale;
+        this.modelSale = modelSale;
         loadStock();
     }
-    
+
     private void loadStock() {
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -43,6 +54,23 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         txtCantidad = new javax.swing.JTextField();
 
         setTitle(" VENTA");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -199,7 +227,22 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         asignarDatos();
         sc.doExecute();
+        refreshSales();
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    public void refreshSales(){
+        FramesUtil.limpiarTabla(tblSale, (DefaultTableModel) tblSale.getModel()); 
+        sc.doFindAll();
+        try {
+            sc.loadData(modelSale, tblSale);
+        } catch (ParseException ex) {
+             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     private void calcSubtotal() {
         DecimalFormat df = new DecimalFormat("00.0");
@@ -209,10 +252,10 @@ public class CUSaleView extends javax.swing.JInternalFrame {
             double subtotal = n1 * n2;
             txtSubtotal.setText(String.valueOf(FramesUtil.Redondear(subtotal)));
         } catch (NumberFormatException e) {
-            System.err.println("ERR: " + e.getMessage());
+             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void asignarDatos() {
         sc.getSale().setCantidad(Integer.parseInt(txtCantidad.getText()));
         sc.getSale().setSubtotal(Double.parseDouble(txtSubtotal.getText()));
@@ -239,7 +282,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     public SaleController getSc() {
         return sc;
     }
-    
+
     public void setSc(SaleController sc) {
         this.sc = sc;
     }

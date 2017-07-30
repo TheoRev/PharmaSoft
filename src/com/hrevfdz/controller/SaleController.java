@@ -13,6 +13,7 @@ import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.util.QueriesUtil;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,6 +23,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -66,7 +69,7 @@ public class SaleController {
             Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void doFindAll() {
         dao = new SaleDAO();
 
@@ -76,6 +79,46 @@ public class SaleController {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void loadData(DefaultTableModel dtm, JTable tblSales) throws ParseException {
+        dtm = (DefaultTableModel) tblSales.getModel();
+        DecimalFormat df = new DecimalFormat("###,###.##");
+
+//        this.getSales().stream().map((s) -> {
+//            sdf = new SimpleDateFormat("dd/MM/yyyy");
+//            return s;
+//        }).map((s) -> {
+//            String[] row = new String[8];
+//            row[0] = s.getCodSale().toString();
+//            row[1] = s.getCodStock().getNombre();
+//            row[2] = sdf.format(s.getFecha());
+//            sdf = new SimpleDateFormat("hh:mm:ss");
+//            row[3] = sdf.format(s.getHora());
+//            row[4] = String.valueOf(s.getCantidad());
+//            row[5] = String.valueOf(df.format(s.getPrecio()));
+//            row[6] = String.valueOf(df.format(s.getSubtotal()));
+//            row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
+//            return row;
+//        }).forEachOrdered((row) -> {
+//            dtm.addRow(row);
+//        });
+        for (Sale s : this.getSales()) {
+            sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String[] row = new String[8];
+            row[0] = s.getCodSale().toString();
+            row[1] = s.getCodStock().getNombre();
+            row[2] = sdf.format(s.getFecha());
+            sdf = new SimpleDateFormat("hh:mm:ss");
+            row[3] = sdf.format(s.getHora());
+            row[4] = String.valueOf(s.getCantidad());
+            row[5] = String.valueOf(df.format(s.getPrecio()));
+            row[6] = String.valueOf(df.format(s.getSubtotal()));
+            row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
+            dtm.addRow(row);
+        }
+
+        tblSales.setModel(dtm);
     }
 
     public void doFindStockByCod(int cod) {
@@ -134,7 +177,7 @@ public class SaleController {
         double p = producto.getMonto();
         sale.setSubtotal(p * c);
     }
-    
+
     public void doFindAllStock() {
         IPharmacy<StockProducto> daoS = new StockProductoDAO();
 
@@ -286,18 +329,19 @@ public class SaleController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-     public void doNew() {
+
+    public void doNew() {
         accion = AccionUtil.CREATE;
         sale = new Sale();
         doFindAllStock();
         doGetUserActive();
         estado = false;
-        try {
-            sale.setFecha(sdf.parse(fecAct));
-        } catch (ParseException ex) {
-            Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            sale.setFecha(sdf.parse(fecAct));
+            sale.setFecha(new Date());
+//        } catch (ParseException ex) {
+//            Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     public void doUpgrade(Sale s) {
