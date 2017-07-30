@@ -152,7 +152,7 @@ public class SaleController {
 
         try {
             sale.setPrecio(producto.getMonto());
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            sdf = new SimpleDateFormat("HH:mm:ss");
             Date fec = new Date();
             sale.setHora(sdf.parse(sdf.format(fec)));
 

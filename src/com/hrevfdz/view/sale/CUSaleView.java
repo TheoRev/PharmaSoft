@@ -1,6 +1,8 @@
 package com.hrevfdz.view.sale;
 
 import com.hrevfdz.controller.SaleController;
+import com.hrevfdz.util.FramesUtil;
+import java.text.DecimalFormat;
 import javax.swing.DefaultComboBoxModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -34,13 +36,11 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
         dcFecha = new com.toedter.calendar.JDateChooser();
-        spCantidad = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         txtSubtotal = new javax.swing.JTextField();
-        dcFecVenc = new com.toedter.calendar.JDateChooser();
-        jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         txtProducto = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
 
         setTitle(" VENTA");
 
@@ -73,6 +73,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         jLabel5.setText("Precio");
 
         txtPrecio.setBackground(new java.awt.Color(5, 67, 98));
+        txtPrecio.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         txtPrecio.setForeground(new java.awt.Color(255, 255, 255));
         txtPrecio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPrecio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
@@ -80,40 +81,43 @@ public class CUSaleView extends javax.swing.JInternalFrame {
 
         dcFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
-        spCantidad.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        spCantidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
-        spCantidad.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                spCantidadInputMethodTextChanged(evt);
-            }
-        });
-
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Subtotal");
 
         txtSubtotal.setBackground(new java.awt.Color(5, 67, 98));
+        txtSubtotal.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         txtSubtotal.setForeground(new java.awt.Color(255, 255, 255));
         txtSubtotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtSubtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         txtSubtotal.setEnabled(false);
 
-        dcFecVenc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
-
-        jLabel8.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Fecha Venc.");
-
-        jButton1.setBackground(new java.awt.Color(0, 102, 102));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("GUARDAR");
+        btnGuardar.setBackground(new java.awt.Color(0, 102, 102));
+        btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("GUARDAR");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         txtProducto.setBackground(new java.awt.Color(5, 67, 98));
+        txtProducto.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         txtProducto.setForeground(new java.awt.Color(255, 255, 255));
         txtProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         txtProducto.setEnabled(false);
+
+        txtCantidad.setBackground(new java.awt.Color(5, 67, 98));
+        txtCantidad.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        txtCantidad.setForeground(new java.awt.Color(255, 255, 255));
+        txtCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtCantidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,7 +126,6 @@ public class CUSaleView extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -130,17 +133,16 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel6))
+                        .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dcFecVenc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtPrecio, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtSubtotal)
                             .addComponent(txtCodigo)
-                            .addComponent(spCantidad)
                             .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                            .addComponent(txtProducto))))
+                            .addComponent(txtProducto)
+                            .addComponent(txtCantidad)))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -153,19 +155,16 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -173,12 +172,8 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dcFecVenc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -196,24 +191,45 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void spCantidadInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_spCantidadInputMethodTextChanged
-        txtSubtotal.setText(spCantidad.v);
-    }//GEN-LAST:event_spCantidadInputMethodTextChanged
+    private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
+        calcSubtotal();
+//        System.out.println("Ingreso...");
+    }//GEN-LAST:event_txtCantidadKeyReleased
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        asignarDatos();
+        sc.doExecute();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+    
+    private void calcSubtotal() {
+        DecimalFormat df = new DecimalFormat("00.0");
+        try {
+            double n2 = Double.parseDouble(txtPrecio.getText());
+            double n1 = Double.parseDouble(txtCantidad.getText());
+            double subtotal = n1 * n2;
+            txtSubtotal.setText(String.valueOf(FramesUtil.Redondear(subtotal)));
+        } catch (NumberFormatException e) {
+            System.err.println("ERR: " + e.getMessage());
+        }
+    }
+    
+    private void asignarDatos() {
+        sc.getSale().setCantidad(Integer.parseInt(txtCantidad.getText()));
+        sc.getSale().setSubtotal(Double.parseDouble(txtSubtotal.getText()));
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser dcFecVenc;
+    private javax.swing.JButton btnGuardar;
     public com.toedter.calendar.JDateChooser dcFecha;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    public javax.swing.JSpinner spCantidad;
+    public javax.swing.JTextField txtCantidad;
     public javax.swing.JTextField txtCodigo;
     public javax.swing.JTextField txtPrecio;
     public javax.swing.JTextField txtProducto;
@@ -223,7 +239,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     public SaleController getSc() {
         return sc;
     }
-
+    
     public void setSc(SaleController sc) {
         this.sc = sc;
     }

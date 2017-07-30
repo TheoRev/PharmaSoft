@@ -243,13 +243,14 @@ public final class LoginView extends javax.swing.JFrame {
                 }
                 if (u.getUsername().equals(txtUsuario.getText())
                         && u.getPassword().equals(txtPassword.getText())) {
+                    usuario = u;
 
                     if (findStartWork()) {
-                        LoadingDialogView ldv = new LoadingDialogView();
+                        LoadingDialogView ldv = new LoadingDialogView(usuario);
                         ldv.setVisible(true);
                         this.dispose();
                     } else {
-                        StartWorkView workView = new StartWorkView();
+                        StartWorkView workView = new StartWorkView(usuario);
                         workView.setUsers(u);
                         workView.setVisible(true);
                         this.dispose();

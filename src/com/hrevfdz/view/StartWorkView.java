@@ -19,8 +19,11 @@ public final class StartWorkView extends javax.swing.JFrame {
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    public StartWorkView() {
+    public StartWorkView(Users users) {
         initComponents();
+
+        this.users = users;
+
         FramesUtil.setIcon(this);
         setLocationRelativeTo(null);
         try {
@@ -28,7 +31,7 @@ public final class StartWorkView extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(StartWorkView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         txtMonCaja.requestFocus();
     }
 
@@ -170,7 +173,7 @@ public final class StartWorkView extends javax.swing.JFrame {
 
             boolean result = swc.doCreate(users, startWork);
             if (result) {
-                LoadingDialogView ldv = new LoadingDialogView();
+                LoadingDialogView ldv = new LoadingDialogView(this.users);
                 ldv.setVisible(result);
                 this.dispose();
             }
@@ -182,14 +185,6 @@ public final class StartWorkView extends javax.swing.JFrame {
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnCerrarActionPerformed
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StartWorkView().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;

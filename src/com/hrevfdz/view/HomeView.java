@@ -1,31 +1,35 @@
 package com.hrevfdz.view;
 
+import com.hrevfdz.model.Users;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.view.sale.SaleView;
+import com.hrevfdz.view.stock.StockView;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
 public final class HomeView extends javax.swing.JFrame {
-    
+
+    Users users;
+
     public HomeView() {
         initComponents();
-        FramesUtil.setIcon(this);        
-        
-        this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
+        FramesUtil.setIcon(this);
 
-//        try {
-////            URL url = getClass().getResource("resources/icons/img/pharma_soft_icon_2");
-////            this.setIconImage(new ImageIcon().getImage());
-//
-//            Image retValue = Toolkit.getDefaultToolkit().
-//                getImage(ClassLoader.getSystemResource("resources/icons/pharma_soft_icon_2.png"));
-//        } catch (Exception e) {
-//            System.out.println("Err: " + e.getMessage());
-//        }
+        this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
     }
-    
+
+    public HomeView(Users users) {
+        initComponents();
+        FramesUtil.setIcon(this);
+
+        this.users = users;
+        lblUser.setText(lblUser.getText() + users.getUsername().toUpperCase());
+
+        this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -40,6 +44,9 @@ public final class HomeView extends javax.swing.JFrame {
         btnLab = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         dskContainer = new javax.swing.JDesktopPane();
+        jPanel2 = new javax.swing.JPanel();
+        lblUser = new javax.swing.JLabel();
+        btnCerrarSesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PharmaSoft");
@@ -70,6 +77,11 @@ public final class HomeView extends javax.swing.JFrame {
         btnStock.setContentAreaFilled(false);
         btnStock.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stock/icons8-Scan Stock-40.png"))); // NOI18N
         btnStock.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stock/icons8-Scan Stock-52.png"))); // NOI18N
+        btnStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStockActionPerformed(evt);
+            }
+        });
 
         btnPays.setBackground(new java.awt.Color(36, 47, 65));
         btnPays.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-48.png"))); // NOI18N
@@ -144,15 +156,60 @@ public final class HomeView extends javax.swing.JFrame {
                 .addContainerGap(102, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(36, 47, 65));
+
+        lblUser.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        lblUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblUser.setText("Usuario: ");
+
+        btnCerrarSesion.setBackground(new java.awt.Color(255, 153, 153));
+        btnCerrarSesion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(51, 51, 51));
+        btnCerrarSesion.setText("CERRAR SESION");
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUser)
+                    .addComponent(btnCerrarSesion))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        dskContainer.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout dskContainerLayout = new javax.swing.GroupLayout(dskContainer);
         dskContainer.setLayout(dskContainerLayout);
         dskContainerLayout.setHorizontalGroup(
             dskContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 634, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskContainerLayout.createSequentialGroup()
+                .addContainerGap(327, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         dskContainerLayout.setVerticalGroup(
             dskContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(dskContainerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlMainContainerLayout = new javax.swing.GroupLayout(pnlMainContainer);
@@ -195,7 +252,24 @@ public final class HomeView extends javax.swing.JFrame {
         FramesUtil.setPosition(dskContainer, sv);
         sv.show();
     }//GEN-LAST:event_btnSaleActionPerformed
-    
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        LoginView loginView = new LoginView();
+        loginView.show();
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
+        StockView stockView = new StockView();
+        stockView.setClosable(true);
+        stockView.setMaximizable(true);
+        stockView.setIconifiable(true);
+        stockView.setTitle("PRODUCTOS EN STOCK");
+        dskContainer.add(stockView);
+        FramesUtil.setPosition(dskContainer, stockView);
+        stockView.show();
+    }//GEN-LAST:event_btnStockActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -230,6 +304,7 @@ public final class HomeView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCaja;
+    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnLab;
     private javax.swing.JButton btnPays;
     private javax.swing.JButton btnSale;
@@ -237,7 +312,9 @@ public final class HomeView extends javax.swing.JFrame {
     private javax.swing.JButton btnSuppliers;
     private javax.swing.JDesktopPane dskContainer;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlMainContainer;
     // End of variables declaration//GEN-END:variables
 }
