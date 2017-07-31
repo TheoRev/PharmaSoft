@@ -3,6 +3,7 @@ package com.hrevfdz.util;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
@@ -41,6 +42,12 @@ public class FramesUtil {
         for (int i = 0; i < table.getRowCount(); i++) {
             model.removeRow(i);
             i -= 1;
+        }
+    }
+
+    public static void enableActionButons(JButton[] botones, boolean state) {
+        for (int i = 0; i < botones.length; i++) {
+            botones[i].setEnabled(state);
         }
     }
 

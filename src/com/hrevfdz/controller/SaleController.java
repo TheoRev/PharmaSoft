@@ -9,6 +9,7 @@ import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.report.Conexion;
 import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
+import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.util.QueriesUtil;
 import java.io.IOException;
@@ -31,7 +32,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
 public class SaleController {
-
+    
     private IPharmacy<Sale> dao;
     private List<Sale> sales;
     private Sale sale;
@@ -41,12 +42,12 @@ public class SaleController {
     private String accion;
     private boolean estado;
     private Access access;
-
+    
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+    
     private Date fecha = new Date();
     private String fecAct = sdf.format(fecha);
-
+    
     public void generarReporte() throws JRException, IOException, SQLException {
         try {
             SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
@@ -69,10 +70,10 @@ public class SaleController {
             Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void doFindAll() {
         dao = new SaleDAO();
-
+        
         try {
             final String query = "SELECT s FROM Sale s ORDER BY s.fecha DESC";
             sales = dao.findByQuery(query);
@@ -80,11 +81,10 @@ public class SaleController {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public void loadData(DefaultTableModel dtm, JTable tblSales) throws ParseException {
         dtm = (DefaultTableModel) tblSales.getModel();
-        DecimalFormat df = new DecimalFormat("###,###.##");
-
+        
         for (Sale s : this.getSales()) {
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             Object[] row = new Object[8];
@@ -94,18 +94,18 @@ public class SaleController {
             sdf = new SimpleDateFormat("hh:mm:ss");
             row[3] = sdf.format(s.getHora());
             row[4] = String.valueOf(s.getCantidad());
-            row[5] = String.valueOf(df.format(s.getPrecio()));
-            row[6] = String.valueOf(df.format(s.getSubtotal()));
-            row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
+            row[5] = String.valueOf(FramesUtil.Redondear(s.getPrecio()));
+            row[6] = String.valueOf(FramesUtil.Redondear(s.getSubtotal()));
+            row[7] = (s.getUserId() != null) ? s.getUserId() : "";
             dtm.addRow(row);
         }
-
+        
         tblSales.setModel(dtm);
     }
-
+    
     public void doFindStockByCod(int cod) {
         IPharmacy<StockProducto> daoS = new StockProductoDAO();
-
+        
         try {
             List<StockProducto> lista = daoS
                     .findByQuery(QueriesUtil.STOCK_X_COD + cod);
@@ -118,13 +118,13 @@ public class SaleController {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public void doFindByFecha() {
         dao = new SaleDAO();
         sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+        
         final String query = "SELECT s FROM Sale s WHERE s.fecha = '" + sdf.format(fecha) + "'";
-
+        
         try {
             if (fecha != null) {
                 sales.clear();
@@ -134,15 +134,15 @@ public class SaleController {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public double doGetTotal(Date f) {
         IPharmacy daos = new SaleDAO();
         SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy-MM-dd");
-
+        
         String query = "SELECT SUM(s.subtotal) FROM Sale s WHERE s.fecha = '";
-
+        
         double total = 0;
-
+        
         try {
 //            query += (fecha != null) ? sdf4.format(fecha) : sdf4.format(f);
             query += sdf4.format(f);
@@ -153,52 +153,52 @@ public class SaleController {
         }
         return total;
     }
-
+    
     public void calcSubtotal() {
         double c = sale.getCantidad();
         double p = producto.getMonto();
         sale.setSubtotal(p * c);
     }
-
+    
     public void doFindAllStock() {
         IPharmacy<StockProducto> daoS = new StockProductoDAO();
-
+        
         try {
             stocks = daoS.findAll();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public void doCreate() {
         StockProductoDAO daoSt = new StockProductoDAO();
         boolean result = false;
         boolean resultST = false;
-
+        
         try {
             sale.setPrecio(producto.getMonto());
             sdf = new SimpleDateFormat("HH:mm:ss");
             Date fec = new Date();
             sale.setHora(sdf.parse(sdf.format(fec)));
-
+            
             sale.setCodStock(producto);
-
+            
             List<StockProducto> sps = daoSt.findByQuery(QueriesUtil.STOCK_X_COD + producto.getCodStock());
             StockProducto tempSt = new StockProducto();
-
+            
             if (sps.size() == 1) {
                 for (StockProducto sp : sps) {
                     tempSt = sp;
                 }
-
+                
                 if (tempSt.getCantidad() >= sale.getCantidad()) {
                     result = dao.Create(sale);
-
+                    
                     if (result) {
                         producto.setCantidad(tempSt.getCantidad() - sale.getCantidad());
                         resultST = daoSt.Update(producto);
                     }
-
+                    
                     if (result && resultST) {
                         sales.add(sales.size(), sale);
                         doFindAll();
@@ -214,34 +214,34 @@ public class SaleController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public void doUpdate(Sale s) {
         dao = new SaleDAO();
         StockProductoDAO daoSt = new StockProductoDAO();
         boolean result = false;
         boolean resultST = false;
-
+        
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             Date fec = new Date();
             sale.setHora(sdf.parse(sdf.format(fec)));
-
+            
             sale.setCodStock(producto);
-
+            
             List<StockProducto> sps = daoSt.findByQuery(QueriesUtil.STOCK_X_COD + producto.getCodStock());
             List<Sale> ses = dao.findByQuery(QueriesUtil.SALE_X_COD + sale.getCodSale());
             StockProducto tempSt = new StockProducto();
             Sale tempVenta = new Sale();
-
+            
             if (sps.size() == 1) {
                 for (StockProducto sp : sps) {
                     tempSt = sp;
                 }
-
+                
                 for (Sale se : ses) {
                     tempVenta = se;
                 }
-
+                
                 if (tempSt.getCantidad() >= sale.getCantidad()) {
                     result = dao.Update(sale);
                     int venta = 0;
@@ -252,9 +252,9 @@ public class SaleController {
                         venta = sale.getCantidad() - tempVenta.getCantidad();
                         producto.setCantidad(producto.getCantidad() - venta);
                     }
-
+                    
                     resultST = daoSt.Update(producto);
-
+                    
                     if (result && resultST) {
                         sales.clear();
                         doFindAll();
@@ -271,10 +271,10 @@ public class SaleController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public void doGetUserActive() {
         IPharmacy<Access> daoa = new AccessDAO();
-
+        
         try {
             final String query = "SELECT a FROM Access a WHERE a.id = (SELECT MAX(t.id) FROM Access t)";
             access = daoa.findBy(query);
@@ -283,22 +283,22 @@ public class SaleController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public void doDelete(Sale s) {
         dao = new SaleDAO();
         StockProductoDAO daoSt = new StockProductoDAO();
-
+        
         boolean result = false;
         boolean resultST = false;
-
+        
         try {
             StockProducto sp = daoSt.findBy(QueriesUtil.STOCK_X_COD + producto.getCodStock());
             producto.setCantidad(producto.getCantidad() + sale.getCantidad());
-
+            
             resultST = daoSt.Update(producto);
-
+            
             result = dao.Delete(s);
-
+            
             if (result) {
                 sales.clear();
                 doFindAll();
@@ -311,7 +311,7 @@ public class SaleController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public void doNew() {
         accion = AccionUtil.CREATE;
         sale = new Sale();
@@ -320,12 +320,12 @@ public class SaleController {
         estado = false;
 //        try {
 //            sale.setFecha(sdf.parse(fecAct));
-            sale.setFecha(new Date());
+        sale.setFecha(new Date());
 //        } catch (ParseException ex) {
 //            Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
     }
-
+    
     public void doUpgrade(Sale s) {
         accion = AccionUtil.UPDATE;
         sale = s;
@@ -335,7 +335,7 @@ public class SaleController {
         doGetUserActive();
         estado = true;
     }
-
+    
     public void doExecute() {
         switch (accion) {
             case AccionUtil.CREATE:
@@ -346,85 +346,85 @@ public class SaleController {
                 break;
         }
     }
-
+    
     public List<Sale> getSales() {
         return sales;
     }
-
+    
     public void setSales(List<Sale> sales) {
         this.sales = sales;
     }
-
+    
     public Sale getSale() {
         return sale;
     }
-
+    
     public void setSale(Sale sale) {
         this.sale = sale;
     }
-
+    
     public List<StockProducto> getStocks() {
         return stocks;
     }
-
+    
     public void setStocks(List<StockProducto> stocks) {
         this.stocks = stocks;
     }
-
+    
     public StockProducto getProducto() {
         return producto;
     }
-
+    
     public void setProducto(StockProducto producto) {
         this.producto = producto;
     }
-
+    
     public String getAccion() {
         return accion;
     }
-
+    
     public void setAccion(String accion) {
         this.accion = accion;
     }
-
+    
     public boolean isEstado() {
         return estado;
     }
-
+    
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-
+    
     public Access getAccess() {
         return access;
     }
-
+    
     public void setAccess(Access access) {
         this.access = access;
     }
-
+    
     public Date getFecha() {
         return fecha;
     }
-
+    
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-
+    
     public String getFecAct() {
         return fecAct;
     }
-
+    
     public void setFecAct(String fecAct) {
         this.fecAct = fecAct;
     }
-
+    
     public Sale getTempSale() {
         return tempSale;
     }
-
+    
     public void setTempSale(Sale tempSale) {
         this.tempSale = tempSale;
     }
-
+    
 }

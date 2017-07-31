@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -29,7 +30,8 @@ public class SaleView extends javax.swing.JInternalFrame {
     DefaultTableModel dtm;
 
     private final SaleController sc;
-    DecimalFormat df = new DecimalFormat("###,###.##");
+
+    private JButton[] actionBtns = {this.btnUpdate, this.btnDelete};
 
     public SaleView(JDesktopPane container) {
         initComponents();
@@ -152,13 +154,20 @@ public class SaleView extends javax.swing.JInternalFrame {
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/update/icons8-Edit Property-34.png"))); // NOI18N
         btnUpdate.setBorder(null);
         btnUpdate.setContentAreaFilled(false);
+        btnUpdate.setEnabled(false);
         btnUpdate.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/update/icons8-Edit Property-28.png"))); // NOI18N
         btnUpdate.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/update/icons8-Edit Property-40.png"))); // NOI18N
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(5, 67, 98));
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/delete/icons8-Trash Can-34.png"))); // NOI18N
         btnDelete.setBorder(null);
         btnDelete.setContentAreaFilled(false);
+        btnDelete.setEnabled(false);
         btnDelete.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/delete/icons8-Trash Can-28.png"))); // NOI18N
         btnDelete.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/delete/icons8-Trash Can-40.png"))); // NOI18N
 
@@ -324,24 +333,41 @@ public class SaleView extends javax.swing.JInternalFrame {
         StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSales, dtm);
         container.add(ssv);
         FramesUtil.setPosition(container, ssv);
+        enableActionButons(false);
+//        FramesUtil.enableActionButons(actionBtns, false);
         ssv.show();
 //        this.setVisible(false);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
         try {
-            openEditSale(AccionUtil.UPDATE);
+            getSaleRow(sc);
+            enableActionButons(true);
+//            FramesUtil.enableActionButons(actionBtns, true);
+//            openEditSale(AccionUtil.UPDATE);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tblSalesMouseClicked
+
+    private void enableActionButons(boolean state) {
+        btnUpdate.setEnabled(state);
+        btnDelete.setEnabled(state);
+    }
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            openEditSale(AccionUtil.UPDATE);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void openEditSale(String title) throws ParseException {
         CUSaleView cUSaleView = new CUSaleView(sc, this.tblSales, this.dtm);
         cUSaleView.txtCodigo.setEnabled(false);
         cUSaleView.setClosable(true);
         cUSaleView.setTitle(title + cUSaleView.getTitle());
-        getSaleRow(sc);
         cUSaleView.txtCodigo.setText(sc.getSale().getCodSale().toString());
         cUSaleView.dcFecha.setDate(sc.getSale().getFecha());
         cUSaleView.txtProducto.setText(sc.getSale().getCodStock().getNombre());
@@ -357,23 +383,23 @@ public class SaleView extends javax.swing.JInternalFrame {
 
     private void getSaleRow(SaleController sc) throws ParseException {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
-//        String temp = tblSales.getValueAt(tblSales.getSelectedRow(), 0).toString();
-//        Integer num = Integer.parseInt(temp);
-//        try {
-//        } catch (Exception e) {
-//            System.err.println("ERR: " + e.getMessage());
-//        }
         sc.setSale(new Sale());
         sc.getSale().setCodSale(Integer.parseInt(tblSales.getValueAt(tblSales.getSelectedRow(), 0).toString()));
         sc.getSale().setCodStock((StockProducto) tblSales.getValueAt(tblSales.getSelectedRow(), 1));
         Date temp = sdf.parse(tblSales.getValueAt(tblSales.getSelectedRow(), 2).toString());
-        sc.getSale().setFecha(sdf.f);
+        sc.getSale().setFecha(sdf.parse(sdf.format(temp)));
         sdf = new SimpleDateFormat("HH:mm:ss");
-        sc.getSale().setHora(sdf.parse(sdf.format(tblSales.getValueAt(tblSales.getSelectedRow(), 3))));
+        temp = sdf.parse(tblSales.getValueAt(tblSales.getSelectedRow(), 3).toString());
+        sc.getSale().setHora(sdf.parse(sdf.format(temp)));
         sc.getSale().setCantidad(Integer.parseInt(tblSales.getValueAt(tblSales.getSelectedRow(), 4).toString()));
-        sc.getSale().setPrecio((double) tblSales.getValueAt(tblSales.getSelectedRow(), 5));
-        sc.getSale().setSubtotal((double) tblSales.getValueAt(tblSales.getSelectedRow(), 6));
-        sc.getSale().setUserId((Users) tblSales.getValueAt(tblSales.getSelectedRow(), 7));
+        try {
+            String num = tblSales.getValueAt(tblSales.getSelectedRow(), 5).toString();
+            sc.getSale().setPrecio(Double.parseDouble(num));
+            sc.getSale().setSubtotal(Double.parseDouble(tblSales.getValueAt(tblSales.getSelectedRow(), 6).toString()));
+            sc.getSale().setUserId((Users) tblSales.getValueAt(tblSales.getSelectedRow(), 7));
+        } catch (Exception e) {
+            System.err.println("ERR: " + e.getMessage());
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
