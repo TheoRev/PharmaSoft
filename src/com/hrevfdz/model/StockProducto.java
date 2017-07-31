@@ -205,7 +205,8 @@ public class StockProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hrevfdz.model.StockProducto[ codStock=" + codStock + " ]";
+//        return "com.hrevfdz.model.StockProducto[ codStock=" + codStock + " ]";
+        return this.nombre;
     }
-    
+
 }

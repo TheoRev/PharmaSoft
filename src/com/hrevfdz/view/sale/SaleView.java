@@ -1,6 +1,10 @@
 package com.hrevfdz.view.sale;
 
 import com.hrevfdz.controller.SaleController;
+import com.hrevfdz.model.Sale;
+import com.hrevfdz.model.StockProducto;
+import com.hrevfdz.model.Users;
+import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.ActionNamesUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
@@ -53,34 +57,10 @@ public class SaleView extends javax.swing.JInternalFrame {
         try {
             sc.loadData(dtm, tblSales);
         } catch (ParseException ex) {
-             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 
-//    public void loadData() throws ParseException {
-//        dtm = (DefaultTableModel) tblSales.getModel();
-//
-//        sc.getSales().stream().map((s) -> {
-//            sdf = new SimpleDateFormat("dd/MM/yyyy");
-//            return s;
-//        }).map((s) -> {
-//            String[] row = new String[8];
-//            row[0] = s.getCodSale().toString();
-//            row[1] = s.getCodStock().getNombre();
-//            row[2] = sdf.format(s.getFecha());
-//            sdf = new SimpleDateFormat("hh:mm:ss");
-//            row[3] = sdf.format(s.getHora());
-//            row[4] = String.valueOf(s.getCantidad());
-//            row[5] = String.valueOf(df.format(s.getPrecio()));
-//            row[6] = String.valueOf(df.format(s.getSubtotal()));
-//            row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
-//            return row;
-//        }).forEachOrdered((row) -> {
-//            dtm.addRow(row);
-//        });
-//
-//        tblSales.setModel(dtm);
-//    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -293,6 +273,11 @@ public class SaleView extends javax.swing.JInternalFrame {
         tblSales.setGridColor(new java.awt.Color(255, 255, 255));
         tblSales.setSelectionBackground(new java.awt.Color(0, 153, 153));
         tblSales.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tblSales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSalesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSales);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -343,14 +328,52 @@ public class SaleView extends javax.swing.JInternalFrame {
 //        this.setVisible(false);
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void openNewSale(String title) {
-        CUSaleView cUSaleView = new CUSaleView(sc, null, null);
+    private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
+        try {
+            openEditSale(AccionUtil.UPDATE);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_tblSalesMouseClicked
+
+    private void openEditSale(String title) throws ParseException {
+        CUSaleView cUSaleView = new CUSaleView(sc, this.tblSales, this.dtm);
         cUSaleView.txtCodigo.setEnabled(false);
         cUSaleView.setClosable(true);
         cUSaleView.setTitle(title + cUSaleView.getTitle());
+        getSaleRow(sc);
+        cUSaleView.txtCodigo.setText(sc.getSale().getCodSale().toString());
+        cUSaleView.dcFecha.setDate(sc.getSale().getFecha());
+        cUSaleView.txtProducto.setText(sc.getSale().getCodStock().getNombre());
+        cUSaleView.txtCantidad.setText(String.valueOf(sc.getSale().getCantidad()));
+        cUSaleView.txtPrecio.setText(String.valueOf(sc.getSale().getPrecio()));
+        cUSaleView.txtSubtotal.setText(String.valueOf(sc.getSale().getSubtotal()));
+        cUSaleView.txtCantidad.requestFocus();
+        sc.doUpgrade(sc.getSale());
         container.add(cUSaleView);
         FramesUtil.setPosition(this.container, cUSaleView);
         cUSaleView.setVisible(true);
+    }
+
+    private void getSaleRow(SaleController sc) throws ParseException {
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
+//        String temp = tblSales.getValueAt(tblSales.getSelectedRow(), 0).toString();
+//        Integer num = Integer.parseInt(temp);
+//        try {
+//        } catch (Exception e) {
+//            System.err.println("ERR: " + e.getMessage());
+//        }
+        sc.setSale(new Sale());
+        sc.getSale().setCodSale(Integer.parseInt(tblSales.getValueAt(tblSales.getSelectedRow(), 0).toString()));
+        sc.getSale().setCodStock((StockProducto) tblSales.getValueAt(tblSales.getSelectedRow(), 1));
+        Date temp = sdf.parse(tblSales.getValueAt(tblSales.getSelectedRow(), 2).toString());
+        sc.getSale().setFecha(sdf.f);
+        sdf = new SimpleDateFormat("HH:mm:ss");
+        sc.getSale().setHora(sdf.parse(sdf.format(tblSales.getValueAt(tblSales.getSelectedRow(), 3))));
+        sc.getSale().setCantidad(Integer.parseInt(tblSales.getValueAt(tblSales.getSelectedRow(), 4).toString()));
+        sc.getSale().setPrecio((double) tblSales.getValueAt(tblSales.getSelectedRow(), 5));
+        sc.getSale().setSubtotal((double) tblSales.getValueAt(tblSales.getSelectedRow(), 6));
+        sc.getSale().setUserId((Users) tblSales.getValueAt(tblSales.getSelectedRow(), 7));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

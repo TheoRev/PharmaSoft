@@ -85,29 +85,11 @@ public class SaleController {
         dtm = (DefaultTableModel) tblSales.getModel();
         DecimalFormat df = new DecimalFormat("###,###.##");
 
-//        this.getSales().stream().map((s) -> {
-//            sdf = new SimpleDateFormat("dd/MM/yyyy");
-//            return s;
-//        }).map((s) -> {
-//            String[] row = new String[8];
-//            row[0] = s.getCodSale().toString();
-//            row[1] = s.getCodStock().getNombre();
-//            row[2] = sdf.format(s.getFecha());
-//            sdf = new SimpleDateFormat("hh:mm:ss");
-//            row[3] = sdf.format(s.getHora());
-//            row[4] = String.valueOf(s.getCantidad());
-//            row[5] = String.valueOf(df.format(s.getPrecio()));
-//            row[6] = String.valueOf(df.format(s.getSubtotal()));
-//            row[7] = (s.getUserId() != null) ? s.getUserId().getUsername() : "";
-//            return row;
-//        }).forEachOrdered((row) -> {
-//            dtm.addRow(row);
-//        });
         for (Sale s : this.getSales()) {
             sdf = new SimpleDateFormat("dd/MM/yyyy");
-            String[] row = new String[8];
+            Object[] row = new Object[8];
             row[0] = s.getCodSale().toString();
-            row[1] = s.getCodStock().getNombre();
+            row[1] = s.getCodStock();
             row[2] = sdf.format(s.getFecha());
             sdf = new SimpleDateFormat("hh:mm:ss");
             row[3] = sdf.format(s.getHora());

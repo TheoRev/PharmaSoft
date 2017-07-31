@@ -263,7 +263,7 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
 
     private void openNewSale(String title, StockProducto sp) throws ParseException {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
-        DecimalFormat df = new DecimalFormat("00.00");
+//        DecimalFormat df = new DecimalFormat("00.00");
         Date fecact = new Date();
         fecact = sdf.parse(sdf.format(fecact));
         CUSaleView cUSaleView = new CUSaleView(sc, this.tblSale, this.modelSale);
@@ -275,6 +275,7 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         cUSaleView.dcFecha.setDate(fecact);
         cUSaleView.txtCantidad.requestFocus();
         cUSaleView.txtPrecio.setText((sp.getMonto()).toString());
+        cUSaleView.txtCantidad.requestFocus();
         cUSaleView.getSc().doNew();
         container.add(cUSaleView);
         FramesUtil.setPosition(this.container, cUSaleView);

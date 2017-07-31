@@ -228,6 +228,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         asignarDatos();
         sc.doExecute();
         refreshSales();
+        this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -276,7 +277,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     public javax.swing.JTextField txtCodigo;
     public javax.swing.JTextField txtPrecio;
     public javax.swing.JTextField txtProducto;
-    private javax.swing.JTextField txtSubtotal;
+    public javax.swing.JTextField txtSubtotal;
     // End of variables declaration//GEN-END:variables
 
     public SaleController getSc() {

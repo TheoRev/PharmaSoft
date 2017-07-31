@@ -154,7 +154,8 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hrevfdz.model.Users[ id=" + id + " ]";
+//        return "com.hrevfdz.model.Users[ id=" + id + " ]";
+        return this.username;
     }
-    
+
 }
