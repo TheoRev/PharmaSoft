@@ -7,6 +7,7 @@ import com.hrevfdz.model.StartWork;
 import com.hrevfdz.model.Users;
 import com.hrevfdz.model.Access;
 import com.hrevfdz.service.IPharmacy;
+import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
@@ -27,6 +28,7 @@ public final class LoginView extends javax.swing.JFrame {
     public void init() {
         usuario = new Users();
         usuarios = new ArrayList<>();
+        FramesUtil.setIcon(this);
     }
 
     public LoginView() {
@@ -241,13 +243,14 @@ public final class LoginView extends javax.swing.JFrame {
                 }
                 if (u.getUsername().equals(txtUsuario.getText())
                         && u.getPassword().equals(txtPassword.getText())) {
+                    usuario = u;
 
                     if (findStartWork()) {
-                        LoadingDialogView ldv = new LoadingDialogView();
+                        LoadingDialogView ldv = new LoadingDialogView(usuario);
                         ldv.setVisible(true);
                         this.dispose();
                     } else {
-                        StartWorkView workView = new StartWorkView();
+                        StartWorkView workView = new StartWorkView(usuario);
                         workView.setUsers(u);
                         workView.setVisible(true);
                         this.dispose();

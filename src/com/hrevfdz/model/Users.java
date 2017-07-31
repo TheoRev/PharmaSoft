@@ -53,6 +53,8 @@ public class Users implements Serializable {
     private List<StartWork> startWorkList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<Payments> paymentsList;
+    @OneToMany(mappedBy = "userId")
+    private List<Recarga> recargaList;
 
     public Users() {
     }
@@ -121,6 +123,15 @@ public class Users implements Serializable {
         this.paymentsList = paymentsList;
     }
 
+    @XmlTransient
+    public List<Recarga> getRecargaList() {
+        return recargaList;
+    }
+
+    public void setRecargaList(List<Recarga> recargaList) {
+        this.recargaList = recargaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -143,7 +154,8 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hrevfdz.model.Users[ id=" + id + " ]";
+//        return "com.hrevfdz.model.Users[ id=" + id + " ]";
+        return this.username;
     }
-    
+
 }
