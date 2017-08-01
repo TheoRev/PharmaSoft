@@ -227,33 +227,23 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         asignarDatos();
         sc.doExecute();
-        refreshSales();
+        sc.refreshSales(tblSale, modelSale);
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        
+
     }//GEN-LAST:event_formInternalFrameClosing
 
-    public void refreshSales(){
-        FramesUtil.limpiarTabla(tblSale, (DefaultTableModel) tblSale.getModel()); 
-        sc.doFindAll();
-        try {
-            sc.loadData(modelSale, tblSale);
-        } catch (ParseException ex) {
-             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
     private void calcSubtotal() {
-        DecimalFormat df = new DecimalFormat("00.0");
+//        DecimalFormat df = new DecimalFormat("00.0");
         try {
             double n2 = Double.parseDouble(txtPrecio.getText());
             double n1 = Double.parseDouble(txtCantidad.getText());
             double subtotal = n1 * n2;
             txtSubtotal.setText(String.valueOf(FramesUtil.Redondear(subtotal)));
         } catch (NumberFormatException e) {
-             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -109,4 +109,8 @@ public class FramesUtil {
     public static double Redondear(double numero) {
         return Math.rint(numero * 100) / 100;
     }
+    
+//    public static void showConfirmDelete(String mensaje){
+//        
+//    }
 }
