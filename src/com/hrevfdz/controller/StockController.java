@@ -8,6 +8,7 @@ import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
+import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.util.QueriesUtil;
 import java.text.ParseException;
@@ -15,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class StockController extends IngresoProdController {
 

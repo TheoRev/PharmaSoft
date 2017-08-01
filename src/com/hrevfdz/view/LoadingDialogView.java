@@ -73,7 +73,7 @@ public final class LoadingDialogView extends javax.swing.JFrame {
         pbLoadPharmaSoft.setBackground(new java.awt.Color(0, 153, 153));
         pbLoadPharmaSoft.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         pbLoadPharmaSoft.setForeground(new java.awt.Color(51, 51, 51));
-        pbLoadPharmaSoft.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        pbLoadPharmaSoft.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 255), 2));
         pbLoadPharmaSoft.setDebugGraphicsOptions(javax.swing.DebugGraphics.LOG_OPTION);
         pbLoadPharmaSoft.setOpaque(false);
         pbLoadPharmaSoft.setStringPainted(true);

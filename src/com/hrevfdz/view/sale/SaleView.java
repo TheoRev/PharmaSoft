@@ -9,6 +9,7 @@ import com.hrevfdz.util.ActionNamesUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.view.stock.StockSelectorView;
+import java.awt.HeadlessException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -170,6 +171,11 @@ public class SaleView extends javax.swing.JInternalFrame {
         btnDelete.setEnabled(false);
         btnDelete.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/delete/icons8-Trash Can-28.png"))); // NOI18N
         btnDelete.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/delete/icons8-Trash Can-40.png"))); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnSearchAll.setBackground(new java.awt.Color(5, 67, 98));
         btnSearchAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-34.png"))); // NOI18N
@@ -357,11 +363,33 @@ public class SaleView extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
-            openEditSale(AccionUtil.UPDATE);
+            if (tblSales.isRowSelected(tblSales.getSelectedRow())) {
+                openEditSale(AccionUtil.UPDATE);
+            } else {
+                JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
+            }
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (tblSales.isRowSelected(tblSales.getSelectedRow())) {
+                getSaleRow(this.sc);
+                if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el producto: " + sc.getSale().getCodStock().getNombre().toUpperCase(),
+                        MessagesUtil.COMFIRM_DELETE_TITLE, JOptionPane.YES_NO_OPTION) == 0) {
+                    this.sc.doDelete(sc.getSale());
+                    this.sc.refreshSales(tblSales, dtm);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE,
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (HeadlessException | ParseException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void openEditSale(String title) throws ParseException {
         CUSaleView cUSaleView = new CUSaleView(sc, this.tblSales, this.dtm);

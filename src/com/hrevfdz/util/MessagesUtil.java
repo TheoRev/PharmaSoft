@@ -14,4 +14,9 @@ public class MessagesUtil {
     public static final String SUCCESS_TITLE = "Successful";
     public static final String FAIL_TITLE = "Fail";
     public static final String ERROR_TITLE = "Error";
+
+    public static final String SELECTED_ROW_MSG = "Seleccione un elemento de la tabla";
+    public static final String SELECTED_ROW_TITLE = "Not selected";
+
+    public static final String COMFIRM_DELETE_TITLE = "Delete Confirmation";
 }
