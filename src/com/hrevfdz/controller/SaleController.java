@@ -14,7 +14,6 @@ import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.util.QueriesUtil;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

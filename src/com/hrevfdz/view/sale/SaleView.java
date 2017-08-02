@@ -10,13 +10,11 @@ import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.view.stock.StockSelectorView;
 import java.awt.HeadlessException;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -31,8 +29,6 @@ public class SaleView extends javax.swing.JInternalFrame {
     DefaultTableModel dtm;
 
     private final SaleController sc;
-
-    private JButton[] actionBtns = {this.btnUpdate, this.btnDelete};
 
     public SaleView(JDesktopPane container) {
         initComponents();

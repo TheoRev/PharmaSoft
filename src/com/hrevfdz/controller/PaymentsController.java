@@ -13,6 +13,7 @@ import com.hrevfdz.model.StartWork;
 import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
+import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +22,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class PaymentsController {
 
@@ -105,6 +108,24 @@ public class PaymentsController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void loadData(DefaultTableModel dtm, JTable tblPayments) throws ParseException {
+        dtm = (DefaultTableModel) tblPayments.getModel();
+
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
+        for (Payments p : this.paymentses) {
+            Object[] row = new Object[6];
+            row[0] = p.getCodigo().toString();
+            row[1] = sdf.format(p.getFecha());
+            row[2] = FramesUtil.Redondear(p.getMonto());
+            row[3] = p.getDescripcion();
+            row[4] = p.getUserId();
+            row[5] = p.getCodStock();
+            dtm.addRow(row);
+        }
+        
+        tblPayments.setModel(dtm);
     }
 
     public void doGetUserActive() {
