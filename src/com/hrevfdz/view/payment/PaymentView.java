@@ -2,6 +2,7 @@ package com.hrevfdz.view.payment;
 
 import com.hrevfdz.controller.PaymentsController;
 import com.hrevfdz.util.ActionNamesUtil;
+import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -310,7 +311,11 @@ public class PaymentView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPayActionPerformed
-
+        LabProdSelector lp = new LabProdSelector(pc, this, container, tblPayments, dtm);
+        container.add(lp);
+        FramesUtil.setPosition(container, lp);
+        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
+        lp.show();
     }//GEN-LAST:event_btnAddPayActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed

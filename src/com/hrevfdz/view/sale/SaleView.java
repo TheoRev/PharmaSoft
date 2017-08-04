@@ -336,9 +336,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         container.add(ssv);
         FramesUtil.setPosition(container, ssv);
         enableActionButons(false);
-//        FramesUtil.enableActionButons(actionBtns, false);
         ssv.show();
-//        this.setVisible(false);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
