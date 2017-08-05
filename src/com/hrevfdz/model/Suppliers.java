@@ -148,7 +148,8 @@ public class Suppliers implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hrevfdz.model.Suppliers[ codigo=" + codigo + " ]";
+//        return "com.hrevfdz.model.Suppliers[ codigo=" + codigo + " ]";
+        return nombre;
     }
-    
+
 }

@@ -71,7 +71,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnSale" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnStock" alignment="0" pref="90" max="32767" attributes="0"/>
-                  <Component id="btnPays" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnPayments" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnSuppliers" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnCaja" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnLab" alignment="0" max="32767" attributes="0"/>
@@ -90,7 +90,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnStock" min="-2" pref="74" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnPays" min="-2" pref="74" max="-2" attributes="0"/>
+                      <Component id="btnPayments" min="-2" pref="74" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -155,7 +155,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStockActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnPays">
+            <Component class="javax.swing.JButton" name="btnPayments">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="41" green="2f" red="24" type="rgb"/>
@@ -176,6 +176,9 @@
                   <Image iconType="3" name="/icons/pay/icons8-Cash in Hand-56.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPaymentsActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnSuppliers">
               <Properties>

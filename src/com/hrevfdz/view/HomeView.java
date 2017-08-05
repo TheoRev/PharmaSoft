@@ -2,6 +2,7 @@ package com.hrevfdz.view;
 
 import com.hrevfdz.model.Users;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.view.payment.PaymentView;
 import com.hrevfdz.view.sale.SaleView;
 import com.hrevfdz.view.stock.StockView;
 import java.awt.Image;
@@ -38,7 +39,7 @@ public final class HomeView extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnSale = new javax.swing.JButton();
         btnStock = new javax.swing.JButton();
-        btnPays = new javax.swing.JButton();
+        btnPayments = new javax.swing.JButton();
         btnSuppliers = new javax.swing.JButton();
         btnCaja = new javax.swing.JButton();
         btnLab = new javax.swing.JButton();
@@ -83,14 +84,19 @@ public final class HomeView extends javax.swing.JFrame {
             }
         });
 
-        btnPays.setBackground(new java.awt.Color(36, 47, 65));
-        btnPays.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-48.png"))); // NOI18N
-        btnPays.setToolTipText("PAGOS");
-        btnPays.setBorder(null);
-        btnPays.setBorderPainted(false);
-        btnPays.setContentAreaFilled(false);
-        btnPays.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-40.png"))); // NOI18N
-        btnPays.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-56.png"))); // NOI18N
+        btnPayments.setBackground(new java.awt.Color(36, 47, 65));
+        btnPayments.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-48.png"))); // NOI18N
+        btnPayments.setToolTipText("PAGOS");
+        btnPayments.setBorder(null);
+        btnPayments.setBorderPainted(false);
+        btnPayments.setContentAreaFilled(false);
+        btnPayments.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-40.png"))); // NOI18N
+        btnPayments.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-56.png"))); // NOI18N
+        btnPayments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaymentsActionPerformed(evt);
+            }
+        });
 
         btnSuppliers.setBackground(new java.awt.Color(36, 47, 65));
         btnSuppliers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/supplier/icons8-Queue-48.png"))); // NOI18N
@@ -127,7 +133,7 @@ public final class HomeView extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnStock, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-            .addComponent(btnPays, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnPayments, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnSuppliers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnLab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -144,7 +150,7 @@ public final class HomeView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnStock, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPays, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPayments, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -270,6 +276,18 @@ public final class HomeView extends javax.swing.JFrame {
         stockView.show();
     }//GEN-LAST:event_btnStockActionPerformed
 
+    private void btnPaymentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentsActionPerformed
+        PaymentView paymentView = new PaymentView(this.dskContainer, this.btnPayments);
+        paymentView.setClosable(true);
+        paymentView.setMaximizable(true);
+        paymentView.setIconifiable(true);
+        paymentView.setTitle("LISTA DE PAGOS");
+        dskContainer.add(paymentView);
+        FramesUtil.setPosition(dskContainer, paymentView);
+        paymentView.show();
+        btnPayments.setEnabled(false);
+    }//GEN-LAST:event_btnPaymentsActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -306,7 +324,7 @@ public final class HomeView extends javax.swing.JFrame {
     private javax.swing.JButton btnCaja;
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnLab;
-    private javax.swing.JButton btnPays;
+    private javax.swing.JButton btnPayments;
     private javax.swing.JButton btnSale;
     private javax.swing.JButton btnStock;
     private javax.swing.JButton btnSuppliers;
