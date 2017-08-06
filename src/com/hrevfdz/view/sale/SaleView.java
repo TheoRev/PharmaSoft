@@ -335,25 +335,19 @@ public class SaleView extends javax.swing.JInternalFrame {
         StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSales, dtm);
         container.add(ssv);
         FramesUtil.setPosition(container, ssv);
-        enableActionButons(false);
+        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
         ssv.show();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
         try {
             getSaleRow(sc);
-            enableActionButons(true);
-//            FramesUtil.enableActionButons(actionBtns, true);
+            FramesUtil.enablerActionButtons(btnUpdate, btnDelete, true);
 //            openEditSale(AccionUtil.UPDATE);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tblSalesMouseClicked
-
-    private void enableActionButons(boolean state) {
-        btnUpdate.setEnabled(state);
-        btnDelete.setEnabled(state);
-    }
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {

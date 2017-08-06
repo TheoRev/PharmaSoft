@@ -114,6 +114,16 @@ public class PaymentsController {
         }
     }
 
+    public void refreshPayments(DefaultTableModel dtm, JTable tblPayments) {
+        FramesUtil.limpiarTabla(tblPayments, (DefaultTableModel) tblPayments.getModel());
+        doFindAll();
+        try {
+            loadData(dtm, tblPayments);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void loadData(DefaultTableModel dtm, JTable tblPayments) throws ParseException {
         dtm = (DefaultTableModel) tblPayments.getModel();
 

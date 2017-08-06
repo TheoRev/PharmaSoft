@@ -1,7 +1,6 @@
 package com.hrevfdz.view.payment;
 
 import com.hrevfdz.controller.PaymentsController;
-import com.hrevfdz.model.Payments;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.text.ParseException;
@@ -241,14 +240,18 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnOpenLabSuppSelectedActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        pc.getPayments().setMonto(Double.parseDouble(txtMonto.getText()));
+        pc.getPayments().setDescripcion(txtDescripcion.getText());
         pc.doExecute();
+        pc.refreshPayments(dtm, tblPayments);
+        this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnOpenLabSuppSelected;
-    private com.toedter.calendar.JDateChooser dcFecha;
+    public com.toedter.calendar.JDateChooser dcFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -259,9 +262,9 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextArea txtDescripcion;
+    public javax.swing.JTextArea txtDescripcion;
     public javax.swing.JTextField txtLaboratory;
-    private javax.swing.JTextField txtMonto;
+    public javax.swing.JTextField txtMonto;
     public javax.swing.JTextField txtProducto;
     public javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables

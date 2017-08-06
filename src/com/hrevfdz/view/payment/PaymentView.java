@@ -1,11 +1,15 @@
 package com.hrevfdz.view.payment;
 
 import com.hrevfdz.controller.PaymentsController;
+import com.hrevfdz.model.Payments;
+import com.hrevfdz.model.StockProducto;
+import com.hrevfdz.model.Users;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.ActionNamesUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -13,37 +17,39 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class PaymentView extends javax.swing.JInternalFrame {
-
+    
     JDesktopPane container;
     JButton btnPay;
-
+    
     DefaultTableModel dtm;
-
+    
     private final PaymentsController pc;
-
+    
+    private SimpleDateFormat sdf;
+    
     public PaymentView(JDesktopPane container, JButton btnPay) {
         initComponents();
-
+        
         this.container = container;
         this.btnPay = btnPay;
-
+        
         pc = new PaymentsController();
-
+        
         btnSearchAll.setToolTipText(ActionNamesUtil.SEARCH_ALL);
         btnAddPay.setToolTipText(ActionNamesUtil.ADD);
         btnUpdate.setToolTipText(ActionNamesUtil.UPDATE);
         btnDelete.setToolTipText(ActionNamesUtil.DELETE);
-
+        
         pc.doFindAll();
         pc.doGetUserActive();
-
+        
         try {
             pc.loadData(dtm, tblPayments);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -318,7 +324,7 @@ public class PaymentView extends javax.swing.JInternalFrame {
         FramesUtil.setPosition(container, cu);
         cu.show();
     }//GEN-LAST:event_btnAddPayActionPerformed
-
+    
     private JInternalFrame openCUPayment() {
         CUPaymentView cUPaymentView = new CUPaymentView(pc, this, container, tblPayments, dtm);
         cUPaymentView.setClosable(true);
@@ -328,7 +334,28 @@ public class PaymentView extends javax.swing.JInternalFrame {
     }
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-
+//        try {
+            if (tblPayments.isRowSelected(tblPayments.getSelectedRow())) {
+                pc.doUpgrade(pc.getPayments());
+                CUPaymentView cu = new CUPaymentView(pc, this, container, tblPayments, dtm);
+                cu.setClosable(true);
+                cu.setTitle(AccionUtil.UPDATE + cu.getTitle());
+                cu.txtCodigo.setText(pc.getPayments().getCodigo().toString());
+                cu.txtUser.setText(pc.getPayments().getUserId().getUsername().toUpperCase());
+                cu.dcFecha.setDate(pc.getPayments().getFecha());
+                cu.txtLaboratory.setText(pc.getPayments().getCodStock().getCodLab().getNomLab());
+                cu.txtProducto.setText(pc.getPayments().getCodStock().getNombre());
+                cu.txtMonto.setText(String.valueOf(pc.getPayments().getMonto()));
+                cu.txtDescripcion.setText((pc.getPayments().getDescripcion()));
+                container.add(cu);
+                FramesUtil.setPosition(container, cu);
+                cu.show();
+            } else {
+                JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
+            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
+//        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -336,8 +363,24 @@ public class PaymentView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblPaymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPaymentsMouseClicked
-
+        try {
+            getPayRow();
+            FramesUtil.enablerActionButtons(btnUpdate, btnDelete, true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_tblPaymentsMouseClicked
+    
+    private void getPayRow() throws ParseException {
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
+        pc.setPayments(new Payments());
+        pc.getPayments().setCodigo(Integer.parseInt(tblPayments.getValueAt(tblPayments.getSelectedRow(), 0).toString()));
+        pc.getPayments().setFecha(sdf.parse(tblPayments.getValueAt(tblPayments.getSelectedRow(), 1).toString()));
+        pc.getPayments().setMonto(Double.parseDouble(tblPayments.getValueAt(tblPayments.getSelectedRow(), 2).toString()));
+        pc.getPayments().setDescripcion(tblPayments.getValueAt(tblPayments.getSelectedRow(), 3).toString());
+        pc.getPayments().setUserId((Users) tblPayments.getValueAt(tblPayments.getSelectedRow(), 4));
+        pc.getPayments().setCodStock((StockProducto) tblPayments.getValueAt(tblPayments.getSelectedRow(), 5));
+    }
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         btnPay.setEnabled(true);
