@@ -12,7 +12,7 @@ import com.hrevfdz.util.MessagesUtil;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class LaboratoryController {
+public class LaboratoryController extends PharmaSoftController{
 
     private List<Laboratory> laboratorios;
     private Laboratory laboratorio;

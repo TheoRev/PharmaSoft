@@ -8,7 +8,7 @@ import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.MessagesUtil;
 import javax.swing.JOptionPane;
 
-public class StartWorkController {
+public class StartWorkController extends PharmaSoftController{
 
     public boolean doCreate(Users u, StartWork sw) {
         IPharmacy<StartWork> dao = new StartWorkDAO();

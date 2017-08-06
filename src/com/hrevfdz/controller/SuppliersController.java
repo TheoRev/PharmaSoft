@@ -8,7 +8,7 @@ import com.hrevfdz.util.MessagesUtil;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class SuppliersController {
+public class SuppliersController extends PharmaSoftController {
 
     private List<Suppliers> supplierses;
     private Suppliers suppliers;

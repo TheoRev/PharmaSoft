@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class PaymentsController {
+public class PaymentsController extends PharmaSoftController {
 
     private List<Payments> paymentses;
     private Payments payments;
@@ -51,14 +51,19 @@ public class PaymentsController {
         IPharmacy<Payments> dao = new PaymentsDAO();
 
         try {
-            boolean result = dao.Create(payments);
-
-            if (result) {
-                paymentses.add(paymentses.size(), payments);
-                doFindAll();
-                JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+            if (doGetMontoActualCaja(new Date()) < payments.getMonto()) {
+                JOptionPane.showMessageDialog(null, MessagesUtil.MONTO_CAJA_INSUFICIENTE, MessagesUtil.INSUFICIENTE_TITLE.toUpperCase(),
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                boolean result = dao.Create(payments);
+
+                if (result) {
+                    paymentses.add(paymentses.size(), payments);
+                    doFindAll();
+                    JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -69,15 +74,20 @@ public class PaymentsController {
         IPharmacy<Payments> dao = new PaymentsDAO();
 
         try {
-            boolean result = dao.Update(p);
-
-            if (result) {
-                paymentses.clear();
-                doFindAll();
-                payments = new Payments();
-                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+            if (doGetMontoActualCaja(new Date()) < payments.getMonto()) {
+                JOptionPane.showMessageDialog(null, MessagesUtil.MONTO_CAJA_INSUFICIENTE, MessagesUtil.INSUFICIENTE_TITLE.toUpperCase(),
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                boolean result = dao.Update(p);
+
+                if (result) {
+                    paymentses.clear();
+                    doFindAll();
+                    payments = new Payments();
+                    JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);

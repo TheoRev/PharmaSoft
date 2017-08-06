@@ -546,8 +546,10 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblSelectProdMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        txtLab.setText(tblSelectLab.getValueAt(tblSelectLab.getSelectedRow(), 1).toString());
-        txtProd.setText(tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 1).toString());
+        String lab = tblSelectLab.getValueAt(tblSelectLab.getSelectedRow(), 1) != null ? tblSelectLab.getValueAt(tblSelectLab.getSelectedRow(), 1).toString() : "";
+        String prod = tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 1) != null ? tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 1).toString() : "";
+        txtLab.setText(lab);
+        txtProd.setText(prod);
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
 

@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class IngresoProdController {
+public class IngresoProdController extends PharmaSoftController{
     private List<IngresoProducto> ingresoProductos;
     private IngresoProducto ingresoProducto;
     private List<StockProducto> stockProductos;

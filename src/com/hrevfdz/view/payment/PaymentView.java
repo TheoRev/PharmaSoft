@@ -8,48 +8,53 @@ import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.ActionNamesUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
+import java.awt.HeadlessException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class PaymentView extends javax.swing.JInternalFrame {
-    
+
     JDesktopPane container;
     JButton btnPay;
-    
+
     DefaultTableModel dtm;
-    
+
     private final PaymentsController pc;
-    
+    private JLabel lblMontoAct;
+
     private SimpleDateFormat sdf;
-    
-    public PaymentView(JDesktopPane container, JButton btnPay) {
+
+    public PaymentView(JDesktopPane container, JButton btnPay, JLabel lblMontoAct) {
         initComponents();
-        
+
         this.container = container;
         this.btnPay = btnPay;
-        
+        this.lblMontoAct = lblMontoAct;
+
         pc = new PaymentsController();
-        
+
         btnSearchAll.setToolTipText(ActionNamesUtil.SEARCH_ALL);
         btnAddPay.setToolTipText(ActionNamesUtil.ADD);
         btnUpdate.setToolTipText(ActionNamesUtil.UPDATE);
         btnDelete.setToolTipText(ActionNamesUtil.DELETE);
-        
+
         pc.doFindAll();
         pc.doGetUserActive();
-        
+
         try {
             pc.loadData(dtm, tblPayments);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -180,26 +185,26 @@ public class PaymentView extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSearchAll, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAddPay, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(22, 22, 22)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85))
+                .addGap(304, 304, 304))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnSearchAll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnAddPay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
+            .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jSeparator5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -322,11 +327,12 @@ public class PaymentView extends javax.swing.JInternalFrame {
         JInternalFrame cu = openCUPayment();
         cu.setTitle(AccionUtil.CREATE + cu.getTitle());
         FramesUtil.setPosition(container, cu);
+        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
         cu.show();
     }//GEN-LAST:event_btnAddPayActionPerformed
-    
+
     private JInternalFrame openCUPayment() {
-        CUPaymentView cUPaymentView = new CUPaymentView(pc, this, container, tblPayments, dtm);
+        CUPaymentView cUPaymentView = new CUPaymentView(pc, this, container, tblPayments, dtm, this.lblMontoAct);
         cUPaymentView.setClosable(true);
         cUPaymentView.txtUser.setText(pc.getPayments().getUserId().getUsername().toUpperCase());
         container.add(cUPaymentView);
@@ -335,31 +341,52 @@ public class PaymentView extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
 //        try {
-            if (tblPayments.isRowSelected(tblPayments.getSelectedRow())) {
-                pc.doUpgrade(pc.getPayments());
-                CUPaymentView cu = new CUPaymentView(pc, this, container, tblPayments, dtm);
-                cu.setClosable(true);
-                cu.setTitle(AccionUtil.UPDATE + cu.getTitle());
-                cu.txtCodigo.setText(pc.getPayments().getCodigo().toString());
-                cu.txtUser.setText(pc.getPayments().getUserId().getUsername().toUpperCase());
-                cu.dcFecha.setDate(pc.getPayments().getFecha());
-                cu.txtLaboratory.setText(pc.getPayments().getCodStock().getCodLab().getNomLab());
-                cu.txtProducto.setText(pc.getPayments().getCodStock().getNombre());
-                cu.txtMonto.setText(String.valueOf(pc.getPayments().getMonto()));
-                cu.txtDescripcion.setText((pc.getPayments().getDescripcion()));
-                container.add(cu);
-                FramesUtil.setPosition(container, cu);
-                cu.show();
-            } else {
-                JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
+        if (tblPayments.isRowSelected(tblPayments.getSelectedRow())) {
+            pc.doUpgrade(pc.getPayments());
+            CUPaymentView cu = new CUPaymentView(pc, this, container, tblPayments, dtm, this.lblMontoAct);
+            cu.setClosable(true);
+            cu.setTitle(AccionUtil.UPDATE + cu.getTitle());
+            cu.txtCodigo.setText(pc.getPayments().getCodigo().toString());
+            cu.txtUser.setText(pc.getPayments().getUserId().getUsername().toUpperCase());
+            cu.dcFecha.setDate(pc.getPayments().getFecha());
+            String temp1 = "";
+            String temp2 = "";
+            if (pc.getPayments().getCodStock() != null) {
+                temp1 = pc.getPayments().getCodStock().getCodLab().getNomLab();
+                temp2 = pc.getPayments().getCodStock().getNombre();
             }
+            cu.txtLaboratory.setText(temp1);
+            cu.txtProducto.setText(temp2);
+            cu.txtMonto.setText(String.valueOf(pc.getPayments().getMonto()));
+            cu.txtDescripcion.setText((pc.getPayments().getDescripcion()));
+            container.add(cu);
+            FramesUtil.setPosition(container, cu);
+            cu.show();
+        } else {
+            JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
 //        } catch (Exception e) {
 //            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
 //        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
+        try {
+            if (tblPayments.isRowSelected(tblPayments.getSelectedRow())) {
+                this.getPayRow();
+                if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el pago  con Id: " + pc.getPayments().getCodigo(),
+                        MessagesUtil.COMFIRM_DELETE_TITLE, JOptionPane.YES_NO_OPTION) == 0) {
+                    this.pc.doDelete(pc.getPayments());
+                    this.pc.refreshPayments(dtm, tblPayments);
+                    this.lblMontoAct.setText("S/. " + pc.doGetMontoActualCaja(new Date()));
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE,
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (HeadlessException | ParseException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblPaymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPaymentsMouseClicked
@@ -370,7 +397,7 @@ public class PaymentView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tblPaymentsMouseClicked
-    
+
     private void getPayRow() throws ParseException {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         pc.setPayments(new Payments());

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -20,10 +21,12 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
     JTable tblPayments;
     DefaultTableModel dtm;
 
+    private JLabel lblMontoAct;
+
     private SimpleDateFormat sdf;
 
     public CUPaymentView(PaymentsController pc, JInternalFrame iframe,
-            JDesktopPane container, JTable tblPayments, DefaultTableModel dtm) {
+            JDesktopPane container, JTable tblPayments, DefaultTableModel dtm, JLabel lblMontoAct) {
         try {
             initComponents();
             this.pc = pc;
@@ -31,6 +34,7 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
             this.container = container;
             this.tblPayments = tblPayments;
             this.dtm = dtm;
+            this.lblMontoAct = lblMontoAct;
 
             sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -242,8 +246,10 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         pc.getPayments().setMonto(Double.parseDouble(txtMonto.getText()));
         pc.getPayments().setDescripcion(txtDescripcion.getText());
+        String lab = txtLaboratory.getText() != null ? txtLaboratory.getText() : "";
         pc.doExecute();
         pc.refreshPayments(dtm, tblPayments);
+        this.lblMontoAct.setText("S/. " + pc.doGetMontoActualCaja(new Date()));
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 

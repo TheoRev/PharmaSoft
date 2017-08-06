@@ -1,36 +1,48 @@
 package com.hrevfdz.view;
 
+import com.hrevfdz.controller.IngresoProdController;
+import com.hrevfdz.controller.PharmaSoftController;
 import com.hrevfdz.model.Users;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.view.payment.PaymentView;
 import com.hrevfdz.view.sale.SaleView;
 import com.hrevfdz.view.stock.StockView;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
-import javax.swing.ImageIcon;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class HomeView extends javax.swing.JFrame {
-
+    
     Users users;
-
+    
     public HomeView() {
         initComponents();
         FramesUtil.setIcon(this);
-
+        
         this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
     }
-
+    
     public HomeView(Users users) {
-        initComponents();
-        FramesUtil.setIcon(this);
-
-        this.users = users;
-        lblUser.setText(lblUser.getText() + users.getUsername().toUpperCase());
-
-        this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
+        try {
+            initComponents();
+            FramesUtil.setIcon(this);
+            
+            this.users = users;
+            lblUser.setText(lblUser.getText() + users.getUsername().toUpperCase());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaAct = new Date();
+            lblFecha.setText(lblFecha.getText() + ", hoy " + (sdf.format(fechaAct)) + ": ");
+            PharmaSoftController softController = new IngresoProdController();
+            lblMontoAct.setText("S/. " + String.valueOf(softController.doGetMontoActualCaja(fechaAct)));
+            
+            this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
+        } catch (Exception ex) {
+            Logger.getLogger(HomeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -48,6 +60,8 @@ public final class HomeView extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lblUser = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
+        lblFecha = new javax.swing.JLabel();
+        lblMontoAct = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PharmaSoft");
@@ -178,25 +192,42 @@ public final class HomeView extends javax.swing.JFrame {
             }
         });
 
+        lblFecha.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(255, 255, 255));
+        lblFecha.setText("Monto en caja ");
+
+        lblMontoAct.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        lblMontoAct.setForeground(new java.awt.Color(255, 255, 255));
+        lblMontoAct.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(lblFecha)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMontoAct, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUser)
-                    .addComponent(btnCerrarSesion))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMontoAct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblUser)
+                            .addComponent(btnCerrarSesion)
+                            .addComponent(lblFecha))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         dskContainer.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -206,8 +237,8 @@ public final class HomeView extends javax.swing.JFrame {
         dskContainerLayout.setHorizontalGroup(
             dskContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskContainerLayout.createSequentialGroup()
-                .addContainerGap(327, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         dskContainerLayout.setVerticalGroup(
@@ -248,12 +279,13 @@ public final class HomeView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaleActionPerformed
-        SaleView sv = new SaleView(dskContainer);
+        SaleView sv = new SaleView(dskContainer, lblMontoAct, btnSale);
         sv.setClosable(true);
         sv.setMaximizable(true);
         sv.setIconifiable(true);
         sv.setTitle("LISTA DE VENTAS");
         sv.setToolTipText("LISTA DE VENTAS");
+        btnSale.setEnabled(false);
         dskContainer.add(sv);
         FramesUtil.setPosition(dskContainer, sv);
         sv.show();
@@ -266,7 +298,7 @@ public final class HomeView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
-        StockView stockView = new StockView();
+        StockView stockView = new StockView(this.btnStock);
         stockView.setClosable(true);
         stockView.setMaximizable(true);
         stockView.setIconifiable(true);
@@ -274,10 +306,11 @@ public final class HomeView extends javax.swing.JFrame {
         dskContainer.add(stockView);
         FramesUtil.setPosition(dskContainer, stockView);
         stockView.show();
+        btnStock.setEnabled(false);
     }//GEN-LAST:event_btnStockActionPerformed
 
     private void btnPaymentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentsActionPerformed
-        PaymentView paymentView = new PaymentView(this.dskContainer, this.btnPayments);
+        PaymentView paymentView = new PaymentView(this.dskContainer, this.btnPayments, this.lblMontoAct);
         paymentView.setClosable(true);
         paymentView.setMaximizable(true);
         paymentView.setIconifiable(true);
@@ -287,7 +320,7 @@ public final class HomeView extends javax.swing.JFrame {
         paymentView.show();
         btnPayments.setEnabled(false);
     }//GEN-LAST:event_btnPaymentsActionPerformed
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -332,6 +365,8 @@ public final class HomeView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblMontoAct;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlMainContainer;
     // End of variables declaration//GEN-END:variables
