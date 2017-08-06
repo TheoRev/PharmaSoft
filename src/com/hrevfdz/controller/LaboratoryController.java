@@ -1,8 +1,10 @@
 package com.hrevfdz.controller;
 
 import com.hrevfdz.dao.LaboratoryDAO;
+import com.hrevfdz.dao.StockProductoDAO;
 import com.hrevfdz.dao.SuppliersDAO;
 import com.hrevfdz.model.Laboratory;
+import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.model.Suppliers;
 import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
@@ -15,6 +17,7 @@ public class LaboratoryController {
     private List<Laboratory> laboratorios;
     private Laboratory laboratorio;
     private List<Suppliers> supplierses;
+    List<StockProducto> productos;
     private String accion;
 
     public void doListarLabs() {
@@ -92,6 +95,16 @@ public class LaboratoryController {
         }
     }
 
+    public void doListPrducts(int id) {
+        IPharmacy<StockProducto> dao = new StockProductoDAO();
+        try {
+            final String query = "SELECT p FROM StockProducto p WHERE p.codLab.codLab = " + id;
+            productos = dao.findByQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void doNew() {
         accion = AccionUtil.CREATE;
         laboratorio = new Laboratory();
@@ -144,5 +157,5 @@ public class LaboratoryController {
     public void setAccion(String accion) {
         this.accion = accion;
     }
-    
+
 }

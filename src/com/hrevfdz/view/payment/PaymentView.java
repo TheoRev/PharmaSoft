@@ -1,14 +1,14 @@
 package com.hrevfdz.view.payment;
 
 import com.hrevfdz.controller.PaymentsController;
+import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.ActionNamesUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,6 +35,7 @@ public class PaymentView extends javax.swing.JInternalFrame {
         btnDelete.setToolTipText(ActionNamesUtil.DELETE);
 
         pc.doFindAll();
+        pc.doGetUserActive();
 
         try {
             pc.loadData(dtm, tblPayments);
@@ -311,12 +312,20 @@ public class PaymentView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPayActionPerformed
-        LabProdSelector lp = new LabProdSelector(pc, this, container, tblPayments, dtm);
-        container.add(lp);
-        FramesUtil.setPosition(container, lp);
-        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
-        lp.show();
+        pc.doNew();
+        JInternalFrame cu = openCUPayment();
+        cu.setTitle(AccionUtil.CREATE + cu.getTitle());
+        FramesUtil.setPosition(container, cu);
+        cu.show();
     }//GEN-LAST:event_btnAddPayActionPerformed
+
+    private JInternalFrame openCUPayment() {
+        CUPaymentView cUPaymentView = new CUPaymentView(pc, this, container, tblPayments, dtm);
+        cUPaymentView.setClosable(true);
+        cUPaymentView.txtUser.setText(pc.getPayments().getUserId().getUsername().toUpperCase());
+        container.add(cUPaymentView);
+        return cUPaymentView;
+    }
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
 

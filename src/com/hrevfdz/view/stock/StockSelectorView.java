@@ -240,7 +240,6 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
 
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
         try {
-            //        JOptionPane.showMessageDialog(null, tblProductos.getValueAt(tblProductos.getSelectedRow(), 1));
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             StockProducto sp = new StockProducto();
             sp.setCodStock(Integer.parseInt(tblProductos.getValueAt(tblProductos.getSelectedRow(), 0).toString()));

@@ -39,11 +39,15 @@ public class PaymentsController {
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
 
+    public PaymentsController() {
+        this.payments = new Payments();
+    }
+
     private String accion;
     private Date fecha = new Date();
     private String fecAct = sdf2.format(fecha);
 
-    public void doCreate() {
+    private void doCreate() {
         IPharmacy<Payments> dao = new PaymentsDAO();
 
         try {
@@ -61,7 +65,7 @@ public class PaymentsController {
         }
     }
 
-    public void doUpdate(Payments p) {
+    private void doUpdate(Payments p) {
         IPharmacy<Payments> dao = new PaymentsDAO();
 
         try {
@@ -124,7 +128,7 @@ public class PaymentsController {
             row[5] = p.getCodStock();
             dtm.addRow(row);
         }
-        
+
         tblPayments.setModel(dtm);
     }
 
@@ -149,6 +153,19 @@ public class PaymentsController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public StockProducto doGetProductByCod(int cod) {
+        IPharmacy<StockProducto> dao = new StockProductoDAO();
+        StockProducto sp = null;
+
+        try {
+            final String query = "SELECT p FROM StockProducto p WHERE p.codStock = " + cod;
+            sp = dao.findBy(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+        return sp;
     }
 
     public void doGetCaja(Payments p) {

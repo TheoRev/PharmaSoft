@@ -27,11 +27,6 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         this.sc = sc;
         this.tblSale = tblSale;
         this.modelSale = modelSale;
-        loadStock();
-    }
-
-    private void loadStock() {
-
     }
 
     @SuppressWarnings("unchecked")
