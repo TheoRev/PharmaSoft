@@ -7,7 +7,6 @@ import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.view.sale.CUSaleView;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,7 +51,6 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
             row[0] = p.getCodStock();
             row[1] = p.getNombre();
             row[2] = p.getPresentacion();
-//            row[3] = p.getCodLab().getNomLab();
             row[3] = p.getCodLab();
             row[4] = p.getLote();
             row[5] = p.getMonto();

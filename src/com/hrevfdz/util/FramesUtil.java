@@ -45,12 +45,6 @@ public class FramesUtil {
         }
     }
 
-    public static void enableActionButons(JButton[] botones, boolean state) {
-        for (int i = 0; i < botones.length; i++) {
-            botones[i].setEnabled(state);
-        }
-    }
-
     public static void controlarInstancia(JInternalFrame iframe, JDesktopPane jdp) {
         boolean mostrar = true;
         String nombre = iframe.getTitle();
@@ -109,8 +103,9 @@ public class FramesUtil {
     public static double Redondear(double numero) {
         return Math.rint(numero * 100) / 100;
     }
-    
-//    public static void showConfirmDelete(String mensaje){
-//        
-//    }
+
+    public static void enablerActionButtons(JButton update, JButton delete, boolean state) {
+        update.setEnabled(state);
+        delete.setEnabled(state);
+    }
 }
