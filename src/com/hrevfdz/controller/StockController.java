@@ -8,7 +8,6 @@ import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
-import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.util.QueriesUtil;
 import java.text.ParseException;

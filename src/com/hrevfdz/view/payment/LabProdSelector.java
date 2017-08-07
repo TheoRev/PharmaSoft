@@ -5,10 +5,14 @@ import com.hrevfdz.controller.PaymentsController;
 import com.hrevfdz.controller.SuppliersController;
 import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.model.StockProducto;
+import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.util.MessagesUtil;
 import java.text.SimpleDateFormat;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class LabProdSelector extends javax.swing.JInternalFrame {
@@ -20,21 +24,26 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
     private JDesktopPane containerPay = null;
 
     private DefaultTableModel dtmLabs;
+    private DefaultTableModel dtmProds;
     private SimpleDateFormat sdf;
+
+    private JTextField txtLab;
+    private JTextField txtProd;
 
     JTable tblPay;
     DefaultTableModel modelPay;
-    JTable tblSupp;
-    DefaultTableModel modelSupp;
 
-    public LabProdSelector(PaymentsController pc, JInternalFrame iframe, JDesktopPane containerPay, JTable tblPay, DefaultTableModel modelPay) {
+    public LabProdSelector(PaymentsController pc, JInternalFrame iframe,
+            JDesktopPane containerPay, JTable tblPay, DefaultTableModel modelPay,
+            JTextField txtLab, JTextField txtProd) {
         initComponents();
         this.iframe = iframe;
         this.containerPay = containerPay;
         this.tblPay = tblPay;
         this.modelPay = modelPay;
-        //        this.tblSupp = tblSupp;
-        //        this.modelSupp = modelSupp;
+        this.pc = pc;
+        this.txtLab = txtLab;
+        this.txtProd = txtProd;
 
         lc = new LaboratoryController();
         spc = new SuppliersController();
@@ -45,9 +54,9 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
     private void doFindAllLabs() {
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         dtmLabs = (DefaultTableModel) tblSelectLab.getModel();
-        lc.doListarLabs();
+        pc.doGetLaboratories();
 
-        lc.getLaboratorios().stream().map((l) -> {
+        pc.getLaboratorys().stream().map((l) -> {
             Object[] row = new Object[2];
             row[0] = l.getCodLab();
             row[1] = l.getNomLab();
@@ -85,6 +94,7 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         txtLaboratorio = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        btnAceptar = new javax.swing.JToggleButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSelectLab = new javax.swing.JTable();
@@ -332,6 +342,13 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Laboratorio");
 
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -341,7 +358,9 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAceptar)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,7 +368,8 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(btnAceptar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -400,7 +420,6 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2), "Productos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
 
         tblSelectProd.setBackground(new java.awt.Color(255, 255, 255));
-        tblSelectProd.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2), "Distribuidores", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 12))); // NOI18N
         tblSelectProd.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         tblSelectProd.setForeground(new java.awt.Color(0, 0, 0));
         tblSelectProd.setModel(new javax.swing.table.DefaultTableModel(
@@ -408,11 +427,11 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código", "Nombre", "Encargado"
+                "Código", "Nombre"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -477,15 +496,11 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        getAccessibleContext().setAccessibleName("SELECCIONE UN LABORATORIO Y PRODUCTO");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPayActionPerformed
-        Laboratory lab = new Laboratory();
-        lab.setCodLab(Integer.parseInt(tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 0).toString()));
-        lab.setNomLab(tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 1).toString());
+
     }//GEN-LAST:event_btnAddPayActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -501,15 +516,46 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblPaymentsMouseClicked
 
     private void tblSelectLabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSelectLabMouseClicked
-
+        Laboratory lab = new Laboratory();
+        lab.setCodLab(Integer.parseInt(tblSelectLab.getValueAt(tblSelectLab.getSelectedRow(), 0).toString()));
+        lab.setNomLab(tblSelectLab.getValueAt(tblSelectLab.getSelectedRow(), 1).toString());
+        findProdById(lab);
     }//GEN-LAST:event_tblSelectLabMouseClicked
 
+    private void findProdById(Laboratory l) {
+        dtmProds = (DefaultTableModel) tblSelectProd.getModel();
+        pc.setLaboratory(l);
+        pc.doGetProductos();
+
+        FramesUtil.limpiarTabla(tblSelectProd, dtmProds);
+
+        pc.getProductos().stream().map((p) -> {
+            Object[] row = new Object[2];
+            row[0] = p.getCodStock();
+            row[1] = p.getNombre();
+            return row;
+        }).forEachOrdered((row) -> {
+            dtmProds.addRow(row);
+        });
+        tblSelectProd.setModel(dtmProds);
+    }
+
     private void tblSelectProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSelectProdMouseClicked
-        // TODO add your handling code here:
+        int cod = Integer.parseInt(tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 0).toString());
+        pc.getPayments().setCodStock(pc.doGetProductByCod(cod));
     }//GEN-LAST:event_tblSelectProdMouseClicked
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        String lab = tblSelectLab.getValueAt(tblSelectLab.getSelectedRow(), 1) != null ? tblSelectLab.getValueAt(tblSelectLab.getSelectedRow(), 1).toString() : "";
+        String prod = tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 1) != null ? tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 1).toString() : "";
+        txtLab.setText(lab);
+        txtProd.setText(prod);
+        this.dispose();
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnAceptar;
     private javax.swing.JButton btnAddPay;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSearchAll;

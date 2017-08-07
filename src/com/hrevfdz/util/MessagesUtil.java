@@ -4,7 +4,7 @@ public class MessagesUtil {
 
     public static final String SAVE_SUCCESS = "Los datos fueron guardados correctamente";
     public static final String UPDATE_SUCCESS = "Los datos se actualizaron correctamente";
-    public static final String DELETE_SUCCESS = "Se eliminó el registro correctamente";
+    public static final String DELETE_SUCCESS = "El registro se eliminó correctamente";
     public static final String SAVE_FAIL = "No se pudo guardar los datos";
     public static final String UPDATE_FAIL = "No se pudo actualizar el regisro";
     public static final String DELETE_FAIL = "No se pudo eliminar los datos";
@@ -19,4 +19,7 @@ public class MessagesUtil {
     public static final String SELECTED_ROW_TITLE = "Not selected";
 
     public static final String COMFIRM_DELETE_TITLE = "Delete Confirmation";
+
+    public static final String MONTO_CAJA_INSUFICIENTE = "El saldo en caja es insuficiente para realizar esta transacción";
+    public static final String INSUFICIENTE_TITLE = "Saldo insuficiente";
 }

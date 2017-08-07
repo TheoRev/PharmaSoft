@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
-public class SaleController {
+public class SaleController extends PharmaSoftController{
 
     private IPharmacy<Sale> dao;
     private List<Sale> sales;

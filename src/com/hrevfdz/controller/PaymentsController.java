@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class PaymentsController {
+public class PaymentsController extends PharmaSoftController {
 
     private List<Payments> paymentses;
     private Payments payments;
@@ -39,41 +39,55 @@ public class PaymentsController {
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
 
+    public PaymentsController() {
+        this.payments = new Payments();
+    }
+
     private String accion;
     private Date fecha = new Date();
     private String fecAct = sdf2.format(fecha);
 
-    public void doCreate() {
+    private void doCreate() {
         IPharmacy<Payments> dao = new PaymentsDAO();
 
         try {
-            boolean result = dao.Create(payments);
-
-            if (result) {
-                paymentses.add(paymentses.size(), payments);
-                doFindAll();
-                JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+            if (doGetMontoActualCaja(new Date()) < payments.getMonto()) {
+                JOptionPane.showMessageDialog(null, MessagesUtil.MONTO_CAJA_INSUFICIENTE, MessagesUtil.INSUFICIENTE_TITLE.toUpperCase(),
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                boolean result = dao.Create(payments);
+
+                if (result) {
+                    paymentses.add(paymentses.size(), payments);
+                    doFindAll();
+                    JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void doUpdate(Payments p) {
+    private void doUpdate(Payments p) {
         IPharmacy<Payments> dao = new PaymentsDAO();
 
         try {
-            boolean result = dao.Update(p);
-
-            if (result) {
-                paymentses.clear();
-                doFindAll();
-                payments = new Payments();
-                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+            if (doGetMontoActualCaja(new Date()) < payments.getMonto()) {
+                JOptionPane.showMessageDialog(null, MessagesUtil.MONTO_CAJA_INSUFICIENTE, MessagesUtil.INSUFICIENTE_TITLE.toUpperCase(),
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                boolean result = dao.Update(p);
+
+                if (result) {
+                    paymentses.clear();
+                    doFindAll();
+                    payments = new Payments();
+                    JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -110,6 +124,16 @@ public class PaymentsController {
         }
     }
 
+    public void refreshPayments(DefaultTableModel dtm, JTable tblPayments) {
+        FramesUtil.limpiarTabla(tblPayments, (DefaultTableModel) tblPayments.getModel());
+        doFindAll();
+        try {
+            loadData(dtm, tblPayments);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void loadData(DefaultTableModel dtm, JTable tblPayments) throws ParseException {
         dtm = (DefaultTableModel) tblPayments.getModel();
 
@@ -124,7 +148,7 @@ public class PaymentsController {
             row[5] = p.getCodStock();
             dtm.addRow(row);
         }
-        
+
         tblPayments.setModel(dtm);
     }
 
@@ -149,6 +173,19 @@ public class PaymentsController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public StockProducto doGetProductByCod(int cod) {
+        IPharmacy<StockProducto> dao = new StockProductoDAO();
+        StockProducto sp = null;
+
+        try {
+            final String query = "SELECT p FROM StockProducto p WHERE p.codStock = " + cod;
+            sp = dao.findBy(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+        return sp;
     }
 
     public void doGetCaja(Payments p) {

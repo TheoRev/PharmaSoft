@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,14 +30,16 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
 
     JTable tblSale;
     DefaultTableModel modelSale;
+    private JLabel lblMontoAct;
 
-    public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container, JTable tblSale, DefaultTableModel modelSale) {
+    public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container, JTable tblSale, DefaultTableModel modelSale, JLabel lblMontoAct) {
         initComponents();
         this.sc = sc;
         this.iframe = iframe;
         this.container = container;
         this.tblSale = tblSale;
         this.modelSale = modelSale;
+        this.lblMontoAct = lblMontoAct;
 
         stc = new StockController();
         doFindAll();
@@ -240,7 +243,6 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
 
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
         try {
-            //        JOptionPane.showMessageDialog(null, tblProductos.getValueAt(tblProductos.getSelectedRow(), 1));
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             StockProducto sp = new StockProducto();
             sp.setCodStock(Integer.parseInt(tblProductos.getValueAt(tblProductos.getSelectedRow(), 0).toString()));
@@ -264,7 +266,7 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
 //        DecimalFormat df = new DecimalFormat("00.00");
         Date fecact = new Date();
         fecact = sdf.parse(sdf.format(fecact));
-        CUSaleView cUSaleView = new CUSaleView(sc, this.tblSale, this.modelSale);
+        CUSaleView cUSaleView = new CUSaleView(sc, this.tblSale, this.modelSale, this.lblMontoAct);
         cUSaleView.txtCodigo.setEnabled(false);
         cUSaleView.setClosable(true);
         cUSaleView.setTitle(title + cUSaleView.getTitle());

@@ -15,26 +15,32 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class SaleView extends javax.swing.JInternalFrame {
-
+    
     private JDesktopPane container;
-
+    
     private SimpleDateFormat sdf;
     private Date fec;
-
-    DefaultTableModel dtm;
-
+    
+    private DefaultTableModel dtm;
+    private JLabel lblMontoAct;
+    private JButton btnSale;
+    
     private final SaleController sc;
-
-    public SaleView(JDesktopPane container) {
+    
+    public SaleView(JDesktopPane container, JLabel lblMontoAct, JButton btnSale) {
         initComponents();
-
+        
         this.container = container;
-
+        this.lblMontoAct = lblMontoAct;
+        this.btnSale = btnSale;
+        
         try {
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             fec = sdf.parse(sdf.format(new Date()));
@@ -42,7 +48,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         } catch (ParseException ex) {
             Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         sc = new SaleController();
 
 //        ResourceBundle.getBundle("com.hrevfdz.util.ActionNames", Locale.ENGLISH).getString("SEARCH_ALL");
@@ -51,7 +57,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         btnAdd.setToolTipText(ActionNamesUtil.ADD);
         btnUpdate.setToolTipText(ActionNamesUtil.UPDATE);
         btnDelete.setToolTipText(ActionNamesUtil.DELETE);
-
+        
         sc.doFindAll();
         try {
             sc.loadData(dtm, tblSales);
@@ -59,7 +65,7 @@ public class SaleView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -85,6 +91,23 @@ public class SaleView extends javax.swing.JInternalFrame {
         tblSales = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(5, 67, 98));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(5, 67, 98));
 
@@ -332,28 +355,22 @@ public class SaleView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSales, dtm);
+        StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSales, dtm, this.lblMontoAct);
         container.add(ssv);
         FramesUtil.setPosition(container, ssv);
-        enableActionButons(false);
+        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
         ssv.show();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
         try {
             getSaleRow(sc);
-            enableActionButons(true);
-//            FramesUtil.enableActionButons(actionBtns, true);
+            FramesUtil.enablerActionButtons(btnUpdate, btnDelete, true);
 //            openEditSale(AccionUtil.UPDATE);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tblSalesMouseClicked
-
-    private void enableActionButons(boolean state) {
-        btnUpdate.setEnabled(state);
-        btnDelete.setEnabled(state);
-    }
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
@@ -375,6 +392,7 @@ public class SaleView extends javax.swing.JInternalFrame {
                         MessagesUtil.COMFIRM_DELETE_TITLE, JOptionPane.YES_NO_OPTION) == 0) {
                     this.sc.doDelete(sc.getSale());
                     this.sc.refreshSales(tblSales, dtm);
+                    this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
                 }
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE,
@@ -385,8 +403,12 @@ public class SaleView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        btnSale.setEnabled(true);
+    }//GEN-LAST:event_formInternalFrameClosing
+    
     private void openEditSale(String title) throws ParseException {
-        CUSaleView cUSaleView = new CUSaleView(sc, this.tblSales, this.dtm);
+        CUSaleView cUSaleView = new CUSaleView(sc, this.tblSales, this.dtm, this.lblMontoAct);
         cUSaleView.txtCodigo.setEnabled(false);
         cUSaleView.setClosable(true);
         cUSaleView.setTitle(title + cUSaleView.getTitle());
@@ -400,9 +422,10 @@ public class SaleView extends javax.swing.JInternalFrame {
         sc.doUpgrade(sc.getSale());
         container.add(cUSaleView);
         FramesUtil.setPosition(this.container, cUSaleView);
-        cUSaleView.setVisible(true);
+        this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
+        cUSaleView.show();
     }
-
+    
     private void getSaleRow(SaleController sc) throws ParseException {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         sc.setSale(new Sale());
