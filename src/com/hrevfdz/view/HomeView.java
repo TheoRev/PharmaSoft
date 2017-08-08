@@ -14,21 +14,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class HomeView extends javax.swing.JFrame {
-    
+
     Users users;
-    
+
     public HomeView() {
         initComponents();
         FramesUtil.setIcon(this);
-        
+
         this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
     }
-    
+
     public HomeView(Users users) {
         try {
             initComponents();
             FramesUtil.setIcon(this);
-            
+
             this.users = users;
             lblUser.setText(lblUser.getText() + users.getUsername().toUpperCase());
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -36,13 +36,13 @@ public final class HomeView extends javax.swing.JFrame {
             lblFecha.setText(lblFecha.getText() + ", hoy " + (sdf.format(fechaAct)) + ": ");
             PharmaSoftController softController = new IngresoProdController();
             lblMontoAct.setText("S/. " + String.valueOf(softController.doGetMontoActualCaja(fechaAct)));
-            
+
             this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
         } catch (Exception ex) {
             Logger.getLogger(HomeView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -298,7 +298,7 @@ public final class HomeView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
-        StockView stockView = new StockView(this.btnStock);
+        StockView stockView = new StockView(this.dskContainer, this.btnStock);
         stockView.setClosable(true);
         stockView.setMaximizable(true);
         stockView.setIconifiable(true);
@@ -320,7 +320,7 @@ public final class HomeView extends javax.swing.JFrame {
         paymentView.show();
         btnPayments.setEnabled(false);
     }//GEN-LAST:event_btnPaymentsActionPerformed
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

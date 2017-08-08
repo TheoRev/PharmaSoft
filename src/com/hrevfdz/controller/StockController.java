@@ -120,6 +120,15 @@ public class StockController extends IngresoProdController {
         }
     }
 
+    public void loadData(DefaultTableModel dtm, JTable tblStock) {
+        dtm = (DefaultTableModel) tblStock.getModel();
+        for (StockProducto st : stockProductos) {
+            Object[] row = new Object[7];
+            row[0] = st.getCodStock();
+            row[1] = st.getNombre();
+        }
+    }
+
     public void doQuerySelectLab() {
         IPharmacy<Laboratory> dao = new LaboratoryDAO();
 

@@ -1,17 +1,32 @@
 package com.hrevfdz.view.stock;
 
+import com.hrevfdz.controller.StockController;
+import com.hrevfdz.util.AccionUtil;
+import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.util.MessagesUtil;
+import java.text.ParseException;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class StockView extends javax.swing.JInternalFrame {
-    
+
     private final JButton btnStock;
-    
-    public StockView(JButton btnStock) {
+    JDesktopPane container;
+    StockController stc;
+    private DefaultTableModel dtm;
+    private JLabel lblMontoAct;
+
+    public StockView(JDesktopPane container, JButton btnStock) {
         initComponents();
-        
+
         this.btnStock = btnStock;
+        this.container = container;
+        stc = new StockController();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -30,7 +45,7 @@ public class StockView extends javax.swing.JInternalFrame {
         btnSearchAll = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblSales = new javax.swing.JTable();
+        tblStock = new javax.swing.JTable();
 
         setTitle("PRODUCTOS EN STOCK");
         setPreferredSize(new java.awt.Dimension(1040, 564));
@@ -57,18 +72,20 @@ public class StockView extends javax.swing.JInternalFrame {
         jPanel2.setBackground(new java.awt.Color(5, 67, 98));
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre Prod.");
 
-        jTextField1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(255, 255, 255));
         jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
-        jTextField2.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(255, 255, 255));
         jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Laboratorio");
 
         jPanel4.setBackground(new java.awt.Color(5, 67, 98));
@@ -143,7 +160,7 @@ public class StockView extends javax.swing.JInternalFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnSearchAll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+            .addComponent(btnSearchAll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
@@ -163,10 +180,10 @@ public class StockView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                    .addComponent(jTextField2))
+                .addGap(18, 161, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -174,32 +191,31 @@ public class StockView extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(28, 28, 28))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jPanel3.setBackground(new java.awt.Color(5, 67, 98));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
-        tblSales.setBackground(new java.awt.Color(255, 255, 255));
-        tblSales.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
-        tblSales.setForeground(new java.awt.Color(0, 0, 0));
-        tblSales.setModel(new javax.swing.table.DefaultTableModel(
+        tblStock.setBackground(new java.awt.Color(255, 255, 255));
+        tblStock.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
+        tblStock.setForeground(new java.awt.Color(0, 0, 0));
+        tblStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Producto", "Fecha", "Hora", "Cantidad", "Precio Unit.", "Usuario"
+                "Código", "Nombre", "Presentacion", "Laboratorio", "Lote", "Precio", "Cantidad"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -210,15 +226,15 @@ public class StockView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblSales.setGridColor(new java.awt.Color(255, 255, 255));
-        tblSales.setSelectionBackground(new java.awt.Color(0, 153, 153));
-        tblSales.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        tblSales.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblStock.setGridColor(new java.awt.Color(255, 255, 255));
+        tblStock.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        tblStock.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tblStock.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSalesMouseClicked(evt);
+                tblStockMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblSales);
+        jScrollPane1.setViewportView(tblStock);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -228,7 +244,7 @@ public class StockView extends javax.swing.JInternalFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -271,53 +287,53 @@ public class StockView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSales, dtm, this.lblMontoAct);
-        container.add(ssv);
-        FramesUtil.setPosition(container, ssv);
+        CUStockView cusv = new CUStockView(stc, this, container, tblStock, dtm);
+        cusv.setClosable(true);
+        container.add(cusv);
+        FramesUtil.setPosition(container, cusv);
         FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
-        ssv.show();
+        cusv.show();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
-            if (tblSales.isRowSelected(tblSales.getSelectedRow())) {
-                openEditSale(AccionUtil.UPDATE);
+            if (tblStock.isRowSelected(tblStock.getSelectedRow())) {
+//                openEditSale(AccionUtil.UPDATE);
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
             }
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
-            if (tblSales.isRowSelected(tblSales.getSelectedRow())) {
-                getSaleRow(this.sc);
-                if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el producto: " + sc.getSale().getCodStock().getNombre().toUpperCase(),
-                    MessagesUtil.COMFIRM_DELETE_TITLE, JOptionPane.YES_NO_OPTION) == 0) {
-                this.sc.doDelete(sc.getSale());
-                this.sc.refreshSales(tblSales, dtm);
-                this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
+            if (tblStock.isRowSelected(tblStock.getSelectedRow())) {
+//                getSaleRow(this.stc);
+                if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el producto: ",
+                        MessagesUtil.COMFIRM_DELETE_TITLE, JOptionPane.YES_NO_OPTION) == 0) {
+//                this.stc.doDelete(stc.getSale());
+//                this.stc.refreshSales(tblStock, dtm);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE,
+                        JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE,
-                JOptionPane.ERROR_MESSAGE);
-        }
-        } catch (HeadlessException | ParseException e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
+    private void tblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStockMouseClicked
         try {
-            getSaleRow(sc);
+//            getSaleRow(stc);
             FramesUtil.enablerActionButtons(btnUpdate, btnDelete, true);
             //            openEditSale(AccionUtil.UPDATE);
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_tblSalesMouseClicked
+    }//GEN-LAST:event_tblStockMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -335,6 +351,6 @@ public class StockView extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTable tblSales;
+    private javax.swing.JTable tblStock;
     // End of variables declaration//GEN-END:variables
 }
