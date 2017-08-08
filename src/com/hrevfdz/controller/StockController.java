@@ -126,7 +126,14 @@ public class StockController extends IngresoProdController {
             Object[] row = new Object[7];
             row[0] = st.getCodStock();
             row[1] = st.getNombre();
+            row[2] = st.getPresentacion();
+            row[3] = st.getCodLab();
+            row[4] = st.getLote();
+            row[5] = st.getMonto();
+            row[6] = st.getCantidad();
+            dtm.addRow(row);
         }
+        tblStock.setModel(dtm);
     }
 
     public void doQuerySelectLab() {

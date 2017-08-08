@@ -32,13 +32,14 @@ public class CUStockView extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
-        txtProducto = new javax.swing.JTextField();
+        txtPresentacion = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
-        txtCodigo1 = new javax.swing.JTextField();
-        txtProducto1 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        txtLab = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        txtProducto2 = new javax.swing.JTextField();
+        txtLote = new javax.swing.JTextField();
+        btnLabs = new javax.swing.JButton();
 
         setTitle(" PRODUCTO");
 
@@ -79,6 +80,7 @@ public class CUStockView extends javax.swing.JInternalFrame {
         btnGuardar.setBackground(new java.awt.Color(0, 102, 102));
         btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/save/icons8-Save-24.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
         btnGuardar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 51), 2));
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -87,10 +89,10 @@ public class CUStockView extends javax.swing.JInternalFrame {
             }
         });
 
-        txtProducto.setBackground(new java.awt.Color(5, 67, 98));
-        txtProducto.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        txtProducto.setForeground(new java.awt.Color(255, 255, 255));
-        txtProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtPresentacion.setBackground(new java.awt.Color(5, 67, 98));
+        txtPresentacion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        txtPresentacion.setForeground(new java.awt.Color(255, 255, 255));
+        txtPresentacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
         txtCantidad.setBackground(new java.awt.Color(5, 67, 98));
         txtCantidad.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -103,15 +105,15 @@ public class CUStockView extends javax.swing.JInternalFrame {
             }
         });
 
-        txtCodigo1.setBackground(new java.awt.Color(5, 67, 98));
-        txtCodigo1.setForeground(new java.awt.Color(255, 255, 255));
-        txtCodigo1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtNombre.setBackground(new java.awt.Color(5, 67, 98));
+        txtNombre.setForeground(new java.awt.Color(255, 255, 255));
+        txtNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
-        txtProducto1.setBackground(new java.awt.Color(5, 67, 98));
-        txtProducto1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        txtProducto1.setForeground(new java.awt.Color(255, 255, 255));
-        txtProducto1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
-        txtProducto1.setEnabled(false);
+        txtLab.setBackground(new java.awt.Color(5, 67, 98));
+        txtLab.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        txtLab.setForeground(new java.awt.Color(255, 255, 255));
+        txtLab.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtLab.setEnabled(false);
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -121,10 +123,17 @@ public class CUStockView extends javax.swing.JInternalFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Lote");
 
-        txtProducto2.setBackground(new java.awt.Color(5, 67, 98));
-        txtProducto2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        txtProducto2.setForeground(new java.awt.Color(255, 255, 255));
-        txtProducto2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtLote.setBackground(new java.awt.Color(5, 67, 98));
+        txtLote.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        txtLote.setForeground(new java.awt.Color(255, 255, 255));
+        txtLote.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+
+        btnLabs.setBackground(new java.awt.Color(5, 67, 98));
+        btnLabs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-40.png"))); // NOI18N
+        btnLabs.setToolTipText("Laboratorios");
+        btnLabs.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnLabs.setContentAreaFilled(false);
+        btnLabs.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-24.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,23 +143,26 @@ public class CUStockView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                            .addComponent(txtProducto)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtLab, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLabs, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCodigo)
+                            .addComponent(txtPresentacion)
                             .addComponent(txtCantidad)
-                            .addComponent(txtCodigo1)
-                            .addComponent(txtProducto1)
-                            .addComponent(txtProducto2)
+                            .addComponent(txtNombre)
+                            .addComponent(txtLote)
                             .addComponent(txtPrecio))))
                 .addContainerGap())
         );
@@ -166,19 +178,21 @@ public class CUStockView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(txtCodigo1)))
+                        .addComponent(txtNombre)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLabs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(txtLab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(txtProducto2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,7 +202,7 @@ public class CUStockView extends javax.swing.JInternalFrame {
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -222,6 +236,7 @@ public class CUStockView extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLabs;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -232,11 +247,11 @@ public class CUStockView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     public javax.swing.JTextField txtCantidad;
     public javax.swing.JTextField txtCodigo;
-    public javax.swing.JTextField txtCodigo1;
+    public javax.swing.JTextField txtLab;
+    public javax.swing.JTextField txtLote;
+    public javax.swing.JTextField txtNombre;
     public javax.swing.JTextField txtPrecio;
-    public javax.swing.JTextField txtProducto;
-    public javax.swing.JTextField txtProducto1;
-    public javax.swing.JTextField txtProducto2;
+    public javax.swing.JTextField txtPresentacion;
     // End of variables declaration//GEN-END:variables
 
 }

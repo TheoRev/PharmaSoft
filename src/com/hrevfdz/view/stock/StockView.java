@@ -25,6 +25,9 @@ public class StockView extends javax.swing.JInternalFrame {
         this.btnStock = btnStock;
         this.container = container;
         stc = new StockController();
+        
+        stc.doFindAll();
+        stc.loadData(dtm, tblStock);
     }
 
     @SuppressWarnings("unchecked")
