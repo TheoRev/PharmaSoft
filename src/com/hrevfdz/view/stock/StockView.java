@@ -12,16 +12,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class StockView extends javax.swing.JInternalFrame {
-
+    
     private final JButton btnStock;
     JDesktopPane container;
     StockController stc;
     private DefaultTableModel dtm;
     private JLabel lblMontoAct;
-
+    
     public StockView(JDesktopPane container, JButton btnStock) {
         initComponents();
-
+        
         this.btnStock = btnStock;
         this.container = container;
         stc = new StockController();
@@ -29,7 +29,7 @@ public class StockView extends javax.swing.JInternalFrame {
         stc.doFindAll();
         stc.loadData(dtm, tblStock);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -196,6 +196,9 @@ public class StockView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -203,8 +206,7 @@ public class StockView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(28, 28, 28))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(28, 28, 28))))
         );
 
         jPanel3.setBackground(new java.awt.Color(5, 67, 98));
@@ -247,7 +249,7 @@ public class StockView extends javax.swing.JInternalFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -292,6 +294,7 @@ public class StockView extends javax.swing.JInternalFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         CUStockView cusv = new CUStockView(stc, this, container, tblStock, dtm);
         cusv.setClosable(true);
+        cusv.setTitle(AccionUtil.CREATE + cusv.getTitle());
         container.add(cusv);
         FramesUtil.setPosition(container, cusv);
         FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);

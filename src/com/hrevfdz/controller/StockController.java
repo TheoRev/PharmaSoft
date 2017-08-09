@@ -23,6 +23,7 @@ public class StockController extends IngresoProdController {
     private IPharmacy<StockProducto> dao;
     private List<StockProducto> stockProductos;
     private List<Laboratory> labs;
+    private Laboratory lab;
     private StockProducto stockProducto;
     private List<IngresoProducto> ingresoProductos;
     private IngresoProducto ingresoProducto;
@@ -136,11 +137,11 @@ public class StockController extends IngresoProdController {
         tblStock.setModel(dtm);
     }
 
-    public void doQuerySelectLab() {
-        IPharmacy<Laboratory> dao = new LaboratoryDAO();
+    public void doGetLabs() {
+        IPharmacy<Laboratory> daol = new LaboratoryDAO();
 
         try {
-            labs = dao.findByQuery(QueriesUtil.STOCK_X_LABORATORY);
+            labs = daol.findByQuery(QueriesUtil.STOCK_X_LABORATORY);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
@@ -159,13 +160,13 @@ public class StockController extends IngresoProdController {
     public void doNew() {
         accion = AccionUtil.CREATE;
         stockProducto = new StockProducto();
-        doQuerySelectLab();
+        doGetLabs();
     }
 
     public void doUpgrade(StockProducto sp) {
         accion = AccionUtil.UPDATE;
         stockProducto = sp;
-        doQuerySelectLab();
+        doGetLabs();
     }
 
     public void doExecute() {
@@ -233,6 +234,14 @@ public class StockController extends IngresoProdController {
 
     public void setAccion(String accion) {
         this.accion = accion;
+    }
+
+    public Laboratory getLab() {
+        return lab;
+    }
+
+    public void setLab(Laboratory lab) {
+        this.lab = lab;
     }
 
 }

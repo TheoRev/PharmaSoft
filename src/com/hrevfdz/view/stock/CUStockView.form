@@ -418,6 +418,9 @@
               <Image iconType="3" name="/icons/lab/icons8-Test Tube-24.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLabsActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

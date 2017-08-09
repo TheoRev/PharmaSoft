@@ -1,6 +1,7 @@
 package com.hrevfdz.view.stock;
 
 import com.hrevfdz.controller.StockController;
+import com.hrevfdz.util.FramesUtil;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JTable;
@@ -8,15 +9,21 @@ import javax.swing.table.DefaultTableModel;
 
 public class CUStockView extends javax.swing.JInternalFrame {
 
-    private StockController stc;
-    private JInternalFrame iframe;
-    private JDesktopPane container;
-    private JTable tblStock;
-    private DefaultTableModel dtm;
+    StockController stc;
+    private final JInternalFrame iframe;
+    JDesktopPane container;
+    JTable tblStock;
+    DefaultTableModel dtm;
 
     public CUStockView(StockController stc, JInternalFrame iframe, JDesktopPane container,
             JTable tblStock, DefaultTableModel dtm) {
         initComponents();
+
+        this.stc = stc;
+        this.iframe = iframe;
+        this.container = container;
+        this.tblStock = tblStock;
+        this.dtm = dtm;
     }
 
     @SuppressWarnings("unchecked")
@@ -134,6 +141,11 @@ public class CUStockView extends javax.swing.JInternalFrame {
         btnLabs.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         btnLabs.setContentAreaFilled(false);
         btnLabs.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-24.png"))); // NOI18N
+        btnLabs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLabsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -229,6 +241,14 @@ public class CUStockView extends javax.swing.JInternalFrame {
 //        calcSubtotal();
         //        System.out.println("Ingreso...");
     }//GEN-LAST:event_txtCantidadKeyReleased
+
+    private void btnLabsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLabsActionPerformed
+        LabSelectorView lsv = new LabSelectorView(stc, container, txtLab);
+        lsv.setClosable(true);
+        FramesUtil.setPosition(container, lsv);
+        container.add(lsv);
+        lsv.show();
+    }//GEN-LAST:event_btnLabsActionPerformed
 
     private void asignarDatos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

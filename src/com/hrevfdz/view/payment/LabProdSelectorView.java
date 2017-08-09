@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class LabProdSelector extends javax.swing.JInternalFrame {
+public class LabProdSelectorView extends javax.swing.JInternalFrame {
 
     PaymentsController pc = null;
     LaboratoryController lc = null;
@@ -33,7 +33,7 @@ public class LabProdSelector extends javax.swing.JInternalFrame {
     JTable tblPay;
     DefaultTableModel modelPay;
 
-    public LabProdSelector(PaymentsController pc, JInternalFrame iframe,
+    public LabProdSelectorView(PaymentsController pc, JInternalFrame iframe,
             JDesktopPane containerPay, JTable tblPay, DefaultTableModel modelPay,
             JTextField txtLab, JTextField txtProd) {
         initComponents();

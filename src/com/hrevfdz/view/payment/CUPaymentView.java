@@ -236,7 +236,7 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpenLabSuppSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenLabSuppSelectedActionPerformed
-        LabProdSelector lp = new LabProdSelector(pc, this, container, tblPayments, dtm, txtLaboratory, txtProducto);
+        LabProdSelectorView lp = new LabProdSelectorView(pc, this, container, tblPayments, dtm, txtLaboratory, txtProducto);
         lp.setClosable(true);
         container.add(lp);
         FramesUtil.setPosition(container, lp);
