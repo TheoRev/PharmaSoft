@@ -29,6 +29,8 @@ public class StockController extends IngresoProdController {
     private IngresoProducto ingresoProducto;
     private String accion;
 
+    private SimpleDateFormat sdf;
+
     public void doFindAll() {
         dao = new StockProductoDAO();
 
@@ -50,34 +52,24 @@ public class StockController extends IngresoProdController {
         ingresoProducto.setCodStock(sp);
     }
 
-    public void doCreate() {
+    private void doCreate() {
         dao = new StockProductoDAO();
-        IngresoProductoDAO idao = new IngresoProductoDAO();
 
         try {
             boolean result = dao.Create(stockProducto);
 
             if (result) {
-                stockProductos.add(stockProductos.size(), stockProducto);
-                String query = "SELECT st FROM StockProducto st WHERE st.codStock = (SELECT MAX(st.codStock) FROM StockProducto st)";
-                StockProducto tempStock = dao.findBy(query);
-                doFindAllIngreso();
-                asignarDatos(tempStock);
-                boolean result2 = idao.Create(ingresoProducto);
-                stockProducto = new StockProducto();
-
                 JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar la venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void doUpdate(StockProducto sp) {
+    private void doUpdate(StockProducto sp) {
         dao = new StockProductoDAO();
-        IngresoProductoDAO idao = new IngresoProductoDAO();
 
         try {
             boolean result = dao.Update(stockProducto);
@@ -85,16 +77,6 @@ public class StockController extends IngresoProdController {
             if (result) {
                 stockProductos.clear();
                 doFindAll();
-//                String query = "SELECT st FROM StockProducto st WHERE st.codStock = " + stockProducto.getCodStock();
-//                StockProducto tempStock = dao.findBy(query);
-                asignarDatos(sp);
-                boolean result2 = idao.Create(ingresoProducto);
-                doFindAllIngreso();
-                if (result2) {
-                    JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
-                }
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
             }
@@ -123,8 +105,9 @@ public class StockController extends IngresoProdController {
 
     public void loadData(DefaultTableModel dtm, JTable tblStock) {
         dtm = (DefaultTableModel) tblStock.getModel();
+        this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (StockProducto st : stockProductos) {
-            Object[] row = new Object[7];
+            Object[] row = new Object[8];
             row[0] = st.getCodStock();
             row[1] = st.getNombre();
             row[2] = st.getPresentacion();
@@ -132,6 +115,7 @@ public class StockController extends IngresoProdController {
             row[4] = st.getLote();
             row[5] = st.getMonto();
             row[6] = st.getCantidad();
+            row[7] = sdf.format(st.getFecVen());
             dtm.addRow(row);
         }
         tblStock.setModel(dtm);
@@ -142,6 +126,17 @@ public class StockController extends IngresoProdController {
 
         try {
             labs = daol.findByQuery(QueriesUtil.STOCK_X_LABORATORY);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void doGetLabById(String condition) {
+        IPharmacy<Laboratory> daol = new LaboratoryDAO();
+//        Laboratory lab = null;
+
+        try {
+            this.lab = daol.findBy(QueriesUtil.STOCK_X_LABORATORY + condition);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }

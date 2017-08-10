@@ -1,10 +1,14 @@
 package com.hrevfdz.view.stock;
 
 import com.hrevfdz.controller.StockController;
+import com.hrevfdz.model.Laboratory;
+import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
@@ -220,11 +224,11 @@ public class StockView extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código", "Nombre", "Presentacion", "Laboratorio", "Lote", "Precio", "Cantidad"
+                "Código", "Nombre", "Presentacion", "Laboratorio", "Lote", "Precio", "Cantidad", "Fec. Venc."
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -333,14 +337,27 @@ public class StockView extends javax.swing.JInternalFrame {
 
     private void tblStockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStockMouseClicked
         try {
-//            getSaleRow(stc);
+            getStockRow();
             FramesUtil.enablerActionButtons(btnUpdate, btnDelete, true);
             //            openEditSale(AccionUtil.UPDATE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tblStockMouseClicked
-
+    
+    private void getStockRow() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        stc.setStockProducto(new StockProducto());
+        stc.getStockProducto().setCodStock(Integer.parseInt(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString()));
+        stc.getStockProducto().setNombre(tblStock.getValueAt(tblStock.getSelectedRow(), 1).toString());
+        stc.getStockProducto().setPresentacion(tblStock.getValueAt(tblStock.getSelectedRow(), 2).toString());
+        stc.getStockProducto().setCodLab((Laboratory) tblStock.getValueAt(tblStock.getSelectedRow(), 0));
+        stc.getStockProducto().setLote(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
+        stc.getStockProducto().setMonto(Double.parseDouble(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString()));
+        stc.getStockProducto().setCantidad(Integer.parseInt(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString()));
+        Date temp = sdf.parse(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
+        stc.getStockProducto().setFecVen(sdf.parse(sdf.format(temp)));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

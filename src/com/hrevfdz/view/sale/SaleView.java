@@ -443,7 +443,7 @@ public class SaleView extends javax.swing.JInternalFrame {
             sc.getSale().setSubtotal(Double.parseDouble(tblSales.getValueAt(tblSales.getSelectedRow(), 6).toString()));
             sc.getSale().setUserId((Users) tblSales.getValueAt(tblSales.getSelectedRow(), 7));
         } catch (Exception e) {
-            System.err.println("ERR: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 

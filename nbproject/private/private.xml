@@ -5,14 +5,16 @@
         <group>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/stock/StockView.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/stock/CUStockView.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/util/QueriesUtil.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/util/FramesUtil.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/payment/CUPaymentView.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/PaymentsController.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/stock/LabSelectorView.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/StockController.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/payment/LabProdSelectorView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/util/QueriesUtil.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/model/Laboratory.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/payment/CUPaymentView.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/service/PharmacyService.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/PharmaSoftController.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/SaleController.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/model/StockProducto.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/sale/SaleView.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/stock/StockSelectorView.java</file>
         </group>
