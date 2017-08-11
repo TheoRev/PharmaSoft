@@ -1,6 +1,5 @@
 package com.hrevfdz.controller;
 
-import com.hrevfdz.dao.IngresoProductoDAO;
 import com.hrevfdz.dao.LaboratoryDAO;
 import com.hrevfdz.dao.StockProductoDAO;
 import com.hrevfdz.model.IngresoProducto;
@@ -35,7 +34,8 @@ public class StockController extends IngresoProdController {
         dao = new StockProductoDAO();
 
         try {
-            stockProductos = dao.findAll();
+            String query = "SELECT st FROM StockProducto st where st.state = true";
+            stockProductos = dao.findByQuery(query);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
@@ -56,6 +56,7 @@ public class StockController extends IngresoProdController {
         dao = new StockProductoDAO();
 
         try {
+            stockProducto.setState(true);
             boolean result = dao.Create(stockProducto);
 
             if (result) {
@@ -72,6 +73,7 @@ public class StockController extends IngresoProdController {
         dao = new StockProductoDAO();
 
         try {
+            stockProducto.setState(true);
             boolean result = dao.Update(stockProducto);
 
             if (result) {
@@ -90,7 +92,8 @@ public class StockController extends IngresoProdController {
         dao = new StockProductoDAO();
 
         try {
-            boolean result = dao.Delete(stockProducto);
+            stockProducto.setState(false);
+            boolean result = dao.Update(stockProducto);
 
             if (result) {
                 stockProductos.clear();

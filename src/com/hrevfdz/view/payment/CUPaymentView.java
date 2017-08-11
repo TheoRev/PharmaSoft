@@ -246,7 +246,7 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         pc.getPayments().setMonto(Double.parseDouble(txtMonto.getText()));
         pc.getPayments().setDescripcion(txtDescripcion.getText());
-        String lab = txtLaboratory.getText() != null ? txtLaboratory.getText() : "";
+//        String lab = txtLaboratory.getText() != null ? txtLaboratory.getText() : "";
         pc.doExecute();
         pc.refreshPayments(dtm, tblPayments);
         this.lblMontoAct.setText("S/. " + pc.doGetMontoActualCaja(new Date()));
