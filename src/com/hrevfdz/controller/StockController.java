@@ -77,6 +77,7 @@ public class StockController extends IngresoProdController {
             if (result) {
                 stockProductos.clear();
                 doFindAll();
+                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
             }
@@ -159,7 +160,7 @@ public class StockController extends IngresoProdController {
     }
 
     public void doUpgrade(StockProducto sp) {
-        accion = AccionUtil.UPDATE;
+        this.accion = AccionUtil.UPDATE;
         stockProducto = sp;
         doGetLabs();
     }

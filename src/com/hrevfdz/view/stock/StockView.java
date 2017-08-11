@@ -11,29 +11,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class StockView extends javax.swing.JInternalFrame {
-    
+
     private final JButton btnStock;
     JDesktopPane container;
     StockController stc;
     private DefaultTableModel dtm;
     private JLabel lblMontoAct;
-    
+
     public StockView(JDesktopPane container, JButton btnStock) {
         initComponents();
-        
+
         this.btnStock = btnStock;
         this.container = container;
         stc = new StockController();
-        
+
         stc.doFindAll();
         stc.loadData(dtm, tblStock);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -296,19 +297,16 @@ public class StockView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        CUStockView cusv = new CUStockView(stc, this, container, tblStock, dtm);
-        cusv.setClosable(true);
-        cusv.setTitle(AccionUtil.CREATE + cusv.getTitle());
-        container.add(cusv);
-        FramesUtil.setPosition(container, cusv);
-        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
-        cusv.show();
+        stc.doNew();
+        openFrameStock(AccionUtil.CREATE);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
             if (tblStock.isRowSelected(tblStock.getSelectedRow())) {
-//                openEditSale(AccionUtil.UPDATE);
+                stc.doUpgrade(stc.getStockProducto());
+                stc.setLab(stc.getStockProducto().getCodLab());
+                openFrameStock(AccionUtil.UPDATE);
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
             }
@@ -317,14 +315,35 @@ public class StockView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void openFrameStock(String action) {
+        CUStockView cusv = new CUStockView(stc, this, container, tblStock, dtm);
+        cusv.setClosable(true);
+        cusv.setTitle(action + cusv.getTitle());
+        container.add(cusv);
+        FramesUtil.setPosition(container, cusv);
+        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
+        cusv.show();
+        if (action.equals(AccionUtil.UPDATE)) {
+            cusv.txtCodigo.setText(stc.getStockProducto().getCodStock().toString());
+            cusv.txtNombre.setText(stc.getStockProducto().getNombre());
+            cusv.txtPresentacion.setText(stc.getStockProducto().getPresentacion());
+            cusv.txtLab.setText(stc.getStockProducto().getCodLab().getNomLab());
+            cusv.txtLote.setText(stc.getStockProducto().getLote());
+            cusv.txtCantidad.setText(String.valueOf(stc.getStockProducto().getCantidad()));
+            cusv.txtPrecio.setText(String.valueOf(stc.getStockProducto().getMonto()));
+            cusv.dcFecVenc.setDate(stc.getStockProducto().getFecVen());
+        }
+    }
+
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             if (tblStock.isRowSelected(tblStock.getSelectedRow())) {
-//                getSaleRow(this.stc);
-                if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el producto: ",
+                getStockRow();
+                if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el producto: " + stc.getStockProducto().getNombre().toUpperCase(),
                         MessagesUtil.COMFIRM_DELETE_TITLE, JOptionPane.YES_NO_OPTION) == 0) {
-//                this.stc.doDelete(stc.getSale());
-//                this.stc.refreshSales(tblStock, dtm);
+                    this.stc.doDelete(stc.getStockProducto());
+                    FramesUtil.limpiarTabla(tblStock, (DefaultTableModel) tblStock.getModel());
+                    this.stc.loadData(dtm, tblStock);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE,
@@ -339,23 +358,22 @@ public class StockView extends javax.swing.JInternalFrame {
         try {
             getStockRow();
             FramesUtil.enablerActionButtons(btnUpdate, btnDelete, true);
-            //            openEditSale(AccionUtil.UPDATE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tblStockMouseClicked
-    
+
     private void getStockRow() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         stc.setStockProducto(new StockProducto());
         stc.getStockProducto().setCodStock(Integer.parseInt(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString()));
         stc.getStockProducto().setNombre(tblStock.getValueAt(tblStock.getSelectedRow(), 1).toString());
         stc.getStockProducto().setPresentacion(tblStock.getValueAt(tblStock.getSelectedRow(), 2).toString());
-        stc.getStockProducto().setCodLab((Laboratory) tblStock.getValueAt(tblStock.getSelectedRow(), 0));
-        stc.getStockProducto().setLote(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
-        stc.getStockProducto().setMonto(Double.parseDouble(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString()));
-        stc.getStockProducto().setCantidad(Integer.parseInt(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString()));
-        Date temp = sdf.parse(tblStock.getValueAt(tblStock.getSelectedRow(), 0).toString());
+        stc.getStockProducto().setCodLab((Laboratory) tblStock.getValueAt(tblStock.getSelectedRow(), 3));
+        stc.getStockProducto().setLote(tblStock.getValueAt(tblStock.getSelectedRow(), 4).toString());
+        stc.getStockProducto().setMonto(Double.parseDouble(tblStock.getValueAt(tblStock.getSelectedRow(), 5).toString()));
+        stc.getStockProducto().setCantidad(Integer.parseInt(tblStock.getValueAt(tblStock.getSelectedRow(), 6).toString()));
+        Date temp = sdf.parse(tblStock.getValueAt(tblStock.getSelectedRow(), 7).toString());
         stc.getStockProducto().setFecVen(sdf.parse(sdf.format(temp)));
     }
 

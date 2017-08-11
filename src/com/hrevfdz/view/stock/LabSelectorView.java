@@ -185,7 +185,6 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (tblLabs.isRowSelected(tblLabs.getSelectedRow())) {
             stc.doGetLabById(" WHERE l.codLab="+stc.getLab().getCodLab());
-            stc.doNew();
             this.txtLab.setText(stc.getLab().getNomLab());
             this.hide();
         } else {
