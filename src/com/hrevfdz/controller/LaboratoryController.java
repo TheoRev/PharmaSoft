@@ -11,13 +11,16 @@ import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-public class LaboratoryController extends PharmaSoftController{
+public class LaboratoryController extends PharmaSoftController {
 
     private List<Laboratory> laboratorios;
     private Laboratory laboratorio;
     private List<Suppliers> supplierses;
     List<StockProducto> productos;
+    private Suppliers suppliers;
     private String accion;
 
     public void doListarLabs() {
@@ -58,9 +61,9 @@ public class LaboratoryController extends PharmaSoftController{
             if (result) {
                 laboratorios.clear();
                 doListarLabs();
-                JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar la venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
@@ -95,6 +98,16 @@ public class LaboratoryController extends PharmaSoftController{
         }
     }
 
+    public void doGetSuplierByCod(int cod) {
+        IPharmacy<Suppliers> dao = new SuppliersDAO();
+        try {
+            final String query = "SELECT s FROM Suppliers s WHERE s.codigo = " + cod;
+            this.suppliers = dao.findBy(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void doListPrducts(int id) {
         IPharmacy<StockProducto> dao = new StockProductoDAO();
         try {
@@ -103,6 +116,18 @@ public class LaboratoryController extends PharmaSoftController{
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void doLoadData(DefaultTableModel dtm, JTable tblLabs) {
+        dtm = (DefaultTableModel) tblLabs.getModel();
+        for (Laboratory l : laboratorios) {
+            Object[] row = new Object[3];
+            row[0] = l.getCodLab();
+            row[1] = l.getNomLab();
+            row[2] = l.getCodSupplier();
+            dtm.addRow(row);
+        }
+        tblLabs.setModel(dtm);
     }
 
     public void doNew() {
@@ -158,4 +183,11 @@ public class LaboratoryController extends PharmaSoftController{
         this.accion = accion;
     }
 
+    public Suppliers getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(Suppliers suppliers) {
+        this.suppliers = suppliers;
+    }
 }

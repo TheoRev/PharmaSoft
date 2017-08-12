@@ -201,6 +201,9 @@
                   <Image iconType="3" name="/icons/supplier/icons8-Queue-56.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSuppliersActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnCaja">
               <Properties>
@@ -245,6 +248,9 @@
                   <Image iconType="3" name="/icons/lab/icons8-Test Tube-56.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLabActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator1">
               <Properties>

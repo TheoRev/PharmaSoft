@@ -4,6 +4,7 @@ import com.hrevfdz.controller.IngresoProdController;
 import com.hrevfdz.controller.PharmaSoftController;
 import com.hrevfdz.model.Users;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.view.laboratory.LabView;
 import com.hrevfdz.view.payment.PaymentView;
 import com.hrevfdz.view.sale.SaleView;
 import com.hrevfdz.view.stock.StockView;
@@ -14,21 +15,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class HomeView extends javax.swing.JFrame {
-
+    
     Users users;
-
+    
     public HomeView() {
         initComponents();
         FramesUtil.setIcon(this);
-
+        
         this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
     }
-
+    
     public HomeView(Users users) {
         try {
             initComponents();
             FramesUtil.setIcon(this);
-
+            
             this.users = users;
             lblUser.setText(lblUser.getText() + users.getUsername().toUpperCase());
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -36,13 +37,13 @@ public final class HomeView extends javax.swing.JFrame {
             lblFecha.setText(lblFecha.getText() + ", hoy " + (sdf.format(fechaAct)) + ": ");
             PharmaSoftController softController = new IngresoProdController();
             lblMontoAct.setText("S/. " + String.valueOf(softController.doGetMontoActualCaja(fechaAct)));
-
+            
             this.setExtendedState(LoadingDialogView.MAXIMIZED_BOTH);
         } catch (Exception ex) {
             Logger.getLogger(HomeView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -120,6 +121,11 @@ public final class HomeView extends javax.swing.JFrame {
         btnSuppliers.setContentAreaFilled(false);
         btnSuppliers.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/supplier/icons8-Queue-40.png"))); // NOI18N
         btnSuppliers.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/supplier/icons8-Queue-56.png"))); // NOI18N
+        btnSuppliers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuppliersActionPerformed(evt);
+            }
+        });
 
         btnCaja.setBackground(new java.awt.Color(36, 47, 65));
         btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-48.png"))); // NOI18N
@@ -138,6 +144,11 @@ public final class HomeView extends javax.swing.JFrame {
         btnLab.setContentAreaFilled(false);
         btnLab.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-40.png"))); // NOI18N
         btnLab.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-56.png"))); // NOI18N
+        btnLab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLabActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -321,6 +332,22 @@ public final class HomeView extends javax.swing.JFrame {
         btnPayments.setEnabled(false);
     }//GEN-LAST:event_btnPaymentsActionPerformed
 
+    private void btnSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuppliersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSuppliersActionPerformed
+
+    private void btnLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLabActionPerformed
+        LabView labView = new LabView(dskContainer, btnLab);
+        labView.setIconifiable(true);
+        labView.setMaximizable(true);
+        labView.setClosable(true);
+        labView.setTitle("LISTA DE LABORATORIOS");
+        dskContainer.add(labView);
+        FramesUtil.setPosition(dskContainer, labView);
+        labView.show();
+        btnLab.setEnabled(false);
+    }//GEN-LAST:event_btnLabActionPerformed
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
