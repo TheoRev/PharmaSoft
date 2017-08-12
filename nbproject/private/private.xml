@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/StockController.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/suppliers/SupplierView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/laboratory/SupplierSelectorView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/laboratory/CULabView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/suppliers/CUSupplierView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/SuppliersController.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/work/WorkView.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/laboratory/LabView.java</file>
             <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/HomeView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/model/Suppliers.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/StartWorkController.java</file>
+            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/LaboratoryController.java</file>
         </group>
     </open-files>
 </project-private>

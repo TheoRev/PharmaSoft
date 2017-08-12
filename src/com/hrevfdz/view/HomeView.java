@@ -9,6 +9,7 @@ import com.hrevfdz.view.payment.PaymentView;
 import com.hrevfdz.view.sale.SaleView;
 import com.hrevfdz.view.stock.StockView;
 import com.hrevfdz.view.suppliers.SupplierView;
+import com.hrevfdz.view.work.WorkView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -136,6 +137,11 @@ public final class HomeView extends javax.swing.JFrame {
         btnCaja.setContentAreaFilled(false);
         btnCaja.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-40.png"))); // NOI18N
         btnCaja.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-56.png"))); // NOI18N
+        btnCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCajaActionPerformed(evt);
+            }
+        });
 
         btnLab.setBackground(new java.awt.Color(36, 47, 65));
         btnLab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-48.png"))); // NOI18N
@@ -356,6 +362,18 @@ public final class HomeView extends javax.swing.JFrame {
         labView.show();
         btnLab.setEnabled(false);
     }//GEN-LAST:event_btnLabActionPerformed
+
+    private void btnCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCajaActionPerformed
+        WorkView wv=new WorkView(dskContainer, btnCaja);
+        wv.setIconifiable(true);
+        wv.setMaximizable(true);
+        wv.setClosable(true);
+        wv.setTitle("HISTORIAL DE ACTIVIDADES");
+        dskContainer.add(wv);
+        FramesUtil.setPosition(dskContainer, wv);
+        wv.show();
+        btnCaja.setEnabled(false);
+    }//GEN-LAST:event_btnCajaActionPerformed
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

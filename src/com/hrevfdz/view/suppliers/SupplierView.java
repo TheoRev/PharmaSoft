@@ -1,6 +1,7 @@
 package com.hrevfdz.view.suppliers;
 
 import com.hrevfdz.controller.SuppliersController;
+import com.hrevfdz.model.StartWork;
 import com.hrevfdz.model.Suppliers;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
@@ -301,7 +302,7 @@ public class SupplierView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
-
+    
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             if (tblSupp.isRowSelected(tblSupp.getSelectedRow())) {
