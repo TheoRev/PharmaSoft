@@ -2,7 +2,6 @@ package com.hrevfdz.view.laboratory;
 
 import com.hrevfdz.controller.LaboratoryController;
 import com.hrevfdz.util.FramesUtil;
-import com.hrevfdz.view.sale.SupplierSelectorView;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JTable;
@@ -69,6 +68,7 @@ public class CULabView extends javax.swing.JInternalFrame {
         txtSupplier.setBackground(new java.awt.Color(255, 255, 255));
         txtSupplier.setForeground(new java.awt.Color(0, 0, 0));
         txtSupplier.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtSupplier.setEnabled(false);
 
         btnGuardar.setBackground(new java.awt.Color(0, 102, 102));
         btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -134,7 +134,7 @@ public class CULabView extends javax.swing.JInternalFrame {
                         .addComponent(txtSupplier, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addGap(13, 13, 13))
         );
 
@@ -159,9 +159,6 @@ public class CULabView extends javax.swing.JInternalFrame {
         lc.doListarLabs();
         lc.doLoadData(dtm, tblLab);
         this.dispose();
-//        sc.refreshSales(tblSale, modelSale);
-//        this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
-//        this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnSuppSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuppSelectorActionPerformed

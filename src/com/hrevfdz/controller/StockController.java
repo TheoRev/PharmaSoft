@@ -41,17 +41,6 @@ public class StockController extends IngresoProdController {
         }
     }
 
-    private void asignarDatos(StockProducto sp) throws ParseException {
-        ingresoProducto.setCantidad(sp.getCantidad());
-        ingresoProducto.setCosto(sp.getMonto());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date fec = new Date();
-        ingresoProducto.setFecha(sdf.parse(sdf.format(fec)));
-        sdf = new SimpleDateFormat("HH:mm:ss");
-        ingresoProducto.setHora(sdf.parse(sdf.format(fec)));
-        ingresoProducto.setCodStock(sp);
-    }
-
     private void doCreate() {
         dao = new StockProductoDAO();
 

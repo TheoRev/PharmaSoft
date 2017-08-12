@@ -1,7 +1,6 @@
-package com.hrevfdz.view.laboratory;
+package com.hrevfdz.view.suppliers;
 
-import com.hrevfdz.controller.LaboratoryController;
-import com.hrevfdz.model.Laboratory;
+import com.hrevfdz.controller.SuppliersController;
 import com.hrevfdz.model.Suppliers;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
@@ -11,25 +10,25 @@ import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class LabView extends javax.swing.JInternalFrame {
-    
-    LaboratoryController lc;
+public class SupplierView extends javax.swing.JInternalFrame {
+
+    SuppliersController suc;
+    JButton btnSupp;
+
     private DefaultTableModel dtm;
-    
     JDesktopPane container;
-    private final JButton btnLab;
-    
-    public LabView(JDesktopPane container, JButton btnLab) {
+
+    public SupplierView(JDesktopPane container, JButton btnSupp) {
         initComponents();
-        
+
         this.container = container;
-        this.btnLab = btnLab;
-        
-        lc = new LaboratoryController();
-        lc.doListarLabs();
-        lc.doLoadData(dtm, tblLabs);
+        this.btnSupp = btnSupp;
+
+        suc = new SuppliersController();
+        suc.doFindAll();
+        suc.loadData(dtm, tblSupp);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -46,9 +45,8 @@ public class LabView extends javax.swing.JInternalFrame {
         btnSearchAll = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblLabs = new javax.swing.JTable();
+        tblSupp = new javax.swing.JTable();
 
-        setTitle("LISTADO DE LABORATORIOS");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -72,7 +70,7 @@ public class LabView extends javax.swing.JInternalFrame {
         jPanel3.setBackground(new java.awt.Color(5, 67, 98));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombre Prod.");
 
@@ -193,34 +191,34 @@ public class LabView extends javax.swing.JInternalFrame {
         jPanel4.setBackground(new java.awt.Color(5, 67, 98));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
-        tblLabs.setBackground(new java.awt.Color(255, 255, 255));
-        tblLabs.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
-        tblLabs.setForeground(new java.awt.Color(0, 0, 0));
-        tblLabs.setModel(new javax.swing.table.DefaultTableModel(
+        tblSupp.setBackground(new java.awt.Color(255, 255, 255));
+        tblSupp.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
+        tblSupp.setForeground(new java.awt.Color(0, 0, 0));
+        tblSupp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nombre", "Distribuidor"
+                "Código", "Nombre", "Encargado", "Teléfono", "Email", "RUC"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tblLabs.setGridColor(new java.awt.Color(255, 255, 255));
-        tblLabs.setSelectionBackground(new java.awt.Color(0, 153, 153));
-        tblLabs.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        tblLabs.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblSupp.setGridColor(new java.awt.Color(255, 255, 255));
+        tblSupp.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        tblSupp.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tblSupp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblLabsMouseClicked(evt);
+                tblSuppMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tblLabs);
+        jScrollPane2.setViewportView(tblSupp);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -250,8 +248,8 @@ public class LabView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -268,43 +266,33 @@ public class LabView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblLabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLabsMouseClicked
-        getLabRow();
-        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, true);
-    }//GEN-LAST:event_tblLabsMouseClicked
-
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        lc.doNew();
+        suc.doNew();
         openFrameSupp(AccionUtil.CREATE);
     }//GEN-LAST:event_btnAddActionPerformed
-    
-    private void getLabRow() {
-        lc.setLaboratorio(new Laboratory());
-        lc.getLaboratorio().setCodLab(Integer.parseInt(tblLabs.getValueAt(tblLabs.getSelectedRow(), 0).toString()));
-        lc.getLaboratorio().setNomLab(tblLabs.getValueAt(tblLabs.getSelectedRow(), 1).toString());
-        lc.getLaboratorio().setCodSupplier((Suppliers) tblLabs.getValueAt(tblLabs.getSelectedRow(), 2));
-    }
-    
+
     private void openFrameSupp(String accion) {
-        CULabView cULabView = new CULabView(lc, this, container, tblLabs, dtm);
-        cULabView.setClosable(true);
-        cULabView.setTitle(accion + cULabView.getTitle());
-        container.add(cULabView);
-        FramesUtil.setPosition(container, cULabView);
-        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
-        cULabView.show();
+        CUSupplierView cusv = new CUSupplierView(suc, this, container, tblSupp, dtm);
+        cusv.setClosable(true);
+        cusv.setTitle(accion + cusv.getTitle());
+        container.add(cusv);
+        FramesUtil.setPosition(container, cusv);
+        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, isIcon);
+        cusv.show();
         if (accion.equals(AccionUtil.UPDATE)) {
-            cULabView.txtCodigo.setText(lc.getLaboratorio().getCodLab().toString());
-            cULabView.txtNombre.setText(lc.getLaboratorio().getNomLab());
-            cULabView.txtSupplier.setText(lc.getLaboratorio().getCodSupplier().toString());
+            cusv.txtCodigo.setText(String.valueOf(suc.getSuppliers().getCodigo()));
+            cusv.txtNombre.setText(suc.getSuppliers().getNombre());
+            cusv.txtEncargado.setText(suc.getSuppliers().getEncargado());
+            cusv.txtTelefono.setText(suc.getSuppliers().getTelefono());
+            cusv.txtEmail.setText(suc.getSuppliers().getEmail());
+            cusv.txtRuc.setText(suc.getSuppliers().getRuc());
         }
     }
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
-            if (tblLabs.isRowSelected(tblLabs.getSelectedRow())) {
-                lc.doUpgrade(lc.getLaboratorio());
-                lc.setSuppliers(lc.getLaboratorio().getCodSupplier());
+            if (tblSupp.isRowSelected(tblSupp.getSelectedRow())) {
+                suc.doUpgrade(suc.getSuppliers());
                 openFrameSupp(AccionUtil.UPDATE);
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -316,13 +304,14 @@ public class LabView extends javax.swing.JInternalFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
-            if (tblLabs.isRowSelected(tblLabs.getSelectedRow())) {
-                getLabRow();
-                if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el producto: " + lc.getLaboratorio().getNomLab().toUpperCase(),
+            if (tblSupp.isRowSelected(tblSupp.getSelectedRow())) {
+                getSuppRow();
+                if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el producto: " + suc.getSuppliers().getNombre().toUpperCase(),
                         MessagesUtil.COMFIRM_DELETE_TITLE, JOptionPane.YES_NO_OPTION) == 0) {
-                    this.lc.doDelete(lc.getLaboratorio());
-                    FramesUtil.limpiarTabla(tblLabs, (DefaultTableModel) tblLabs.getModel());
-                    this.lc.doLoadData(dtm, tblLabs);
+                    suc.doDelete(suc.getSuppliers());
+                    FramesUtil.limpiarTabla(tblSupp, (DefaultTableModel) tblSupp.getModel());
+                    suc.doFindAll();
+                    suc.loadData(dtm, tblSupp);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE,
@@ -333,10 +322,24 @@ public class LabView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void tblSuppMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuppMouseClicked
+        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, true);
+        getSuppRow();
+    }//GEN-LAST:event_tblSuppMouseClicked
+
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        btnLab.setEnabled(true);
+        btnSupp.setEnabled(true);
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void getSuppRow() {
+        suc.setSuppliers(new Suppliers());
+        suc.getSuppliers().setCodigo(Integer.parseInt(tblSupp.getValueAt(tblSupp.getSelectedRow(), 0).toString()));
+        suc.getSuppliers().setNombre(tblSupp.getValueAt(tblSupp.getSelectedRow(), 1).toString());
+        suc.getSuppliers().setEncargado(tblSupp.getValueAt(tblSupp.getSelectedRow(), 2).toString());
+        suc.getSuppliers().setTelefono(tblSupp.getValueAt(tblSupp.getSelectedRow(), 3).toString());
+        suc.getSuppliers().setEmail(tblSupp.getValueAt(tblSupp.getSelectedRow(), 4).toString());
+        suc.getSuppliers().setRuc(tblSupp.getValueAt(tblSupp.getSelectedRow(), 5).toString());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -350,7 +353,7 @@ public class LabView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    public javax.swing.JTable tblLabs;
+    public javax.swing.JTable tblSupp;
     private javax.swing.JTextField txtNomProd;
     // End of variables declaration//GEN-END:variables
 }

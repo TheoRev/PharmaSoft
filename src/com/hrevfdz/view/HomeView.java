@@ -8,6 +8,7 @@ import com.hrevfdz.view.laboratory.LabView;
 import com.hrevfdz.view.payment.PaymentView;
 import com.hrevfdz.view.sale.SaleView;
 import com.hrevfdz.view.stock.StockView;
+import com.hrevfdz.view.suppliers.SupplierView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -333,7 +334,15 @@ public final class HomeView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPaymentsActionPerformed
 
     private void btnSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuppliersActionPerformed
-        // TODO add your handling code here:
+        SupplierView sv = new SupplierView(dskContainer, btnSuppliers);
+        sv.setIconifiable(true);
+        sv.setMaximizable(true);
+        sv.setClosable(true);
+        sv.setTitle("LISTA DE DISTRIBUIDORES");
+        dskContainer.add(sv);
+        FramesUtil.setPosition(dskContainer, sv);
+        sv.show();
+        btnSuppliers.setEnabled(false);
     }//GEN-LAST:event_btnSuppliersActionPerformed
 
     private void btnLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLabActionPerformed

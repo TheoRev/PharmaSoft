@@ -1,4 +1,4 @@
-package com.hrevfdz.view.sale;
+package com.hrevfdz.view.laboratory;
 
 import com.hrevfdz.controller.LaboratoryController;
 import com.hrevfdz.model.Suppliers;
@@ -38,6 +38,8 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSuppliers = new javax.swing.JTable();
+
+        setTitle("SELECCIONE UN DISTRIBUIDOR");
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
 
