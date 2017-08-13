@@ -6,11 +6,13 @@ import com.hrevfdz.dao.PaymentsDAO;
 import com.hrevfdz.dao.SaleDAO;
 import com.hrevfdz.dao.StartWorkDAO;
 import com.hrevfdz.dao.StockProductoDAO;
+import com.hrevfdz.dao.UsersDAO;
 import com.hrevfdz.model.Access;
 import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.model.Payments;
 import com.hrevfdz.model.StartWork;
 import com.hrevfdz.model.StockProducto;
+import com.hrevfdz.model.Users;
 import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
@@ -35,6 +37,8 @@ public class PaymentsController extends PharmaSoftController {
     private StartWork startWork;
     private List<Laboratory> laboratorys;
     private Laboratory laboratory;
+    private Users user;
+    private List<Users> userses;
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
@@ -113,6 +117,47 @@ public class PaymentsController extends PharmaSoftController {
         }
     }
 
+    public void doFindByNameProd(String name) {
+        PaymentsDAO dao = new PaymentsDAO();
+
+        try {
+            paymentses = dao.findByNameProd(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void doFindByUser(String name) {
+        PaymentsDAO dao = new PaymentsDAO();
+
+        try {
+            paymentses = dao.findByUsername(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void doGetAllUsers() {
+        IPharmacy<Users> dao = new UsersDAO();
+
+        try {
+            String query = "SELECT u FROM Users u";
+            userses = dao.findByQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void doGetUser(String name) {
+        PaymentsDAO dao = new PaymentsDAO();
+
+        try {
+            user = dao.getUserByName(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void doGetLaboratories() {
         IPharmacy<Laboratory> dao = new LaboratoryDAO();
 
@@ -126,7 +171,6 @@ public class PaymentsController extends PharmaSoftController {
 
     public void refreshPayments(DefaultTableModel dtm, JTable tblPayments) {
         FramesUtil.limpiarTabla(tblPayments, (DefaultTableModel) tblPayments.getModel());
-        doFindAll();
         try {
             loadData(dtm, tblPayments);
         } catch (ParseException ex) {
@@ -367,6 +411,22 @@ public class PaymentsController extends PharmaSoftController {
 
     public void setFecAct(String fecAct) {
         this.fecAct = fecAct;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    public List<Users> getUserses() {
+        return userses;
+    }
+
+    public void setUserses(List<Users> userses) {
+        this.userses = userses;
     }
 
 }

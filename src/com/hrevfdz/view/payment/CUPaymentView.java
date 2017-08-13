@@ -76,9 +76,15 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Código");
 
+        txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigo.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtCodigo.setForeground(new java.awt.Color(0, 0, 0));
         txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         txtCodigo.setEnabled(false);
 
+        txtUser.setBackground(new java.awt.Color(255, 255, 255));
+        txtUser.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtUser.setForeground(new java.awt.Color(0, 0, 0));
         txtUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         txtUser.setEnabled(false);
 
@@ -96,6 +102,9 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Laboratorio");
 
+        txtLaboratory.setBackground(new java.awt.Color(255, 255, 255));
+        txtLaboratory.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtLaboratory.setForeground(new java.awt.Color(0, 0, 0));
         txtLaboratory.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         txtLaboratory.setEnabled(false);
 
@@ -103,6 +112,9 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Producto");
 
+        txtProducto.setBackground(new java.awt.Color(255, 255, 255));
+        txtProducto.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtProducto.setForeground(new java.awt.Color(0, 0, 0));
         txtProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         txtProducto.setEnabled(false);
 
@@ -110,19 +122,27 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Monto");
 
+        txtMonto.setBackground(new java.awt.Color(255, 255, 255));
+        txtMonto.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtMonto.setForeground(new java.awt.Color(0, 0, 0));
         txtMonto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Descripción");
 
+        txtDescripcion.setBackground(new java.awt.Color(255, 255, 255));
         txtDescripcion.setColumns(20);
+        txtDescripcion.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtDescripcion.setForeground(new java.awt.Color(0, 0, 0));
         txtDescripcion.setRows(5);
         txtDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         jScrollPane1.setViewportView(txtDescripcion);
 
         btnGuardar.setBackground(new java.awt.Color(0, 102, 102));
+        btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/save/icons8-Save-24.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
         btnGuardar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 51), 2));
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -248,6 +268,7 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
         pc.getPayments().setDescripcion(txtDescripcion.getText());
 //        String lab = txtLaboratory.getText() != null ? txtLaboratory.getText() : "";
         pc.doExecute();
+        pc.doFindAll();
         pc.refreshPayments(dtm, tblPayments);
         this.lblMontoAct.setText("S/. " + pc.doGetMontoActualCaja(new Date()));
         this.dispose();

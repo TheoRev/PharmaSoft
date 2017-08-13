@@ -78,7 +78,8 @@ public class SupplierView extends javax.swing.JInternalFrame {
         txtNomProd.setBackground(new java.awt.Color(255, 255, 255));
         txtNomProd.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         txtNomProd.setForeground(new java.awt.Color(0, 0, 0));
-        txtNomProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtNomProd.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtNomProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
 
         jPanel5.setBackground(new java.awt.Color(5, 67, 98));
         jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));

@@ -1,5 +1,6 @@
 package com.hrevfdz.service;
 
+import com.hrevfdz.model.Users;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -154,6 +155,21 @@ public abstract class PharmacyService<T> implements IPharmacy<T> {
 
     public void setCod(String cod) {
         this.cod = cod;
+    }
+
+    public Users getUserByName(String name) {
+        Users t = null;
+        try {
+            em = PharmacyConexion.getInstance().getFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT u FROM Users u WHERE u.username = :name");
+            query.setParameter("name", name + "%");
+            t = (Users) query.getSingleResult();
+            em.close();
+        } catch (Exception e) {
+            throw e;
+        }
+        return t;
     }
 
 }

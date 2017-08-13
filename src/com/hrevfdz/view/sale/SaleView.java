@@ -86,6 +86,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnSearchAll = new javax.swing.JButton();
+        btnSearchDate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSales = new javax.swing.JTable();
@@ -118,25 +119,26 @@ public class SaleView extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Fecha");
 
+        dcFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
         dcFecha.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombre Prod.");
 
-        txtNomProd.setBackground(new java.awt.Color(5, 67, 98));
-        txtNomProd.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        txtNomProd.setForeground(new java.awt.Color(255, 255, 255));
-        txtNomProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtNomProd.setBackground(new java.awt.Color(255, 255, 255));
+        txtNomProd.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
+        txtNomProd.setForeground(new java.awt.Color(0, 0, 0));
+        txtNomProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Usuario");
 
-        cbUser.setBackground(new java.awt.Color(5, 67, 98));
-        cbUser.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        cbUser.setForeground(new java.awt.Color(255, 255, 255));
-        cbUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        cbUser.setBackground(new java.awt.Color(255, 255, 255));
+        cbUser.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cbUser.setForeground(new java.awt.Color(0, 0, 0));
+        cbUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
         cbUser.setOpaque(false);
 
         jPanel4.setBackground(new java.awt.Color(5, 67, 98));
@@ -239,6 +241,17 @@ public class SaleView extends javax.swing.JInternalFrame {
             .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        btnSearchDate.setBackground(new java.awt.Color(5, 67, 98));
+        btnSearchDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-24.png"))); // NOI18N
+        btnSearchDate.setBorderPainted(false);
+        btnSearchDate.setContentAreaFilled(false);
+        btnSearchDate.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-20.png"))); // NOI18N
+        btnSearchDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchDateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -249,6 +262,8 @@ public class SaleView extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSearchDate, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
@@ -258,7 +273,7 @@ public class SaleView extends javax.swing.JInternalFrame {
                     .addComponent(cbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,7 +287,8 @@ public class SaleView extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtNomProd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2)))
+                                .addComponent(jLabel2))
+                            .addComponent(btnSearchDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -406,6 +422,13 @@ public class SaleView extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         btnSale.setEnabled(true);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void btnSearchDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDateActionPerformed
+//        pc.setFecha(dcFechaPay.getDate());
+//        pc.doFindByFecha();
+//        FramesUtil.limpiarTabla(tblPayments, (DefaultTableModel) tblPayments.getModel());
+//        pc.refreshPayments(dtm, tblPayments);
+    }//GEN-LAST:event_btnSearchDateActionPerformed
     
     private void openEditSale(String title) throws ParseException {
         CUSaleView cUSaleView = new CUSaleView(sc, this.tblSales, this.dtm, this.lblMontoAct);
@@ -452,6 +475,7 @@ public class SaleView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnReport;
     private javax.swing.JButton btnSearchAll;
+    private javax.swing.JButton btnSearchDate;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbUser;
     private com.toedter.calendar.JDateChooser dcFecha;

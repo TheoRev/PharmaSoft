@@ -52,6 +52,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         txtProducto = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
+        btnOpenLabSuppSelected = new javax.swing.JButton();
 
         setTitle(" VENTA");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -79,9 +80,9 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Código");
 
-        txtCodigo.setBackground(new java.awt.Color(5, 67, 98));
-        txtCodigo.setForeground(new java.awt.Color(255, 255, 255));
-        txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigo.setForeground(new java.awt.Color(0, 0, 0));
+        txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
         txtCodigo.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
@@ -100,29 +101,32 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Precio");
 
-        txtPrecio.setBackground(new java.awt.Color(5, 67, 98));
+        txtPrecio.setBackground(new java.awt.Color(255, 255, 255));
         txtPrecio.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        txtPrecio.setForeground(new java.awt.Color(255, 255, 255));
+        txtPrecio.setForeground(new java.awt.Color(0, 0, 0));
         txtPrecio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPrecio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtPrecio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
         txtPrecio.setEnabled(false);
 
-        dcFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        dcFecha.setBackground(new java.awt.Color(255, 255, 255));
+        dcFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
+        dcFecha.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Subtotal");
 
-        txtSubtotal.setBackground(new java.awt.Color(5, 67, 98));
+        txtSubtotal.setBackground(new java.awt.Color(255, 255, 255));
         txtSubtotal.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        txtSubtotal.setForeground(new java.awt.Color(255, 255, 255));
+        txtSubtotal.setForeground(new java.awt.Color(0, 0, 0));
         txtSubtotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtSubtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtSubtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
         txtSubtotal.setEnabled(false);
 
         btnGuardar.setBackground(new java.awt.Color(0, 102, 102));
         btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/save/icons8-Save-24.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
         btnGuardar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 51), 2));
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -131,20 +135,31 @@ public class CUSaleView extends javax.swing.JInternalFrame {
             }
         });
 
-        txtProducto.setBackground(new java.awt.Color(5, 67, 98));
+        txtProducto.setBackground(new java.awt.Color(255, 255, 255));
         txtProducto.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        txtProducto.setForeground(new java.awt.Color(255, 255, 255));
-        txtProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtProducto.setForeground(new java.awt.Color(0, 0, 0));
+        txtProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
         txtProducto.setEnabled(false);
 
-        txtCantidad.setBackground(new java.awt.Color(5, 67, 98));
+        txtCantidad.setBackground(new java.awt.Color(255, 255, 255));
         txtCantidad.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        txtCantidad.setForeground(new java.awt.Color(255, 255, 255));
+        txtCantidad.setForeground(new java.awt.Color(0, 0, 0));
         txtCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtCantidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtCantidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyReleased(evt);
+            }
+        });
+
+        btnOpenLabSuppSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-40.png"))); // NOI18N
+        btnOpenLabSuppSelected.setToolTipText("Laboratorios / Distribuidores");
+        btnOpenLabSuppSelected.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnOpenLabSuppSelected.setContentAreaFilled(false);
+        btnOpenLabSuppSelected.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-24.png"))); // NOI18N
+        btnOpenLabSuppSelected.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenLabSuppSelectedActionPerformed(evt);
             }
         });
 
@@ -168,9 +183,13 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                             .addComponent(txtPrecio, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtSubtotal)
                             .addComponent(txtCodigo)
-                            .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                            .addComponent(txtProducto)
-                            .addComponent(txtCantidad)))
+                            .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCantidad)
+                                    .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnOpenLabSuppSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -181,18 +200,21 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 13, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addComponent(btnOpenLabSuppSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,7 +224,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                     .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(12, 12, 12)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -236,6 +258,14 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
 
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void btnOpenLabSuppSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenLabSuppSelectedActionPerformed
+//        LabProdSelectorView lp = new LabProdSelectorView(pc, this, container, tblPayments, dtm, txtLaboratory, txtProducto);
+//        lp.setClosable(true);
+//        container.add(lp);
+//        FramesUtil.setPosition(container, lp);
+//        lp.show();
+    }//GEN-LAST:event_btnOpenLabSuppSelectedActionPerformed
     
     private void calcSubtotal() {
 //        DecimalFormat df = new DecimalFormat("00.0");
@@ -257,6 +287,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnOpenLabSuppSelected;
     public com.toedter.calendar.JDateChooser dcFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
