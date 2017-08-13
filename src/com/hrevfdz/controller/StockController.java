@@ -114,6 +114,28 @@ public class StockController extends IngresoProdController {
         tblStock.setModel(dtm);
     }
 
+    public void doFindByName(String name) {
+        dao = new StockProductoDAO();
+
+        try {
+            String query = "SELECT st FROM StockProducto st WHERE st.state = true AND st.nombre LIKE '%" + name + "%'";
+            stockProductos = dao.findByQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void doFindByLab(String name) {
+        dao = new StockProductoDAO();
+
+        try {
+            String query = "SELECT st FROM StockProducto st WHERE st.state = true AND st.codLab.nomLab LIKE '" + name + "%'";
+            stockProductos = dao.findByQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void doGetLabs() {
         IPharmacy<Laboratory> daol = new LaboratoryDAO();
 

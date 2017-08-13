@@ -2,39 +2,40 @@ package com.hrevfdz.view.work;
 
 import com.hrevfdz.controller.StartWorkController;
 import com.hrevfdz.model.StartWork;
+import com.hrevfdz.model.Users;
 import com.hrevfdz.util.FramesUtil;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.table.DefaultTableModel;
 
 public class WorkView extends javax.swing.JInternalFrame {
-
+    
     JDesktopPane container;
     JButton btnWork;
-
+    
     StartWorkController swc;
     DefaultTableModel dtm;
-
+    
     public WorkView(JDesktopPane container, JButton btnWork) {
         initComponents();
-
+        
         this.container = container;
         this.btnWork = btnWork;
-
+        
         swc = new StartWorkController();
         swc.doFindAll();
+        swc.doGetAllUsers();
         FramesUtil.limpiarTabla(tblWorks, (DefaultTableModel) tblWorks.getModel());
         loadData();
+        loadUsers();
     }
-
+    
     private void loadData() {
         dtm = (DefaultTableModel) tblWorks.getModel();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+        
         swc.getStartWorks().stream().map((s) -> {
             Object[] row = new Object[5];
             row[0] = s.getId();
@@ -48,7 +49,7 @@ public class WorkView extends javax.swing.JInternalFrame {
         });
         tblWorks.setModel(dtm);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -60,7 +61,7 @@ public class WorkView extends javax.swing.JInternalFrame {
         btnSearchAll = new javax.swing.JButton();
         dcFecha = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbUsers = new javax.swing.JComboBox<>();
         btnSearchDate = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -124,15 +125,20 @@ public class WorkView extends javax.swing.JInternalFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Usuario");
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
+        cbUsers.setBackground(new java.awt.Color(255, 255, 255));
+        cbUsers.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        cbUsers.setForeground(new java.awt.Color(0, 0, 0));
+        cbUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbUsersActionPerformed(evt);
+            }
+        });
 
         btnSearchDate.setBackground(new java.awt.Color(5, 67, 98));
-        btnSearchDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-20.png"))); // NOI18N
+        btnSearchDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-24.png"))); // NOI18N
         btnSearchDate.setBorderPainted(false);
         btnSearchDate.setContentAreaFilled(false);
-        btnSearchDate.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-16.png"))); // NOI18N
+        btnSearchDate.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-20.png"))); // NOI18N
         btnSearchDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchDateActionPerformed(evt);
@@ -156,7 +162,7 @@ public class WorkView extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(jLabel3))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(82, 82, 82)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -173,9 +179,9 @@ public class WorkView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1)
+                            .addComponent(cbUsers)
                             .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSearchDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnSearchDate, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -214,7 +220,7 @@ public class WorkView extends javax.swing.JInternalFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -258,11 +264,34 @@ public class WorkView extends javax.swing.JInternalFrame {
 
     private void btnSearchDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDateActionPerformed
         swc.setStartWork(new StartWork());
-        swc.getStartWork().setFecha(dcFecha.getDate());
+        swc.getStartWork().setFecha(dcFecha.getDate());        
+        swc.setUsers(new Users());
+        swc.getUsers().setUsername("");
+        swc.getStartWork().setUserId(swc.getUsers());
         swc.doFindBy();
         search();
     }//GEN-LAST:event_btnSearchDateActionPerformed
 
+    private void cbUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUsersActionPerformed
+        swc.setStartWork(new StartWork());
+        
+        swc.doGetOneUser((String) cbUsers.getSelectedItem());
+        swc.getStartWork().setUserId(swc.getUsers());
+        swc.doFindBy();
+        search();
+//        swc.getStartWork().setFecha("");
+    }//GEN-LAST:event_cbUsersActionPerformed
+    
+    private void loadUsers() {
+        try {
+            swc.getUsuarios().forEach((u) -> {
+                cbUsers.addItem(u.toString());
+            });
+        } catch (Exception e) {
+            System.out.println("ERR: " + e.getMessage());
+        }
+    }
+    
     private void search() {
         FramesUtil.limpiarTabla(tblWorks, (DefaultTableModel) tblWorks.getModel());
         loadData();
@@ -271,8 +300,8 @@ public class WorkView extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSearchAll;
     private javax.swing.JButton btnSearchDate;
+    private javax.swing.JComboBox<String> cbUsers;
     private com.toedter.calendar.JDateChooser dcFecha;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;

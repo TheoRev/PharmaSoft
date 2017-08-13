@@ -39,8 +39,8 @@ public class StockView extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtNameProd = new javax.swing.JTextField();
+        txtLab = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -81,13 +81,25 @@ public class StockView extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre Prod.");
 
-        jTextField1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtNameProd.setBackground(new java.awt.Color(255, 255, 255));
+        txtNameProd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtNameProd.setForeground(new java.awt.Color(0, 0, 0));
+        txtNameProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtNameProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNameProdKeyReleased(evt);
+            }
+        });
 
-        jTextField2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtLab.setBackground(new java.awt.Color(255, 255, 255));
+        txtLab.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtLab.setForeground(new java.awt.Color(0, 0, 0));
+        txtLab.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtLab.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtLabKeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -186,8 +198,8 @@ public class StockView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                    .addComponent(jTextField2))
+                    .addComponent(txtNameProd, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                    .addComponent(txtLab))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 315, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -202,13 +214,13 @@ public class StockView extends javax.swing.JInternalFrame {
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(txtNameProd, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(txtLab, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(28, 28, 28))))
+                        .addGap(22, 22, 22))))
         );
 
         jPanel3.setBackground(new java.awt.Color(5, 67, 98));
@@ -360,6 +372,21 @@ public class StockView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblStockMouseClicked
 
+    private void txtNameProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameProdKeyReleased
+        stc.doFindByName(txtNameProd.getText());
+        refresTable();
+    }//GEN-LAST:event_txtNameProdKeyReleased
+
+    private void txtLabKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLabKeyReleased
+        stc.doFindByLab(txtLab.getText());
+        refresTable();
+    }//GEN-LAST:event_txtLabKeyReleased
+
+    private void refresTable() {
+        FramesUtil.limpiarTabla(tblStock, (DefaultTableModel) tblStock.getModel());
+        stc.loadData(dtm, tblStock);
+    }
+
     private void getStockRow() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         stc.setStockProducto(new StockProducto());
@@ -387,8 +414,8 @@ public class StockView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tblStock;
+    private javax.swing.JTextField txtLab;
+    private javax.swing.JTextField txtNameProd;
     // End of variables declaration//GEN-END:variables
 }

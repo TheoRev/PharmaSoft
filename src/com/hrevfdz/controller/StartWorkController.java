@@ -18,6 +18,7 @@ public class StartWorkController extends PharmaSoftController {
     private List<StartWork> startWorks;
     private StartWork startWork;
     private List<Users> usuarios;
+    private Users user;
 
     SimpleDateFormat sdf;
 
@@ -102,15 +103,41 @@ public class StartWorkController extends PharmaSoftController {
 
         try {
             String query = "";
-            if (!sdf.format(startWork.getFecha()).equals("") && !startWork.getUserId().getUsername().equals("")) {
+//            switch(op){
+//                case 1:
+//                    
+//            }
+            if (startWork.getFecha() != null && !startWork.getUserId().getUsername().equals("")) {
                 query = "SELECT w FROM StartWork w WHERE w.fecha = '" + sdf.format(startWork.getFecha()) + "' AND w.userId.id = " + startWork.getUserId().getId();
-            } else if (!sdf.format(startWork.getFecha()).equals("") && startWork.getUserId().getUsername().equals("")) {
+            } else if (startWork.getFecha() != null && startWork.getUserId().getUsername().equals("")) {
                 query = "SELECT w FROM StartWork w WHERE w.fecha = '" + sdf.format(startWork.getFecha()) + "'";
-            } else if (sdf.format(startWork.getFecha()).equals("") && !startWork.getUserId().getUsername().equals("")) {
+            } else if (startWork.getFecha() == null && !startWork.getUserId().getUsername().equals("")) {
                 query = "SELECT w FROM StartWork w WHERE w.userId.id = " + startWork.getUserId().getId();
             }
 
             startWorks = dao.findByQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void doGetAllUsers() {
+        IPharmacy<Users> dao = new UsersDAO();
+
+        try {
+            String query = "SELECT u FROM Users u";
+            usuarios = dao.findByQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void doGetOneUser(String name) {
+        IPharmacy<Users> dao = new UsersDAO();
+
+        try {
+            String query = "SELECT u FROM Users u WHERE u.username = '" + name + "'";
+            user = dao.findBy(query);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
@@ -138,5 +165,13 @@ public class StartWorkController extends PharmaSoftController {
 
     public void setUsuarios(List<Users> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public Users getUsers() {
+        return user;
+    }
+
+    public void setUsers(Users user) {
+        this.user = user;
     }
 }
