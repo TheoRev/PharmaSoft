@@ -1,4 +1,4 @@
-package com.hrevfdz.view.stock;
+package com.hrevfdz.view.sale;
 
 import com.hrevfdz.controller.StockController;
 import com.hrevfdz.model.Laboratory;
@@ -186,7 +186,7 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
         if (tblLabs.isRowSelected(tblLabs.getSelectedRow())) {
             stc.doGetLabById(" WHERE l.codLab = " + stc.getLab().getCodLab());
             this.txtLab.setText(stc.getLab().getNomLab());
-            this.hide();
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
         }

@@ -8,7 +8,6 @@ import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.ActionNamesUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
-import com.hrevfdz.view.stock.StockSelectorView;
 import java.awt.HeadlessException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,25 +21,25 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class SaleView extends javax.swing.JInternalFrame {
-    
+
     private JDesktopPane container;
-    
+
     private SimpleDateFormat sdf;
     private Date fec;
-    
+
     private DefaultTableModel dtm;
     private JLabel lblMontoAct;
     private JButton btnSale;
-    
+
     private final SaleController sc;
-    
+
     public SaleView(JDesktopPane container, JLabel lblMontoAct, JButton btnSale) {
         initComponents();
-        
+
         this.container = container;
         this.lblMontoAct = lblMontoAct;
         this.btnSale = btnSale;
-        
+
         try {
             sdf = new SimpleDateFormat("dd/MM/yyyy");
             fec = sdf.parse(sdf.format(new Date()));
@@ -48,24 +47,27 @@ public class SaleView extends javax.swing.JInternalFrame {
         } catch (ParseException ex) {
             Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         sc = new SaleController();
 
 //        ResourceBundle.getBundle("com.hrevfdz.util.ActionNames", Locale.ENGLISH).getString("SEARCH_ALL");
-        btnSearchAll.setToolTipText(ActionNamesUtil.SEARCH_ALL);
+        btnRefreshSales.setToolTipText(ActionNamesUtil.SEARCH_ALL);
         btnReport.setToolTipText(ActionNamesUtil.PRINT);
         btnAdd.setToolTipText(ActionNamesUtil.ADD);
         btnUpdate.setToolTipText(ActionNamesUtil.UPDATE);
         btnDelete.setToolTipText(ActionNamesUtil.DELETE);
-        
+
         sc.doFindAll();
+        sc.getAllUsers();
+        loadUsers();
+
         try {
             sc.loadData(dtm, tblSales);
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -85,7 +87,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnSearchAll = new javax.swing.JButton();
+        btnRefreshSales = new javax.swing.JButton();
         btnSearchDate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -130,6 +132,11 @@ public class SaleView extends javax.swing.JInternalFrame {
         txtNomProd.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         txtNomProd.setForeground(new java.awt.Color(0, 0, 0));
         txtNomProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
+        txtNomProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyReleased(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -140,6 +147,11 @@ public class SaleView extends javax.swing.JInternalFrame {
         cbUser.setForeground(new java.awt.Color(0, 0, 0));
         cbUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
         cbUser.setOpaque(false);
+        cbUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbUserActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBackground(new java.awt.Color(5, 67, 98));
         jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
@@ -198,12 +210,17 @@ public class SaleView extends javax.swing.JInternalFrame {
             }
         });
 
-        btnSearchAll.setBackground(new java.awt.Color(5, 67, 98));
-        btnSearchAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-34.png"))); // NOI18N
-        btnSearchAll.setBorder(null);
-        btnSearchAll.setContentAreaFilled(false);
-        btnSearchAll.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-28.png"))); // NOI18N
-        btnSearchAll.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-40.png"))); // NOI18N
+        btnRefreshSales.setBackground(new java.awt.Color(5, 67, 98));
+        btnRefreshSales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-34.png"))); // NOI18N
+        btnRefreshSales.setBorder(null);
+        btnRefreshSales.setContentAreaFilled(false);
+        btnRefreshSales.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-28.png"))); // NOI18N
+        btnRefreshSales.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-40.png"))); // NOI18N
+        btnRefreshSales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshSalesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -211,7 +228,7 @@ public class SaleView extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(btnSearchAll, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRefreshSales, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -228,7 +245,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnSearchAll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnRefreshSales, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -263,14 +280,14 @@ public class SaleView extends javax.swing.JInternalFrame {
                 .addComponent(dcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearchDate, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNomProd, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNomProd, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -289,7 +306,7 @@ public class SaleView extends javax.swing.JInternalFrame {
                                 .addComponent(txtNomProd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel2))
                             .addComponent(btnSearchDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
@@ -338,7 +355,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -371,11 +388,13 @@ public class SaleView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSales, dtm, this.lblMontoAct);
-        container.add(ssv);
-        FramesUtil.setPosition(container, ssv);
-        FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
-        ssv.show();
+        sc.doNew();
+        try {
+            openEditSale(AccionUtil.NUEVA);
+            FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
+        } catch (ParseException ex) {
+            Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSalesMouseClicked
@@ -391,6 +410,7 @@ public class SaleView extends javax.swing.JInternalFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
             if (tblSales.isRowSelected(tblSales.getSelectedRow())) {
+                sc.doUpgrade(sc.getSale());
                 openEditSale(AccionUtil.UPDATE);
             } else {
                 JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -407,6 +427,7 @@ public class SaleView extends javax.swing.JInternalFrame {
                 if (JOptionPane.showConfirmDialog(null, "Esta seguro que de eliminar el producto: " + sc.getSale().getCodStock().getNombre().toUpperCase(),
                         MessagesUtil.COMFIRM_DELETE_TITLE, JOptionPane.YES_NO_OPTION) == 0) {
                     this.sc.doDelete(sc.getSale());
+                    sc.doFindAll();
                     this.sc.refreshSales(tblSales, dtm);
                     this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
                 }
@@ -424,31 +445,61 @@ public class SaleView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnSearchDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDateActionPerformed
-//        pc.setFecha(dcFechaPay.getDate());
-//        pc.doFindByFecha();
-//        FramesUtil.limpiarTabla(tblPayments, (DefaultTableModel) tblPayments.getModel());
-//        pc.refreshPayments(dtm, tblPayments);
+        sc.setFecha(dcFecha.getDate());
+        sc.doFindByFecha();
+        FramesUtil.limpiarTabla(tblSales, (DefaultTableModel) tblSales.getModel());
+        sc.refreshSales(tblSales, dtm);
     }//GEN-LAST:event_btnSearchDateActionPerformed
-    
+
+    private void btnRefreshSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshSalesActionPerformed
+        sc.doFindAll();
+        FramesUtil.limpiarTabla(tblSales, (DefaultTableModel) tblSales.getModel());
+        sc.refreshSales(tblSales, dtm);
+    }//GEN-LAST:event_btnRefreshSalesActionPerformed
+
+    private void cbUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUserActionPerformed
+        if (!cbUser.getSelectedItem().toString().equals("Seleccione")) {
+            sc.doFindByUser(cbUser.getSelectedItem().toString());
+            FramesUtil.limpiarTabla(tblSales, (DefaultTableModel) tblSales.getModel());
+            sc.refreshSales(tblSales, dtm);
+        }
+    }//GEN-LAST:event_cbUserActionPerformed
+
+    private void txtNomProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyReleased
+        sc.doFindByNameProd(txtNomProd.getText());
+        FramesUtil.limpiarTabla(tblSales, (DefaultTableModel) tblSales.getModel());
+        sc.refreshSales(tblSales, dtm);
+    }//GEN-LAST:event_txtNomProdKeyReleased
+
+    private void loadUsers() {
+        cbUser.addItem("Seleccione");
+        sc.getUsers().forEach((u) -> {
+            cbUser.addItem(u.getUsername());
+        });
+    }
+
     private void openEditSale(String title) throws ParseException {
-        CUSaleView cUSaleView = new CUSaleView(sc, this.tblSales, this.dtm, this.lblMontoAct);
-        cUSaleView.txtCodigo.setEnabled(false);
-        cUSaleView.setClosable(true);
+        CUSaleView cUSaleView = new CUSaleView(sc, tblSales, dtm, lblMontoAct, container);
         cUSaleView.setTitle(title + cUSaleView.getTitle());
-        cUSaleView.txtCodigo.setText(sc.getSale().getCodSale().toString());
-        cUSaleView.dcFecha.setDate(sc.getSale().getFecha());
-        cUSaleView.txtProducto.setText(sc.getSale().getCodStock().getNombre());
-        cUSaleView.txtCantidad.setText(String.valueOf(sc.getSale().getCantidad()));
-        cUSaleView.txtPrecio.setText(String.valueOf(sc.getSale().getPrecio()));
-        cUSaleView.txtSubtotal.setText(String.valueOf(sc.getSale().getSubtotal()));
+        cUSaleView.setClosable(true);
         cUSaleView.txtCantidad.requestFocus();
-        sc.doUpgrade(sc.getSale());
+        cUSaleView.dcFecha.setDate(new Date());
         container.add(cUSaleView);
         FramesUtil.setPosition(this.container, cUSaleView);
         this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
         cUSaleView.show();
+        if (title.equals(AccionUtil.UPDATE)) {
+            cUSaleView.txtCodigo.setEnabled(false);
+            cUSaleView.setClosable(true);
+            cUSaleView.txtCodigo.setText(sc.getSale().getCodSale().toString());
+            cUSaleView.dcFecha.setDate(sc.getSale().getFecha());
+            cUSaleView.txtProducto.setText(sc.getSale().getCodStock().getNombre());
+            cUSaleView.txtCantidad.setText(String.valueOf(sc.getSale().getCantidad()));
+            cUSaleView.txtPrecio.setText(String.valueOf(sc.getSale().getPrecio()));
+            cUSaleView.txtSubtotal.setText(String.valueOf(sc.getSale().getSubtotal()));
+        }
     }
-    
+
     private void getSaleRow(SaleController sc) throws ParseException {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         sc.setSale(new Sale());
@@ -473,8 +524,8 @@ public class SaleView extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnRefreshSales;
     private javax.swing.JButton btnReport;
-    private javax.swing.JButton btnSearchAll;
     private javax.swing.JButton btnSearchDate;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbUser;

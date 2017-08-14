@@ -11,31 +11,32 @@ import javax.swing.JDesktopPane;
 import javax.swing.table.DefaultTableModel;
 
 public class WorkView extends javax.swing.JInternalFrame {
-    
+
     JDesktopPane container;
     JButton btnWork;
-    
+
     StartWorkController swc;
     DefaultTableModel dtm;
-    
+
     public WorkView(JDesktopPane container, JButton btnWork) {
         initComponents();
-        
+
         this.container = container;
         this.btnWork = btnWork;
-        
+
         swc = new StartWorkController();
         swc.doFindAll();
         swc.doGetAllUsers();
+        dcFecha.setDate(new Date());
         FramesUtil.limpiarTabla(tblWorks, (DefaultTableModel) tblWorks.getModel());
         loadData();
         loadUsers();
     }
-    
+
     private void loadData() {
         dtm = (DefaultTableModel) tblWorks.getModel();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        
+
         swc.getStartWorks().stream().map((s) -> {
             Object[] row = new Object[5];
             row[0] = s.getId();
@@ -49,7 +50,7 @@ public class WorkView extends javax.swing.JInternalFrame {
         });
         tblWorks.setModel(dtm);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -58,7 +59,7 @@ public class WorkView extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        btnSearchAll = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
         dcFecha = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         cbUsers = new javax.swing.JComboBox<>();
@@ -97,12 +98,17 @@ public class WorkView extends javax.swing.JInternalFrame {
         jPanel5.setBackground(new java.awt.Color(5, 67, 98));
         jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
-        btnSearchAll.setBackground(new java.awt.Color(5, 67, 98));
-        btnSearchAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-34.png"))); // NOI18N
-        btnSearchAll.setBorder(null);
-        btnSearchAll.setContentAreaFilled(false);
-        btnSearchAll.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-28.png"))); // NOI18N
-        btnSearchAll.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-40.png"))); // NOI18N
+        btnRefresh.setBackground(new java.awt.Color(5, 67, 98));
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-34.png"))); // NOI18N
+        btnRefresh.setBorder(null);
+        btnRefresh.setContentAreaFilled(false);
+        btnRefresh.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-28.png"))); // NOI18N
+        btnRefresh.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-40.png"))); // NOI18N
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -110,12 +116,12 @@ public class WorkView extends javax.swing.JInternalFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSearchAll, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(271, 271, 271))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnSearchAll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnRefresh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         dcFecha.setBackground(new java.awt.Color(255, 255, 255));
@@ -178,10 +184,11 @@ public class WorkView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbUsers)
-                            .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSearchDate, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSearchDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbUsers)
+                                .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -264,26 +271,32 @@ public class WorkView extends javax.swing.JInternalFrame {
 
     private void btnSearchDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDateActionPerformed
         swc.setStartWork(new StartWork());
-        swc.getStartWork().setFecha(dcFecha.getDate());        
+        swc.getStartWork().setFecha(dcFecha.getDate());
         swc.setUsers(new Users());
         swc.getUsers().setUsername("");
         swc.getStartWork().setUserId(swc.getUsers());
         swc.doFindBy();
-        search();
+        refresh();
     }//GEN-LAST:event_btnSearchDateActionPerformed
 
     private void cbUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUsersActionPerformed
-        swc.setStartWork(new StartWork());
-        
-        swc.doGetOneUser((String) cbUsers.getSelectedItem());
-        swc.getStartWork().setUserId(swc.getUsers());
-        swc.doFindBy();
-        search();
-//        swc.getStartWork().setFecha("");
+        if (!cbUsers.getSelectedItem().toString().equals("Seleccione")) {
+            swc.setStartWork(new StartWork());
+            swc.doGetOneUser((String) cbUsers.getSelectedItem());
+            swc.getStartWork().setUserId(swc.getUsers());
+            swc.doFindBy();
+            refresh();
+        }
     }//GEN-LAST:event_cbUsersActionPerformed
-    
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        swc.doFindAll();
+        refresh();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
     private void loadUsers() {
         try {
+            cbUsers.addItem("Seleccione");
             swc.getUsuarios().forEach((u) -> {
                 cbUsers.addItem(u.toString());
             });
@@ -291,14 +304,14 @@ public class WorkView extends javax.swing.JInternalFrame {
             System.out.println("ERR: " + e.getMessage());
         }
     }
-    
-    private void search() {
+
+    private void refresh() {
         FramesUtil.limpiarTabla(tblWorks, (DefaultTableModel) tblWorks.getModel());
         loadData();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSearchAll;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearchDate;
     private javax.swing.JComboBox<String> cbUsers;
     private com.toedter.calendar.JDateChooser dcFecha;

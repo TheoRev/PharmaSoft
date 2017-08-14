@@ -3,9 +3,11 @@ package com.hrevfdz.controller;
 import com.hrevfdz.dao.AccessDAO;
 import com.hrevfdz.dao.SaleDAO;
 import com.hrevfdz.dao.StockProductoDAO;
+import com.hrevfdz.dao.UsersDAO;
 import com.hrevfdz.model.Access;
 import com.hrevfdz.model.Sale;
 import com.hrevfdz.model.StockProducto;
+import com.hrevfdz.model.Users;
 import com.hrevfdz.report.Conexion;
 import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
@@ -30,7 +32,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
-public class SaleController extends PharmaSoftController{
+public class SaleController extends PharmaSoftController {
 
     private IPharmacy<Sale> dao;
     private List<Sale> sales;
@@ -41,6 +43,8 @@ public class SaleController extends PharmaSoftController{
     private String accion;
     private boolean estado;
     private Access access;
+    private List<Users> users;
+    private Users user;
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -119,15 +123,12 @@ public class SaleController extends PharmaSoftController{
     }
 
     public void doFindByFecha() {
-        dao = new SaleDAO();
-        sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        final String query = "SELECT s FROM Sale s WHERE s.fecha = '" + sdf.format(fecha) + "'";
+        SaleDAO daos = new SaleDAO();
 
         try {
             if (fecha != null) {
                 sales.clear();
-                sales = dao.findByQuery(query);
+                sales = daos.findByDate(fecha);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -195,6 +196,7 @@ public class SaleController extends PharmaSoftController{
 
                     if (result) {
                         producto.setCantidad(tempSt.getCantidad() - sale.getCantidad());
+                        producto.setState(true);
                         resultST = daoSt.Update(producto);
                     }
 
@@ -252,6 +254,7 @@ public class SaleController extends PharmaSoftController{
                         producto.setCantidad(producto.getCantidad() - venta);
                     }
 
+                    producto.setState(true);
                     resultST = daoSt.Update(producto);
 
                     if (result && resultST) {
@@ -283,9 +286,39 @@ public class SaleController extends PharmaSoftController{
         }
     }
 
+    public void doFindByUser(String name) {
+        SaleDAO daou = new SaleDAO();
+
+        try {
+            sales = daou.findByUser(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void doFindByNameProd(String name) {
+        SaleDAO daou = new SaleDAO();
+
+        try {
+            sales = daou.findByNameProd(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void getAllUsers() {
+        IPharmacy<Users> daou = new UsersDAO();
+
+        try {
+            String query = "SELECT u FROM Users u";
+            users = daou.findByQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void refreshSales(JTable tblSale, DefaultTableModel modelSale) {
         FramesUtil.limpiarTabla(tblSale, (DefaultTableModel) tblSale.getModel());
-        doFindAll();
         try {
             loadData(modelSale, tblSale);
         } catch (ParseException ex) {
@@ -307,6 +340,7 @@ public class SaleController extends PharmaSoftController{
             StockProducto sp = daoSt.findBy(QueriesUtil.STOCK_X_COD + producto.getCodStock());
             producto.setCantidad(producto.getCantidad() + sale.getCantidad());
 
+            producto.setState(true);
             resultST = daoSt.Update(producto);
 
             result = dao.Delete(s);
@@ -437,6 +471,22 @@ public class SaleController extends PharmaSoftController{
 
     public void setTempSale(Sale tempSale) {
         this.tempSale = tempSale;
+    }
+
+    public List<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Users> users) {
+        this.users = users;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 
 }

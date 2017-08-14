@@ -3,12 +3,14 @@ package com.hrevfdz.view.sale;
 import com.hrevfdz.controller.SaleController;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
+import com.hrevfdz.view.stock.StockSelectorView;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -16,24 +18,26 @@ import javax.swing.table.DefaultTableModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class CUSaleView extends javax.swing.JInternalFrame {
-    
+
     DefaultComboBoxModel model;
     JTable tblSale;
     DefaultTableModel modelSale;
-    
+
     private JLabel lblMontoAct;
-    
+
     private SaleController sc;
-    
-    public CUSaleView(SaleController sc, JTable tblSale, DefaultTableModel modelSale, JLabel lblMontoAct) {
+    JDesktopPane container;
+
+    public CUSaleView(SaleController sc, JTable tblSale, DefaultTableModel modelSale, JLabel lblMontoAct, JDesktopPane container) {
         initComponents();
-        
+
         this.sc = sc;
         this.tblSale = tblSale;
         this.modelSale = modelSale;
         this.lblMontoAct = lblMontoAct;
+        this.container = container;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -52,7 +56,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         txtProducto = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
-        btnOpenLabSuppSelected = new javax.swing.JButton();
+        btnSelectStock = new javax.swing.JButton();
 
         setTitle(" VENTA");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -152,14 +156,14 @@ public class CUSaleView extends javax.swing.JInternalFrame {
             }
         });
 
-        btnOpenLabSuppSelected.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-40.png"))); // NOI18N
-        btnOpenLabSuppSelected.setToolTipText("Laboratorios / Distribuidores");
-        btnOpenLabSuppSelected.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
-        btnOpenLabSuppSelected.setContentAreaFilled(false);
-        btnOpenLabSuppSelected.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-24.png"))); // NOI18N
-        btnOpenLabSuppSelected.addActionListener(new java.awt.event.ActionListener() {
+        btnSelectStock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stock/icons8-Scan Stock-40.png"))); // NOI18N
+        btnSelectStock.setToolTipText("Laboratorios / Distribuidores");
+        btnSelectStock.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnSelectStock.setContentAreaFilled(false);
+        btnSelectStock.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stock/icons8-Scan Stock-24.png"))); // NOI18N
+        btnSelectStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOpenLabSuppSelectedActionPerformed(evt);
+                btnSelectStockActionPerformed(evt);
             }
         });
 
@@ -189,7 +193,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                                     .addComponent(txtCantidad)
                                     .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnOpenLabSuppSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnSelectStock, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -214,7 +218,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)))
-                    .addComponent(btnOpenLabSuppSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSelectStock, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -250,6 +254,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         asignarDatos();
         sc.doExecute();
+        sc.doFindAll();
         sc.refreshSales(tblSale, modelSale);
         this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
         this.dispose();
@@ -259,16 +264,14 @@ public class CUSaleView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void btnOpenLabSuppSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenLabSuppSelectedActionPerformed
-//        LabProdSelectorView lp = new LabProdSelectorView(pc, this, container, tblPayments, dtm, txtLaboratory, txtProducto);
-//        lp.setClosable(true);
-//        container.add(lp);
-//        FramesUtil.setPosition(container, lp);
-//        lp.show();
-    }//GEN-LAST:event_btnOpenLabSuppSelectedActionPerformed
-    
+    private void btnSelectStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectStockActionPerformed
+        StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSale, modelSale, this.lblMontoAct, txtProducto, txtPrecio);
+        container.add(ssv);
+        FramesUtil.setPosition(container, ssv);
+        ssv.show();
+    }//GEN-LAST:event_btnSelectStockActionPerformed
+
     private void calcSubtotal() {
-//        DecimalFormat df = new DecimalFormat("00.0");
         try {
             double n2 = Double.parseDouble(txtPrecio.getText());
             double n1 = Double.parseDouble(txtCantidad.getText());
@@ -278,16 +281,20 @@ public class CUSaleView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void asignarDatos() {
         sc.getSale().setCantidad(Integer.parseInt(txtCantidad.getText()));
+        sc.getSale().setPrecio(Double.parseDouble(txtPrecio.getText()));
         sc.getSale().setSubtotal(Double.parseDouble(txtSubtotal.getText()));
+        sc.getSale().setCodStock(sc.getProducto());
+        sc.getSale().setFecha(dcFecha.getDate());
+        sc.getSale().setHora(new Date());
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnOpenLabSuppSelected;
+    private javax.swing.JButton btnSelectStock;
     public com.toedter.calendar.JDateChooser dcFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -306,7 +313,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     public SaleController getSc() {
         return sc;
     }
-    
+
     public void setSc(SaleController sc) {
         this.sc = sc;
     }

@@ -1,5 +1,6 @@
 package com.hrevfdz.view.stock;
 
+import com.hrevfdz.view.sale.LabSelectorView;
 import com.hrevfdz.controller.StockController;
 import com.hrevfdz.util.FramesUtil;
 import javax.swing.JDesktopPane;

@@ -1,13 +1,15 @@
 package com.hrevfdz.dao;
 
 import com.hrevfdz.model.Laboratory;
+import com.hrevfdz.service.PharmacyConexion;
 import com.hrevfdz.service.PharmacyService;
 import java.util.List;
+import javax.persistence.Query;
 
-public class LaboratoryDAO extends PharmacyService<Laboratory>{
+public class LaboratoryDAO extends PharmacyService<Laboratory> {
 
     public LaboratoryDAO() {
-       super(Laboratory.class);
+        super(Laboratory.class);
     }
 
     @Override
@@ -45,5 +47,20 @@ public class LaboratoryDAO extends PharmacyService<Laboratory>{
     public boolean Create(Laboratory t) throws Exception {
         return super.Create(t);
     }
-    
+
+    public List<Laboratory> findByName(String name) {
+        List<Laboratory> lista = null;
+
+        try {
+            em = PharmacyConexion.getInstance().getFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT l FROM Laboratory l WHERE l.nomLab LIKE :name");
+            query.setParameter("name", name + "%");
+            lista = query.getResultList();
+        } catch (Exception e) {
+            throw e;
+        }
+        return lista;
+    }
+
 }

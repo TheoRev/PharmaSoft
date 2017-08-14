@@ -34,6 +34,16 @@ public class LaboratoryController extends PharmaSoftController {
         }
     }
 
+    public void doFindByName(String name) {
+        LaboratoryDAO dao = new LaboratoryDAO();
+
+        try {
+            laboratorios = dao.findByName(name);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void doCreate() {
         IPharmacy dao = new LaboratoryDAO();
 

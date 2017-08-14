@@ -12,24 +12,24 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class LabView extends javax.swing.JInternalFrame {
-    
+
     LaboratoryController lc;
     private DefaultTableModel dtm;
-    
+
     JDesktopPane container;
     private final JButton btnLab;
-    
+
     public LabView(JDesktopPane container, JButton btnLab) {
         initComponents();
-        
+
         this.container = container;
         this.btnLab = btnLab;
-        
+
         lc = new LaboratoryController();
         lc.doListarLabs();
         lc.doLoadData(dtm, tblLabs);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -43,7 +43,7 @@ public class LabView extends javax.swing.JInternalFrame {
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnSearchAll = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblLabs = new javax.swing.JTable();
@@ -80,6 +80,11 @@ public class LabView extends javax.swing.JInternalFrame {
         txtNomProd.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         txtNomProd.setForeground(new java.awt.Color(0, 0, 0));
         txtNomProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtNomProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyReleased(evt);
+            }
+        });
 
         jPanel5.setBackground(new java.awt.Color(5, 67, 98));
         jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
@@ -127,12 +132,17 @@ public class LabView extends javax.swing.JInternalFrame {
             }
         });
 
-        btnSearchAll.setBackground(new java.awt.Color(5, 67, 98));
-        btnSearchAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-34.png"))); // NOI18N
-        btnSearchAll.setBorder(null);
-        btnSearchAll.setContentAreaFilled(false);
-        btnSearchAll.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-28.png"))); // NOI18N
-        btnSearchAll.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/search/icons8-Search-40.png"))); // NOI18N
+        btnRefresh.setBackground(new java.awt.Color(5, 67, 98));
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-34.png"))); // NOI18N
+        btnRefresh.setBorder(null);
+        btnRefresh.setContentAreaFilled(false);
+        btnRefresh.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-28.png"))); // NOI18N
+        btnRefresh.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/refresh/icons8-Available Updates-40.png"))); // NOI18N
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -140,7 +150,7 @@ public class LabView extends javax.swing.JInternalFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSearchAll, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -153,7 +163,7 @@ public class LabView extends javax.swing.JInternalFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnSearchAll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+            .addComponent(btnRefresh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
             .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
@@ -277,14 +287,14 @@ public class LabView extends javax.swing.JInternalFrame {
         lc.doNew();
         openFrameSupp(AccionUtil.CREATE);
     }//GEN-LAST:event_btnAddActionPerformed
-    
+
     private void getLabRow() {
         lc.setLaboratorio(new Laboratory());
         lc.getLaboratorio().setCodLab(Integer.parseInt(tblLabs.getValueAt(tblLabs.getSelectedRow(), 0).toString()));
         lc.getLaboratorio().setNomLab(tblLabs.getValueAt(tblLabs.getSelectedRow(), 1).toString());
         lc.getLaboratorio().setCodSupplier((Suppliers) tblLabs.getValueAt(tblLabs.getSelectedRow(), 2));
     }
-    
+
     private void openFrameSupp(String accion) {
         CULabView cULabView = new CULabView(lc, this, container, tblLabs, dtm);
         cULabView.setClosable(true);
@@ -337,11 +347,23 @@ public class LabView extends javax.swing.JInternalFrame {
         btnLab.setEnabled(true);
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void txtNomProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyReleased
+        lc.doFindByName(txtNomProd.getText());
+        FramesUtil.limpiarTabla(tblLabs, (DefaultTableModel) tblLabs.getModel());
+        lc.doLoadData(dtm, tblLabs);
+    }//GEN-LAST:event_txtNomProdKeyReleased
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        lc.doListarLabs();
+        FramesUtil.limpiarTabla(tblLabs, (DefaultTableModel) tblLabs.getModel());
+        lc.doLoadData(dtm, tblLabs);
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnSearchAll;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;

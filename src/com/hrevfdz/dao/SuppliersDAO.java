@@ -1,11 +1,13 @@
 package com.hrevfdz.dao;
 
 import com.hrevfdz.model.Suppliers;
+import com.hrevfdz.service.PharmacyConexion;
 import com.hrevfdz.service.PharmacyService;
 import java.util.List;
+import javax.persistence.Query;
 
-public class SuppliersDAO extends PharmacyService<Suppliers>{
-    
+public class SuppliersDAO extends PharmacyService<Suppliers> {
+
     public SuppliersDAO() {
         super(Suppliers.class);
     }
@@ -49,5 +51,19 @@ public class SuppliersDAO extends PharmacyService<Suppliers>{
     public boolean Create(Suppliers t) throws Exception {
         return super.Create(t); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    public List<Suppliers> findByName(String name) {
+        List<Suppliers> lista = null;
+
+        try {
+            em = PharmacyConexion.getInstance().getFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT s FROM Suppliers s WHERE s.nombre LIKE :name");
+            query.setParameter("name", name + "%");
+            lista = query.getResultList();
+        } catch (Exception e) {
+            throw e;
+        }
+        return lista;
+    }
 }

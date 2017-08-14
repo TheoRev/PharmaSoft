@@ -27,6 +27,16 @@ public class SuppliersController extends PharmaSoftController {
         }
     }
 
+    public void doFindByName(String name) {
+        SuppliersDAO dao = new SuppliersDAO();
+
+        try {
+            supplierses = dao.findByName(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void loadData(DefaultTableModel dtm, JTable tblSupp) {
         dtm = (DefaultTableModel) tblSupp.getModel();
 

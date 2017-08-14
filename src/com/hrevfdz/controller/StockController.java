@@ -95,7 +95,7 @@ public class StockController extends IngresoProdController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+     
     public void loadData(DefaultTableModel dtm, JTable tblStock) {
         dtm = (DefaultTableModel) tblStock.getModel();
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -148,7 +148,6 @@ public class StockController extends IngresoProdController {
 
     public void doGetLabById(String condition) {
         IPharmacy<Laboratory> daol = new LaboratoryDAO();
-//        Laboratory lab = null;
 
         try {
             this.lab = daol.findBy(QueriesUtil.STOCK_X_LABORATORY + condition);

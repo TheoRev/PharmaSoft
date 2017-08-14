@@ -70,7 +70,7 @@ public final class LoginView extends javax.swing.JFrame {
         jLabel1.setText("Usuario");
 
         txtUsuario.setBackground(new java.awt.Color(36, 47, 65));
-        txtUsuario.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtUsuario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtUsuario.setForeground(new java.awt.Color(255, 255, 255));
         txtUsuario.setToolTipText("");
         txtUsuario.setBorder(null);
@@ -85,7 +85,7 @@ public final class LoginView extends javax.swing.JFrame {
         jLabel2.setText("Password");
 
         txtPassword.setBackground(new java.awt.Color(36, 47, 65));
-        txtPassword.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtPassword.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword.setBorder(null);
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -97,6 +97,7 @@ public final class LoginView extends javax.swing.JFrame {
         btnIngresar.setBackground(new java.awt.Color(0, 102, 102));
         btnIngresar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/login/icons8-Enter-24.png"))); // NOI18N
         btnIngresar.setText("INGRESAR");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

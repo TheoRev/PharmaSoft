@@ -6,6 +6,7 @@ import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.view.sale.CUSaleView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,9 @@ import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class StockSelectorView extends javax.swing.JInternalFrame {
@@ -24,6 +27,8 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
     private SaleController sc = null;
     private JInternalFrame iframe = null;
     private JDesktopPane container = null;
+    JTextField txtProducto;
+    JTextField txtPrecio;
 
     private DefaultTableModel dtm;
     private SimpleDateFormat sdf;
@@ -32,7 +37,8 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
     DefaultTableModel modelSale;
     private JLabel lblMontoAct;
 
-    public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container, JTable tblSale, DefaultTableModel modelSale, JLabel lblMontoAct) {
+    public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container, JTable tblSale,
+            DefaultTableModel modelSale, JLabel lblMontoAct, JTextField txtProducto, JTextField txtPrecio) {
         initComponents();
         this.sc = sc;
         this.iframe = iframe;
@@ -40,6 +46,8 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         this.tblSale = tblSale;
         this.modelSale = modelSale;
         this.lblMontoAct = lblMontoAct;
+        this.txtProducto = txtProducto;
+        this.txtPrecio = txtPrecio;
 
         stc = new StockController();
         doFindAll();
@@ -77,6 +85,7 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         txtNomProd = new javax.swing.JTextField();
         txtLaboratorio = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        btnAceptar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProductos = new javax.swing.JTable();
@@ -110,19 +119,32 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombre Prod.");
 
-        txtNomProd.setBackground(new java.awt.Color(5, 67, 98));
-        txtNomProd.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        txtNomProd.setForeground(new java.awt.Color(255, 255, 255));
+        txtNomProd.setBackground(new java.awt.Color(255, 255, 255));
+        txtNomProd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtNomProd.setForeground(new java.awt.Color(0, 0, 0));
         txtNomProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
-        txtLaboratorio.setBackground(new java.awt.Color(5, 67, 98));
-        txtLaboratorio.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        txtLaboratorio.setForeground(new java.awt.Color(255, 255, 255));
+        txtLaboratorio.setBackground(new java.awt.Color(255, 255, 255));
+        txtLaboratorio.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtLaboratorio.setForeground(new java.awt.Color(0, 0, 0));
         txtLaboratorio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Laboratorio");
+
+        btnAceptar.setBackground(new java.awt.Color(255, 255, 102));
+        btnAceptar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnAceptar.setForeground(new java.awt.Color(52, 152, 219));
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/comfirm/icons8-Ok-24.png"))); // NOI18N
+        btnAceptar.setText("Aceptar");
+        btnAceptar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(52, 152, 219), 2, true));
+        btnAceptar.setEnabled(false);
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -132,11 +154,13 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNomProd, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtNomProd, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -146,7 +170,8 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3))
+                        .addComponent(jLabel3)
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtNomProd, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)))
@@ -215,7 +240,7 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(329, Short.MAX_VALUE))
+                .addContainerGap(326, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                     .addContainerGap(76, Short.MAX_VALUE)
@@ -243,46 +268,56 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
 
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
         try {
+            btnAceptar.setEnabled(true);
             sdf = new SimpleDateFormat("dd/MM/yyyy");
-            StockProducto sp = new StockProducto();
-            sp.setCodStock(Integer.parseInt(tblProductos.getValueAt(tblProductos.getSelectedRow(), 0).toString()));
-            sp.setNombre(tblProductos.getValueAt(tblProductos.getSelectedRow(), 1).toString());
-            sp.setPresentacion(tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString());
-            sp.setCodLab((Laboratory) tblProductos.getValueAt(tblProductos.getSelectedRow(), 3));
-            sp.setLote(tblProductos.getValueAt(tblProductos.getSelectedRow(), 4).toString());
-            sp.setMonto((double) tblProductos.getValueAt(tblProductos.getSelectedRow(), 5));
-            sp.setCantidad((Integer) tblProductos.getValueAt(tblProductos.getSelectedRow(), 6));
+            sc.setProducto(new StockProducto());
+            sc.getProducto().setCodStock(Integer.parseInt(tblProductos.getValueAt(tblProductos.getSelectedRow(), 0).toString()));
+            sc.getProducto().setNombre(tblProductos.getValueAt(tblProductos.getSelectedRow(), 1).toString());
+            sc.getProducto().setPresentacion(tblProductos.getValueAt(tblProductos.getSelectedRow(), 2).toString());
+            sc.getProducto().setCodLab((Laboratory) tblProductos.getValueAt(tblProductos.getSelectedRow(), 3));
+            sc.getProducto().setLote(tblProductos.getValueAt(tblProductos.getSelectedRow(), 4).toString());
+            sc.getProducto().setMonto((double) tblProductos.getValueAt(tblProductos.getSelectedRow(), 5));
+            sc.getProducto().setCantidad((Integer) tblProductos.getValueAt(tblProductos.getSelectedRow(), 6));
             Date fecv = sdf.parse(tblProductos.getValueAt(tblProductos.getSelectedRow(), 7).toString());
-            sp.setFecVen(sdf.parse(sdf.format(fecv)));
-            openNewSale(AccionUtil.NUEVA, sp);
-            this.dispose();
+            sc.getProducto().setFecVen(sdf.parse(sdf.format(fecv)));
         } catch (ParseException ex) {
             Logger.getLogger(StockSelectorView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tblProductosMouseClicked
 
-    private void openNewSale(String title, StockProducto sp) throws ParseException {
-        sdf = new SimpleDateFormat("dd/MM/yyyy");
-//        DecimalFormat df = new DecimalFormat("00.00");
-        Date fecact = new Date();
-        fecact = sdf.parse(sdf.format(fecact));
-        CUSaleView cUSaleView = new CUSaleView(sc, this.tblSale, this.modelSale, this.lblMontoAct);
-        cUSaleView.txtCodigo.setEnabled(false);
-        cUSaleView.setClosable(true);
-        cUSaleView.setTitle(title + cUSaleView.getTitle());
-        cUSaleView.getSc().setProducto(sp);
-        cUSaleView.txtProducto.setText(sp.getNombre());
-        cUSaleView.dcFecha.setDate(fecact);
-        cUSaleView.txtCantidad.requestFocus();
-        cUSaleView.txtPrecio.setText((sp.getMonto()).toString());
-        cUSaleView.txtCantidad.requestFocus();
-        cUSaleView.getSc().doNew();
-        container.add(cUSaleView);
-        FramesUtil.setPosition(this.container, cUSaleView);
-        cUSaleView.show();
-    }
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        if (tblProductos.isRowSelected(tblProductos.getSelectedRow())) {
+            txtProducto.setText(sc.getProducto().getNombre());
+            this.txtPrecio.setText(String.valueOf(sc.getProducto().getMonto()));
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+//    private void openNewSale(String title, StockProducto sp) throws ParseException {
+//        sdf = new SimpleDateFormat("dd/MM/yyyy");
+////        DecimalFormat df = new DecimalFormat("00.00");
+//        Date fecact = new Date();
+//        fecact = sdf.parse(sdf.format(fecact));
+//        CUSaleView cUSaleView = new CUSaleView(sc, tblSale, modelSale, lblMontoAct, container);
+//        cUSaleView.txtCodigo.setEnabled(false);
+//        cUSaleView.setClosable(true);
+//        cUSaleView.setTitle(title + cUSaleView.getTitle());
+//        cUSaleView.getSc().setProducto(sp);
+//        cUSaleView.txtProducto.setText(sp.getNombre());
+//        cUSaleView.dcFecha.setDate(fecact);
+//        cUSaleView.txtCantidad.requestFocus();
+//        cUSaleView.txtPrecio.setText((sp.getMonto()).toString());
+//        cUSaleView.txtCantidad.requestFocus();
+//        cUSaleView.getSc().doNew();
+//        container.add(cUSaleView);
+//        FramesUtil.setPosition(this.container, cUSaleView);
+//        cUSaleView.show();
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
