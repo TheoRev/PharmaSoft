@@ -337,6 +337,7 @@ public class StockView extends javax.swing.JInternalFrame {
         FramesUtil.setPosition(container, cusv);
         FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
         cusv.show();
+        this.setVisible(false);
         if (action.equals(AccionUtil.UPDATE)) {
             cusv.txtCodigo.setText(stc.getStockProducto().getCodStock().toString());
             cusv.txtNombre.setText(stc.getStockProducto().getNombre());

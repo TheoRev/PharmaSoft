@@ -303,6 +303,7 @@ public class LabView extends javax.swing.JInternalFrame {
         FramesUtil.setPosition(container, cULabView);
         FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
         cULabView.show();
+        this.setVisible(false);
         if (accion.equals(AccionUtil.UPDATE)) {
             cULabView.txtCodigo.setText(lc.getLaboratorio().getCodLab().toString());
             cULabView.txtNombre.setText(lc.getLaboratorio().getNomLab());

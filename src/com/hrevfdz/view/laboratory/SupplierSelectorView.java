@@ -2,30 +2,35 @@ package com.hrevfdz.view.laboratory;
 
 import com.hrevfdz.controller.LaboratoryController;
 import com.hrevfdz.model.Suppliers;
+import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class SupplierSelectorView extends javax.swing.JInternalFrame {
-    
+
     LaboratoryController lc;
     JDesktopPane container;
     JTextField txtSupp;
-    
+    JInternalFrame iframeSupp;
+
     DefaultTableModel dtm;
-    
-    public SupplierSelectorView(LaboratoryController lc, JDesktopPane container, JTextField txtSupp) {
+
+    public SupplierSelectorView(LaboratoryController lc, JDesktopPane container, JTextField txtSupp, JInternalFrame iframeSupp) {
         initComponents();
-        
+
         this.lc = lc;
         this.container = container;
         this.txtSupp = txtSupp;
-        
+        this.iframeSupp = iframeSupp;
+
+        lc.doListSuppliers();
         loadSuppliers();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -33,13 +38,30 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtNomLab = new javax.swing.JTextField();
+        txtNameSupp = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSuppliers = new javax.swing.JTable();
 
         setTitle("SELECCIONE UN DISTRIBUIDOR");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
 
@@ -48,13 +70,18 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
         jPanel2.setForeground(new java.awt.Color(0, 0, 0));
         jPanel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre");
 
-        txtNomLab.setBackground(new java.awt.Color(255, 255, 255));
-        txtNomLab.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        txtNomLab.setForeground(new java.awt.Color(0, 0, 0));
+        txtNameSupp.setBackground(new java.awt.Color(255, 255, 255));
+        txtNameSupp.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtNameSupp.setForeground(new java.awt.Color(0, 0, 0));
+        txtNameSupp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNameSuppKeyReleased(evt);
+            }
+        });
 
         btnAceptar.setBackground(new java.awt.Color(255, 255, 102));
         btnAceptar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -77,7 +104,7 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNomLab, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNameSupp, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -88,9 +115,9 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtNomLab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(txtNameSupp, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(5, 67, 98));
@@ -133,7 +160,7 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -151,7 +178,7 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -176,6 +203,7 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
             lc.doGetSuplierByCod(lc.getSuppliers().getCodigo());
             this.txtSupp.setText(lc.getSuppliers().getNombre());
             this.hide();
+            iframeSupp.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
         }
@@ -192,11 +220,20 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
         //            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         //        }
     }//GEN-LAST:event_tblSuppliersMouseClicked
-    
+
+    private void txtNameSuppKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameSuppKeyReleased
+        lc.doFindSuppByName(txtNameSupp.getText());
+        FramesUtil.limpiarTabla(tblSuppliers, (DefaultTableModel) tblSuppliers.getModel());
+        loadSuppliers();
+    }//GEN-LAST:event_txtNameSuppKeyReleased
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        iframeSupp.setVisible(true);
+    }//GEN-LAST:event_formInternalFrameClosing
+
     private void loadSuppliers() {
         dtm = (DefaultTableModel) tblSuppliers.getModel();
-        lc.doListSuppliers();
-        
+
         lc.getSupplierses().stream().map((s) -> {
             Object[] row = new Object[3];
             row[0] = s.getCodigo();
@@ -217,6 +254,6 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable tblSuppliers;
-    private javax.swing.JTextField txtNomLab;
+    private javax.swing.JTextField txtNameSupp;
     // End of variables declaration//GEN-END:variables
 }

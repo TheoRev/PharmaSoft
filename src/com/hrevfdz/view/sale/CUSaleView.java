@@ -1,6 +1,7 @@
 package com.hrevfdz.view.sale;
 
 import com.hrevfdz.controller.SaleController;
+import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.view.stock.StockSelectorView;
@@ -14,22 +15,22 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-public class CUSaleView extends javax.swing.JInternalFrame {
-    
+public class CUSaleView extends javax.swing.JInternalFrame implements FrameFunctions {
+
     DefaultComboBoxModel model;
     JTable tblSale;
     DefaultTableModel modelSale;
-    
+
     private JLabel lblMontoAct;
-    
+
     private SaleController sc;
     JDesktopPane container;
     JInternalFrame iframeSale;
-    
+
     public CUSaleView(SaleController sc, JTable tblSale, DefaultTableModel modelSale,
             JLabel lblMontoAct, JDesktopPane container, JInternalFrame iframeSale) {
         initComponents();
-        
+
         this.sc = sc;
         this.tblSale = tblSale;
         this.modelSale = modelSale;
@@ -37,7 +38,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         this.container = container;
         this.iframeSale = iframeSale;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -91,15 +92,15 @@ public class CUSaleView extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Fecha");
+        jLabel2.setText("Fecha *");
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Producto");
+        jLabel3.setText("Producto *");
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Cantidad");
+        jLabel4.setText("Cantidad *");
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -248,17 +249,20 @@ public class CUSaleView extends javax.swing.JInternalFrame {
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
         calcSubtotal();
-//        System.out.println("Ingreso...");
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        asignarDatos();
-        sc.doExecute();
-        sc.doFindAll();
-        sc.refreshSales(tblSale, modelSale);
-        this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
-        this.dispose();
-        iframeSale.setVisible(true);
+        if (validarCamposVacios()) {
+            JOptionPane.showMessageDialog(null, MessagesUtil.EMPTY_FIELD_MESSAGE, MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
+        } else {
+            asignarDatos();
+            sc.doExecute();
+            sc.doFindAll();
+            sc.refreshSales(tblSale, modelSale);
+            this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
+            this.dispose();
+            iframeSale.setVisible(true);
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -272,7 +276,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         this.setVisible(false);
         ssv.show();
     }//GEN-LAST:event_btnSelectStockActionPerformed
-    
+
     private void calcSubtotal() {
         try {
             double n2 = Double.parseDouble(txtPrecio.getText());
@@ -283,7 +287,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void asignarDatos() {
         sc.getSale().setCantidad(Integer.parseInt(txtCantidad.getText()));
         sc.getSale().setPrecio(Double.parseDouble(txtPrecio.getText()));
@@ -315,8 +319,13 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     public SaleController getSc() {
         return sc;
     }
-    
+
     public void setSc(SaleController sc) {
         this.sc = sc;
+    }
+
+    @Override
+    public boolean validarCamposVacios() {
+        return dcFecha.getDate() == null || txtProducto.getText().isEmpty() || txtCantidad.getText().isEmpty();
     }
 }

@@ -1,6 +1,7 @@
 package com.hrevfdz.view.suppliers;
 
 import com.hrevfdz.controller.SuppliersController;
+import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import javax.swing.JDesktopPane;
@@ -9,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class CUSupplierView extends javax.swing.JInternalFrame {
+public class CUSupplierView extends javax.swing.JInternalFrame implements FrameFunctions {
 
     SuppliersController suc;
     JInternalFrame iframe;
@@ -48,6 +49,23 @@ public class CUSupplierView extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
 
         setTitle(" DISTRIBUIDOR");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
 
@@ -62,7 +80,7 @@ public class CUSupplierView extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nombre");
+        jLabel2.setText("Nombre *");
 
         txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
@@ -74,7 +92,7 @@ public class CUSupplierView extends javax.swing.JInternalFrame {
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Encargado");
+        jLabel3.setText("Encargado *");
 
         txtRuc.setBackground(new java.awt.Color(255, 255, 255));
         txtRuc.setForeground(new java.awt.Color(0, 0, 0));
@@ -82,11 +100,11 @@ public class CUSupplierView extends javax.swing.JInternalFrame {
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("RUC");
+        jLabel4.setText("RUC *");
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Teléfono");
+        jLabel5.setText("Teléfono *");
 
         txtTelefono.setBackground(new java.awt.Color(255, 255, 255));
         txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
@@ -189,17 +207,26 @@ public class CUSupplierView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try {
-            asignarDatos();
-            suc.doExecute();
-            FramesUtil.limpiarTabla(tblSupp, (DefaultTableModel) tblSupp.getModel());
-            suc.doFindAll();
-            suc.loadData(dtm, tblSupp);
-            this.dispose();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        if (validarCamposVacios()) {
+            JOptionPane.showMessageDialog(null, MessagesUtil.EMPTY_FIELD_MESSAGE, MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                asignarDatos();
+                suc.doExecute();
+                FramesUtil.limpiarTabla(tblSupp, (DefaultTableModel) tblSupp.getModel());
+                suc.doFindAll();
+                suc.loadData(dtm, tblSupp);
+                this.dispose();
+                iframe.setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        iframe.setVisible(true);
+    }//GEN-LAST:event_formInternalFrameClosing
 
     private void asignarDatos() {
         suc.getSuppliers().setNombre(txtNombre.getText());
@@ -225,4 +252,9 @@ public class CUSupplierView extends javax.swing.JInternalFrame {
     public javax.swing.JTextField txtRuc;
     public javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public boolean validarCamposVacios() {
+        return txtNombre.getText().isEmpty() || txtEncargado.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtRuc.getText().isEmpty();
+    }
 }

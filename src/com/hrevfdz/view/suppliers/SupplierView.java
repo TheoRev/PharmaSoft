@@ -12,24 +12,24 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class SupplierView extends javax.swing.JInternalFrame {
-
+    
     SuppliersController suc;
     JButton btnSupp;
-
+    
     private DefaultTableModel dtm;
     JDesktopPane container;
-
+    
     public SupplierView(JDesktopPane container, JButton btnSupp) {
         initComponents();
-
+        
         this.container = container;
         this.btnSupp = btnSupp;
-
+        
         suc = new SuppliersController();
         suc.doFindAll();
         suc.loadData(dtm, tblSupp);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -282,7 +282,7 @@ public class SupplierView extends javax.swing.JInternalFrame {
         suc.doNew();
         openFrameSupp(AccionUtil.CREATE);
     }//GEN-LAST:event_btnAddActionPerformed
-
+    
     private void openFrameSupp(String accion) {
         CUSupplierView cusv = new CUSupplierView(suc, this, container, tblSupp, dtm);
         cusv.setClosable(true);
@@ -291,6 +291,7 @@ public class SupplierView extends javax.swing.JInternalFrame {
         FramesUtil.setPosition(container, cusv);
         FramesUtil.enablerActionButtons(btnUpdate, btnDelete, isIcon);
         cusv.show();
+        this.setVisible(false);
         if (accion.equals(AccionUtil.UPDATE)) {
             cusv.txtCodigo.setText(String.valueOf(suc.getSuppliers().getCodigo()));
             cusv.txtNombre.setText(suc.getSuppliers().getNombre());
@@ -354,7 +355,7 @@ public class SupplierView extends javax.swing.JInternalFrame {
         FramesUtil.limpiarTabla(tblSupp, (DefaultTableModel) tblSupp.getModel());
         suc.loadData(dtm, tblSupp);
     }//GEN-LAST:event_btnRefreshActionPerformed
-
+    
     private void getSuppRow() {
         suc.setSuppliers(new Suppliers());
         suc.getSuppliers().setCodigo(Integer.parseInt(tblSupp.getValueAt(tblSupp.getSelectedRow(), 0).toString()));

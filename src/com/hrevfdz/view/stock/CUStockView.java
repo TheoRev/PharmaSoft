@@ -2,13 +2,16 @@ package com.hrevfdz.view.stock;
 
 import com.hrevfdz.view.sale.LabSelectorView;
 import com.hrevfdz.controller.StockController;
+import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.util.MessagesUtil;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class CUStockView extends javax.swing.JInternalFrame {
+public class CUStockView extends javax.swing.JInternalFrame implements FrameFunctions {
 
     StockController stc;
     private final JInternalFrame iframe;
@@ -52,6 +55,23 @@ public class CUStockView extends javax.swing.JInternalFrame {
         dcFecVenc = new com.toedter.calendar.JDateChooser();
 
         setTitle(" PRODUCTO");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -67,19 +87,19 @@ public class CUStockView extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nombre");
+        jLabel2.setText("Nombre *");
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Presentación");
+        jLabel3.setText("Presentación *");
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Cantidad");
+        jLabel4.setText("Cantidad *");
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Precio");
+        jLabel5.setText("Precio *");
 
         txtPrecio.setBackground(new java.awt.Color(255, 255, 255));
         txtPrecio.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -127,11 +147,11 @@ public class CUStockView extends javax.swing.JInternalFrame {
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Laboratorio");
+        jLabel7.setText("Laboratorio *");
 
         jLabel8.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Lote");
+        jLabel8.setText("Lote *");
 
         txtLote.setBackground(new java.awt.Color(255, 255, 255));
         txtLote.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -152,7 +172,7 @@ public class CUStockView extends javax.swing.JInternalFrame {
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Fec. Venc.");
+        jLabel6.setText("Fec. Venc. *");
 
         dcFecVenc.setBackground(new java.awt.Color(255, 255, 255));
         dcFecVenc.setForeground(new java.awt.Color(0, 0, 0));
@@ -178,7 +198,7 @@ public class CUStockView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtLab, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                                .addComponent(txtLab, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnLabs, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtCodigo)
@@ -227,9 +247,9 @@ public class CUStockView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dcFecVenc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(dcFecVenc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -249,12 +269,17 @@ public class CUStockView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        asignarDatos();
-        stc.doExecute();
-        FramesUtil.limpiarTabla(tblStock, (DefaultTableModel) tblStock.getModel());
-        stc.doFindAll();
-        stc.loadData(dtm, tblStock);
-        this.dispose();
+        if (validarCamposVacios()) {
+            JOptionPane.showMessageDialog(null, MessagesUtil.EMPTY_FIELD_MESSAGE, MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
+        } else {
+            asignarDatos();
+            stc.doExecute();
+            FramesUtil.limpiarTabla(tblStock, (DefaultTableModel) tblStock.getModel());
+            stc.doFindAll();
+            stc.loadData(dtm, tblStock);
+            this.dispose();
+            iframe.setVisible(true);
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
@@ -263,12 +288,17 @@ public class CUStockView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void btnLabsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLabsActionPerformed
-        LabSelectorView lsv = new LabSelectorView(stc, container, txtLab);
+        LabSelectorView lsv = new LabSelectorView(stc, container, txtLab, this);
         lsv.setClosable(true);
         FramesUtil.setPosition(container, lsv);
         container.add(lsv);
         lsv.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnLabsActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        iframe.setVisible(true);
+    }//GEN-LAST:event_formInternalFrameClosing
 
     private void asignarDatos() {
         stc.getStockProducto().setNombre(txtNombre.getText());
@@ -301,5 +331,11 @@ public class CUStockView extends javax.swing.JInternalFrame {
     public javax.swing.JTextField txtPrecio;
     public javax.swing.JTextField txtPresentacion;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public boolean validarCamposVacios() {
+        return txtNombre.getText().isEmpty() || txtPresentacion.getText().isEmpty() || txtLab.getText().isEmpty()
+                || txtLote.getText().isEmpty() || txtCantidad.getText().isEmpty() || txtPrecio.getText().isEmpty() || dcFecVenc.getDate() == null;
+    }
 
 }

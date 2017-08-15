@@ -136,7 +136,7 @@ public class PaymentsController extends PharmaSoftController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     public void doGetAllUsers() {
         IPharmacy<Users> dao = new UsersDAO();
 
@@ -146,6 +146,17 @@ public class PaymentsController extends PharmaSoftController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public List<Laboratory> doFindLabByName(String name) {
+        LaboratoryDAO daol = new LaboratoryDAO();
+
+        try {
+            return daol.findByName(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
     }
 
     public void doGetUser(String name) {
@@ -212,7 +223,7 @@ public class PaymentsController extends PharmaSoftController {
         IPharmacy<StockProducto> dao = new StockProductoDAO();
 
         try {
-            final String query = "SELECT p FROM StockProducto p WHERE p.cantidad > 0 AND p.codLab.codLab = " + laboratory.getCodLab() + " ORDER BY p.nombre";
+            final String query = "SELECT p FROM StockProducto p WHERE p.cantidad > 0 AND p.codLab.codLab = " + laboratory.getCodLab() + " AND p.state = TRUE ORDER BY p.nombre";
             productos = dao.findByQuery(query);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -306,7 +317,7 @@ public class PaymentsController extends PharmaSoftController {
         IPharmacy<Payments> dao = new PaymentsDAO();
 
         try {
-            final String query = "SELECT p FROM Payments p";
+            final String query = "SELECT p FROM Payments p ORDER BY p.fecha DESC ";
             paymentses = dao.findByQuery(query);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);

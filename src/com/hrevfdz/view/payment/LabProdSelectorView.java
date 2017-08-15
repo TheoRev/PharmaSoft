@@ -13,27 +13,28 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class LabProdSelectorView extends javax.swing.JInternalFrame {
-
+    
     PaymentsController pc = null;
     LaboratoryController lc = null;
     SuppliersController spc = null;
     private JInternalFrame iframe = null;
     private JDesktopPane containerPay = null;
-
+    
     private DefaultTableModel dtmLabs;
     private DefaultTableModel dtmProds;
     private SimpleDateFormat sdf;
-
-    private JTextField txtLab;
-    private JTextField txtProd;
-
+    
+    JTextField txtLab;
+    JTextField txtProd;
+    
     JTable tblPay;
     DefaultTableModel modelPay;
-
+    
     public LabProdSelectorView(PaymentsController pc, JInternalFrame iframe,
             JDesktopPane containerPay, JTable tblPay, DefaultTableModel modelPay,
             JTextField txtLab, JTextField txtProd) {
         initComponents();
+        
         this.iframe = iframe;
         this.containerPay = containerPay;
         this.tblPay = tblPay;
@@ -41,18 +42,21 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
         this.pc = pc;
         this.txtLab = txtLab;
         this.txtProd = txtProd;
-
+        
         lc = new LaboratoryController();
         spc = new SuppliersController();
-
+        
         doFindAllLabs();
+        refreshLabs();
     }
-
+    
     private void doFindAllLabs() {
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         dtmLabs = (DefaultTableModel) tblSelectLab.getModel();
         pc.doGetLaboratories();
-
+    }
+    
+    private void refreshLabs() {
         pc.getLaboratorys().stream().map((l) -> {
             Object[] row = new Object[2];
             row[0] = l.getCodLab();
@@ -61,10 +65,10 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
         }).forEachOrdered((row) -> {
             dtmLabs.addRow(row);
         });
-
+        
         tblSelectLab.setModel(dtmLabs);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -324,6 +328,23 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
         );
 
         setTitle("SELECCIONE UN LABORATORIO Y PRODUCTO");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(5, 67, 98));
 
@@ -344,7 +365,13 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Laboratorio");
 
+        btnAceptar.setBackground(new java.awt.Color(255, 255, 102));
+        btnAceptar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnAceptar.setForeground(new java.awt.Color(52, 152, 219));
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/comfirm/icons8-Ok-24.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(52, 152, 219), 2, true));
+        btnAceptar.setEnabled(false);
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
@@ -361,18 +388,23 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAceptar)
+                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(btnAceptar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jPanel4.setBackground(new java.awt.Color(5, 67, 98));
@@ -523,14 +555,14 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
         lab.setNomLab(tblSelectLab.getValueAt(tblSelectLab.getSelectedRow(), 1).toString());
         findProdById(lab);
     }//GEN-LAST:event_tblSelectLabMouseClicked
-
+    
     private void findProdById(Laboratory l) {
         dtmProds = (DefaultTableModel) tblSelectProd.getModel();
         pc.setLaboratory(l);
         pc.doGetProductos();
-
+        
         FramesUtil.limpiarTabla(tblSelectProd, dtmProds);
-
+        
         pc.getProductos().stream().map((p) -> {
             Object[] row = new Object[2];
             row[0] = p.getCodStock();
@@ -545,6 +577,7 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
     private void tblSelectProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSelectProdMouseClicked
         int cod = Integer.parseInt(tblSelectProd.getValueAt(tblSelectProd.getSelectedRow(), 0).toString());
         pc.getPayments().setCodStock(pc.doGetProductByCod(cod));
+        btnAceptar.setEnabled(true);
     }//GEN-LAST:event_tblSelectProdMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -553,11 +586,18 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
         txtLab.setText(lab);
         txtProd.setText(prod);
         this.dispose();
+        iframe.setVisible(true);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtLaboratorioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLaboratorioKeyReleased
-        
+        pc.setLaboratorys(pc.doFindLabByName(txtLaboratorio.getText()));
+        FramesUtil.limpiarTabla(tblSelectLab, (DefaultTableModel) tblSelectLab.getModel());
+        refreshLabs();
     }//GEN-LAST:event_txtLaboratorioKeyReleased
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        iframe.setVisible(true);
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,6 +5,7 @@ import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -16,13 +17,15 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
     JTextField txtLab;
 
     DefaultTableModel dtm;
+    JInternalFrame iframeLapSeletor;
 
-    public LabSelectorView(StockController stc, JDesktopPane conteiner, JTextField txtLab) {
+    public LabSelectorView(StockController stc, JDesktopPane conteiner, JTextField txtLab, JInternalFrame iframeLapSeletor) {
         initComponents();
 
         this.stc = stc;
         this.conteiner = conteiner;
         this.txtLab = txtLab;
+        this.iframeLapSeletor = iframeLapSeletor;
 
         stc.doGetLabs();
         loadLabs();
@@ -42,6 +45,23 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
         tblLabs = new javax.swing.JTable();
 
         setTitle("SELECCIONE UN LABORATORIO");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
 
@@ -194,6 +214,7 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
             stc.doGetLabById(" WHERE l.codLab = " + stc.getLab().getCodLab());
             this.txtLab.setText(stc.getLab().getNomLab());
             this.dispose();
+            iframeLapSeletor.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
         }
@@ -204,6 +225,10 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
         FramesUtil.limpiarTabla(tblLabs, (DefaultTableModel) tblLabs.getModel());
         loadLabs();
     }//GEN-LAST:event_txtNomLabKeyReleased
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        iframeLapSeletor.setVisible(true);
+    }//GEN-LAST:event_formInternalFrameClosing
 
     private void loadLabs() {
         dtm = (DefaultTableModel) tblLabs.getModel();

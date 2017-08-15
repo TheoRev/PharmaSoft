@@ -22,4 +22,7 @@ public class MessagesUtil {
 
     public static final String MONTO_CAJA_INSUFICIENTE = "El saldo en caja es insuficiente para realizar esta transacción";
     public static final String INSUFICIENTE_TITLE = "Saldo insuficiente";
+
+    public static final String EMPTY_FIELD_TITLE = "Campos vacios";
+    public static final String EMPTY_FIELD_MESSAGE = "Verifique que los campos con ( * ) no esten vacios";
 }

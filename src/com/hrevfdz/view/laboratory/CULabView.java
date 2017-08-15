@@ -1,13 +1,16 @@
 package com.hrevfdz.view.laboratory;
 
 import com.hrevfdz.controller.LaboratoryController;
+import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.util.MessagesUtil;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class CULabView extends javax.swing.JInternalFrame {
+public class CULabView extends javax.swing.JInternalFrame implements FrameFunctions {
 
     LaboratoryController lc;
     private final JInternalFrame iframe;
@@ -41,6 +44,23 @@ public class CULabView extends javax.swing.JInternalFrame {
         btnSuppSelector = new javax.swing.JButton();
 
         setTitle(" LABORATORIO");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
 
@@ -59,11 +79,11 @@ public class CULabView extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Nombre");
+        jLabel2.setText("Nombre *");
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Distribuidor");
+        jLabel3.setText("Distribuidor *");
 
         txtSupplier.setBackground(new java.awt.Color(255, 255, 255));
         txtSupplier.setForeground(new java.awt.Color(0, 0, 0));
@@ -153,21 +173,31 @@ public class CULabView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        asignarDatos();
-        lc.doExecute();
-        FramesUtil.limpiarTabla(tblLab, (DefaultTableModel) tblLab.getModel());
-        lc.doListarLabs();
-        lc.doLoadData(dtm, tblLab);
-        this.dispose();
+        if (validarCamposVacios()) {
+            JOptionPane.showMessageDialog(null, MessagesUtil.EMPTY_FIELD_MESSAGE, MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
+        } else {
+            asignarDatos();
+            lc.doExecute();
+            FramesUtil.limpiarTabla(tblLab, (DefaultTableModel) tblLab.getModel());
+            lc.doListarLabs();
+            lc.doLoadData(dtm, tblLab);
+            this.dispose();
+            iframe.setVisible(true);
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnSuppSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuppSelectorActionPerformed
-        SupplierSelectorView ssv = new SupplierSelectorView(this.lc, container, txtSupplier);
+        SupplierSelectorView ssv = new SupplierSelectorView(this.lc, container, txtSupplier, this);
         ssv.setClosable(true);
         FramesUtil.setPosition(container, ssv);
         container.add(ssv);
         ssv.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnSuppSelectorActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        iframe.setVisible(true);
+    }//GEN-LAST:event_formInternalFrameClosing
 
     private void asignarDatos() {
         lc.getLaboratorio().setNomLab(txtNombre.getText());
@@ -185,4 +215,9 @@ public class CULabView extends javax.swing.JInternalFrame {
     public javax.swing.JTextField txtNombre;
     public javax.swing.JTextField txtSupplier;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public boolean validarCamposVacios() {
+        return txtNombre.getText().isEmpty() || txtSupplier.getText().isEmpty();
+    }
 }

@@ -1,6 +1,7 @@
 package com.hrevfdz.view.payment;
 
 import com.hrevfdz.controller.PaymentsController;
+import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.text.ParseException;
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class CUPaymentView extends javax.swing.JInternalFrame {
+public class CUPaymentView extends javax.swing.JInternalFrame implements FrameFunctions {
 
     PaymentsController pc = null;
     JInternalFrame iframe;
@@ -69,6 +70,23 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
         btnOpenLabSuppSelected = new javax.swing.JButton();
 
         setTitle(" PAGO");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
 
@@ -94,7 +112,7 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Fecha");
+        jLabel3.setText("Fecha *");
 
         dcFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
@@ -120,7 +138,7 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Monto");
+        jLabel6.setText("Monto *");
 
         txtMonto.setBackground(new java.awt.Color(255, 255, 255));
         txtMonto.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -175,10 +193,10 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtProducto)
-                            .addComponent(txtLaboratory))
+                            .addComponent(txtLaboratory)
+                            .addComponent(txtProducto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnOpenLabSuppSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -186,20 +204,20 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
                         .addGap(49, 49, 49)
                         .addComponent(txtMonto))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(50, 50, 50)
-                        .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(40, 40, 40)
                         .addComponent(txtUser))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(45, 45, 45)
+                        .addComponent(txtCodigo))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(45, 45, 45)
-                        .addComponent(txtCodigo)))
+                        .addComponent(jLabel3)
+                        .addGap(42, 42, 42)
+                        .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -261,18 +279,27 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
         container.add(lp);
         FramesUtil.setPosition(container, lp);
         lp.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnOpenLabSuppSelectedActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        pc.getPayments().setMonto(Double.parseDouble(txtMonto.getText()));
-        pc.getPayments().setDescripcion(txtDescripcion.getText());
-//        String lab = txtLaboratory.getText() != null ? txtLaboratory.getText() : "";
-        pc.doExecute();
-        pc.doFindAll();
-        pc.refreshPayments(dtm, tblPayments);
-        this.lblMontoAct.setText("S/. " + pc.doGetMontoActualCaja(new Date()));
-        this.dispose();
+        if (validarCamposVacios()) {
+            JOptionPane.showMessageDialog(null, MessagesUtil.EMPTY_FIELD_MESSAGE, MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
+        } else {
+            pc.getPayments().setMonto(Double.parseDouble(txtMonto.getText()));
+            pc.getPayments().setDescripcion(txtDescripcion.getText());
+            pc.doExecute();
+            pc.doFindAll();
+            pc.refreshPayments(dtm, tblPayments);
+            this.lblMontoAct.setText("S/. " + pc.doGetMontoActualCaja(new Date()));
+            this.dispose();
+            iframe.setVisible(true);
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        iframe.setVisible(true);
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -295,4 +322,9 @@ public class CUPaymentView extends javax.swing.JInternalFrame {
     public javax.swing.JTextField txtProducto;
     public javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public boolean validarCamposVacios() {
+        return dcFecha.getDate() == null || txtMonto.getText().isEmpty();
+    }
 }

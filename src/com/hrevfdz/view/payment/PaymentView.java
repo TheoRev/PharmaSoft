@@ -368,6 +368,7 @@ public final class PaymentView extends javax.swing.JInternalFrame {
         FramesUtil.setPosition(container, cu);
         FramesUtil.enablerActionButtons(btnUpdate, btnDelete, false);
         cu.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnAddPayActionPerformed
     
     private JInternalFrame openCUPayment() {
