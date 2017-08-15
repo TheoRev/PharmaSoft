@@ -2,6 +2,7 @@ package com.hrevfdz.view.sale;
 
 import com.hrevfdz.controller.StockController;
 import com.hrevfdz.model.Laboratory;
+import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
@@ -23,6 +24,7 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
         this.conteiner = conteiner;
         this.txtLab = txtLab;
 
+        stc.doGetLabs();
         loadLabs();
     }
 
@@ -48,13 +50,18 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
         jPanel2.setForeground(new java.awt.Color(0, 0, 0));
         jPanel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre");
 
         txtNomLab.setBackground(new java.awt.Color(255, 255, 255));
-        txtNomLab.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txtNomLab.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtNomLab.setForeground(new java.awt.Color(0, 0, 0));
+        txtNomLab.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNomLabKeyReleased(evt);
+            }
+        });
 
         btnAceptar.setBackground(new java.awt.Color(255, 255, 102));
         btnAceptar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -79,7 +86,7 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNomLab, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -88,8 +95,8 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtNomLab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtNomLab))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -192,8 +199,13 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    private void txtNomLabKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomLabKeyReleased
+        stc.setLabs(stc.doFindLabByName(txtNomLab.getText()));
+        FramesUtil.limpiarTabla(tblLabs, (DefaultTableModel) tblLabs.getModel());
+        loadLabs();
+    }//GEN-LAST:event_txtNomLabKeyReleased
+
     private void loadLabs() {
-        stc.doGetLabs();
         dtm = (DefaultTableModel) tblLabs.getModel();
 
         stc.getLabs().stream().map((l) -> {

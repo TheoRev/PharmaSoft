@@ -1,10 +1,12 @@
 package com.hrevfdz.controller;
 
 import com.hrevfdz.dao.AccessDAO;
+import com.hrevfdz.dao.LaboratoryDAO;
 import com.hrevfdz.dao.SaleDAO;
 import com.hrevfdz.dao.StockProductoDAO;
 import com.hrevfdz.dao.UsersDAO;
 import com.hrevfdz.model.Access;
+import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.model.Sale;
 import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.model.Users;
@@ -304,7 +306,7 @@ public class SaleController extends PharmaSoftController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }    
 
     public void getAllUsers() {
         IPharmacy<Users> daou = new UsersDAO();

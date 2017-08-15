@@ -3,18 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/stock/StockView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/suppliers/SupplierView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/dao/SuppliersDAO.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/work/WorkView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/dao/SaleDAO.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/payment/CUPaymentView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/laboratory/CULabView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/dao/LaboratoryDAO.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/SuppliersController.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/laboratory/LabView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/HomeView.java</file>
-            <file>file:/D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/LaboratoryController.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/sale/LabSelectorView.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/dao/StockProductoDAO.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/sale/SaleView.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/payment/LabProdSelectorView.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/payment/CUPaymentView.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/StockController.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/payment/PaymentView.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/sale/CUSaleView.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/controller/SaleController.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/view/stock/StockSelectorView.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/dao/SaleDAO.java</file>
+            <file>file:/D:/Docs/NetBeansProjects/PharmaSoft/src/com/hrevfdz/dao/LaboratoryDAO.java</file>
         </group>
     </open-files>
 </project-private>

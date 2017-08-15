@@ -7,9 +7,6 @@ import java.util.List;
 import com.hrevfdz.service.PharmacyService;
 import java.util.Date;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 public class SaleDAO extends PharmacyService<Sale> {
 

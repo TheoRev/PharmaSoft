@@ -9,9 +9,7 @@ import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.util.QueriesUtil;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -95,7 +93,7 @@ public class StockController extends IngresoProdController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-     
+
     public void loadData(DefaultTableModel dtm, JTable tblStock) {
         dtm = (DefaultTableModel) tblStock.getModel();
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -154,6 +152,39 @@ public class StockController extends IngresoProdController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public List<Laboratory> doFindLabByName(String name) {
+        LaboratoryDAO daol = new LaboratoryDAO();
+
+        try {
+            return daol.findByName(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+    
+    public List<StockProducto> doFindStockByName(String name) {
+        StockProductoDAO daos = new StockProductoDAO();
+
+        try {
+            return daos.doFindByName(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+    
+    public List<StockProducto> doFindStockByNameLab(String name) {
+        StockProductoDAO daos = new StockProductoDAO();
+
+        try {
+            return daos.doFindByNameLab(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
     }
 
     public String colorearFila(int cant) {

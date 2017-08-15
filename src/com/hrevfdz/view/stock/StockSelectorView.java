@@ -4,10 +4,8 @@ import com.hrevfdz.controller.SaleController;
 import com.hrevfdz.controller.StockController;
 import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.model.StockProducto;
-import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
-import com.hrevfdz.view.sale.CUSaleView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,21 +20,20 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class StockSelectorView extends javax.swing.JInternalFrame {
-
+    
     private StockController stc = null;
     private SaleController sc = null;
     private JInternalFrame iframe = null;
     private JDesktopPane container = null;
     JTextField txtProducto;
     JTextField txtPrecio;
-
+    
     private DefaultTableModel dtm;
     private SimpleDateFormat sdf;
-
+    
     JTable tblSale;
     DefaultTableModel modelSale;
-    private JLabel lblMontoAct;
-
+    
     public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container, JTable tblSale,
             DefaultTableModel modelSale, JLabel lblMontoAct, JTextField txtProducto, JTextField txtPrecio) {
         initComponents();
@@ -45,18 +42,18 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         this.container = container;
         this.tblSale = tblSale;
         this.modelSale = modelSale;
-        this.lblMontoAct = lblMontoAct;
         this.txtProducto = txtProducto;
         this.txtPrecio = txtPrecio;
-
+        
         stc = new StockController();
+        stc.doFindAll();
         doFindAll();
     }
-
+    
     private void doFindAll() {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         dtm = (DefaultTableModel) tblProductos.getModel();
-        stc.doFindAll();
+        
         stc.getStockProductos().stream().map((p) -> {
             Object[] row = new Object[8];
             row[0] = p.getCodStock();
@@ -71,10 +68,10 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         }).forEachOrdered((row) -> {
             dtm.addRow(row);
         });
-
+        
         tblProductos.setModel(dtm);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -123,11 +120,21 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         txtNomProd.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtNomProd.setForeground(new java.awt.Color(0, 0, 0));
         txtNomProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtNomProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyReleased(evt);
+            }
+        });
 
         txtLaboratorio.setBackground(new java.awt.Color(255, 255, 255));
         txtLaboratorio.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtLaboratorio.setForeground(new java.awt.Color(0, 0, 0));
         txtLaboratorio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtLaboratorio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtLaboratorioKeyReleased(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -290,10 +297,23 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
             txtProducto.setText(sc.getProducto().getNombre());
             this.txtPrecio.setText(String.valueOf(sc.getProducto().getMonto()));
             this.dispose();
+            iframe.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtNomProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyReleased
+        stc.setStockProductos(stc.doFindStockByName(txtNomProd.getText()));
+        FramesUtil.limpiarTabla(tblProductos, (DefaultTableModel) tblProductos.getModel());
+        doFindAll();
+    }//GEN-LAST:event_txtNomProdKeyReleased
+
+    private void txtLaboratorioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLaboratorioKeyReleased
+        stc.setStockProductos(stc.doFindStockByNameLab(txtLaboratorio.getText()));
+        FramesUtil.limpiarTabla(tblProductos, (DefaultTableModel) tblProductos.getModel());
+        doFindAll();
+    }//GEN-LAST:event_txtLaboratorioKeyReleased
 
 //    private void openNewSale(String title, StockProducto sp) throws ParseException {
 //        sdf = new SimpleDateFormat("dd/MM/yyyy");

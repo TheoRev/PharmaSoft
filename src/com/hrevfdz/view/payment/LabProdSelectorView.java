@@ -4,13 +4,10 @@ import com.hrevfdz.controller.LaboratoryController;
 import com.hrevfdz.controller.PaymentsController;
 import com.hrevfdz.controller.SuppliersController;
 import com.hrevfdz.model.Laboratory;
-import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.util.FramesUtil;
-import com.hrevfdz.util.MessagesUtil;
 import java.text.SimpleDateFormat;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -333,12 +330,17 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
         jPanel3.setBackground(new java.awt.Color(5, 67, 98));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
 
-        txtLaboratorio.setBackground(new java.awt.Color(5, 67, 98));
-        txtLaboratorio.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        txtLaboratorio.setForeground(new java.awt.Color(255, 255, 255));
+        txtLaboratorio.setBackground(new java.awt.Color(255, 255, 255));
+        txtLaboratorio.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtLaboratorio.setForeground(new java.awt.Color(0, 0, 0));
         txtLaboratorio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtLaboratorio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtLaboratorioKeyReleased(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Laboratorio");
 
@@ -552,6 +554,10 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
         txtProd.setText(prod);
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtLaboratorioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLaboratorioKeyReleased
+        
+    }//GEN-LAST:event_txtLaboratorioKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

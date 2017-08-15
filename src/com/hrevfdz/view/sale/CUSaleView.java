@@ -4,13 +4,10 @@ import com.hrevfdz.controller.SaleController;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.view.stock.StockSelectorView;
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -18,26 +15,29 @@ import javax.swing.table.DefaultTableModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class CUSaleView extends javax.swing.JInternalFrame {
-
+    
     DefaultComboBoxModel model;
     JTable tblSale;
     DefaultTableModel modelSale;
-
+    
     private JLabel lblMontoAct;
-
+    
     private SaleController sc;
     JDesktopPane container;
-
-    public CUSaleView(SaleController sc, JTable tblSale, DefaultTableModel modelSale, JLabel lblMontoAct, JDesktopPane container) {
+    JInternalFrame iframeSale;
+    
+    public CUSaleView(SaleController sc, JTable tblSale, DefaultTableModel modelSale,
+            JLabel lblMontoAct, JDesktopPane container, JInternalFrame iframeSale) {
         initComponents();
-
+        
         this.sc = sc;
         this.tblSale = tblSale;
         this.modelSale = modelSale;
         this.lblMontoAct = lblMontoAct;
         this.container = container;
+        this.iframeSale = iframeSale;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -258,19 +258,21 @@ public class CUSaleView extends javax.swing.JInternalFrame {
         sc.refreshSales(tblSale, modelSale);
         this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
         this.dispose();
+        iframeSale.setVisible(true);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-
+        iframeSale.setVisible(true);
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnSelectStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectStockActionPerformed
         StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSale, modelSale, this.lblMontoAct, txtProducto, txtPrecio);
         container.add(ssv);
         FramesUtil.setPosition(container, ssv);
+        this.setVisible(false);
         ssv.show();
     }//GEN-LAST:event_btnSelectStockActionPerformed
-
+    
     private void calcSubtotal() {
         try {
             double n2 = Double.parseDouble(txtPrecio.getText());
@@ -281,7 +283,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     private void asignarDatos() {
         sc.getSale().setCantidad(Integer.parseInt(txtCantidad.getText()));
         sc.getSale().setPrecio(Double.parseDouble(txtPrecio.getText()));
@@ -313,7 +315,7 @@ public class CUSaleView extends javax.swing.JInternalFrame {
     public SaleController getSc() {
         return sc;
     }
-
+    
     public void setSc(SaleController sc) {
         this.sc = sc;
     }

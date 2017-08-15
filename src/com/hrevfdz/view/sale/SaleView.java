@@ -479,7 +479,7 @@ public class SaleView extends javax.swing.JInternalFrame {
     }
 
     private void openEditSale(String title) throws ParseException {
-        CUSaleView cUSaleView = new CUSaleView(sc, tblSales, dtm, lblMontoAct, container);
+        CUSaleView cUSaleView = new CUSaleView(sc, tblSales, dtm, lblMontoAct, container, this);
         cUSaleView.setTitle(title + cUSaleView.getTitle());
         cUSaleView.setClosable(true);
         cUSaleView.txtCantidad.requestFocus();
@@ -488,6 +488,7 @@ public class SaleView extends javax.swing.JInternalFrame {
         FramesUtil.setPosition(this.container, cUSaleView);
         this.lblMontoAct.setText("S/. " + sc.doGetMontoActualCaja(new Date()));
         cUSaleView.show();
+        this.setVisible(false);
         if (title.equals(AccionUtil.UPDATE)) {
             cUSaleView.txtCodigo.setEnabled(false);
             cUSaleView.setClosable(true);
