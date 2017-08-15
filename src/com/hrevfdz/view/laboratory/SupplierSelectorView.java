@@ -81,6 +81,9 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNameSuppKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNameSuppKeyTyped(evt);
+            }
         });
 
         btnAceptar.setBackground(new java.awt.Color(255, 255, 102));
@@ -230,6 +233,10 @@ public class SupplierSelectorView extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         iframeSupp.setVisible(true);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void txtNameSuppKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameSuppKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNameSuppKeyTyped
 
     private void loadSuppliers() {
         dtm = (DefaultTableModel) tblSuppliers.getModel();

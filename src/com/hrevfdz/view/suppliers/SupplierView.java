@@ -84,6 +84,9 @@ public class SupplierView extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNombreDistKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreDistKeyTyped(evt);
+            }
         });
 
         jPanel5.setBackground(new java.awt.Color(5, 67, 98));
@@ -355,6 +358,10 @@ public class SupplierView extends javax.swing.JInternalFrame {
         FramesUtil.limpiarTabla(tblSupp, (DefaultTableModel) tblSupp.getModel());
         suc.loadData(dtm, tblSupp);
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void txtNombreDistKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreDistKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNombreDistKeyTyped
     
     private void getSuppRow() {
         suc.setSuppliers(new Suppliers());

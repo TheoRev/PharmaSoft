@@ -48,7 +48,7 @@ public class LabView extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblLabs = new javax.swing.JTable();
 
-        setTitle("LISTADO DE LABORATORIOS");
+        setTitle("LABORATORIOS");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -83,6 +83,9 @@ public class LabView extends javax.swing.JInternalFrame {
         txtNomProd.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNomProdKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyTyped(evt);
             }
         });
 
@@ -359,6 +362,10 @@ public class LabView extends javax.swing.JInternalFrame {
         FramesUtil.limpiarTabla(tblLabs, (DefaultTableModel) tblLabs.getModel());
         lc.doLoadData(dtm, tblLabs);
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void txtNomProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNomProdKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

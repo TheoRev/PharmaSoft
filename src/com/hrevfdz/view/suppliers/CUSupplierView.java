@@ -1,5 +1,6 @@
 package com.hrevfdz.view.suppliers;
 
+import Atxy2k.CustomTextField.RestrictedTextField;
 import com.hrevfdz.controller.SuppliersController;
 import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
@@ -11,24 +12,30 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class CUSupplierView extends javax.swing.JInternalFrame implements FrameFunctions {
-
+    
     SuppliersController suc;
     JInternalFrame iframe;
     JDesktopPane container;
     JTable tblSupp;
     DefaultTableModel dtm;
-
+    
     public CUSupplierView(SuppliersController suc, JInternalFrame iframe, JDesktopPane container,
             JTable tblSupp, DefaultTableModel dtm) {
         initComponents();
-
+        
         this.suc = suc;
         this.iframe = iframe;
         this.container = container;
         this.tblSupp = tblSupp;
         this.dtm = dtm;
+        
+        RestrictedTextField rtf = new RestrictedTextField(txtRuc);
+        rtf.setLimit(11);
+        rtf.setOnlyNums(true);
+        RestrictedTextField r = new RestrictedTextField(txtTelefono);
+        r.setOnlyNums(true);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -85,10 +92,20 @@ public class CUSupplierView extends javax.swing.JInternalFrame implements FrameF
         txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtEncargado.setBackground(new java.awt.Color(255, 255, 255));
         txtEncargado.setForeground(new java.awt.Color(0, 0, 0));
         txtEncargado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtEncargado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEncargadoKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -228,6 +245,14 @@ public class CUSupplierView extends javax.swing.JInternalFrame implements FrameF
         iframe.setVisible(true);
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtEncargadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEncargadoKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtEncargadoKeyTyped
+    
     private void asignarDatos() {
         suc.getSuppliers().setNombre(txtNombre.getText());
         suc.getSuppliers().setEncargado(txtEncargado.getText());

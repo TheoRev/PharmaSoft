@@ -10,7 +10,6 @@ import com.hrevfdz.view.sale.SaleView;
 import com.hrevfdz.view.stock.StockView;
 import com.hrevfdz.view.suppliers.SupplierView;
 import com.hrevfdz.view.work.WorkView;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -346,7 +345,7 @@ public final class HomeView extends javax.swing.JFrame {
         paymentView.setClosable(true);
         paymentView.setMaximizable(true);
         paymentView.setIconifiable(true);
-        paymentView.setTitle("LISTA DE PAGOS");
+        paymentView.setTitle("PAGOS");
         dskContainer.add(paymentView);
         FramesUtil.setPosition(dskContainer, paymentView);
         paymentView.show();
@@ -358,7 +357,7 @@ public final class HomeView extends javax.swing.JFrame {
         sv.setIconifiable(true);
         sv.setMaximizable(true);
         sv.setClosable(true);
-        sv.setTitle("LISTA DE DISTRIBUIDORES");
+        sv.setTitle("DISTRIBUIDORES");
         dskContainer.add(sv);
         FramesUtil.setPosition(dskContainer, sv);
         sv.show();
@@ -370,7 +369,7 @@ public final class HomeView extends javax.swing.JFrame {
         labView.setIconifiable(true);
         labView.setMaximizable(true);
         labView.setClosable(true);
-        labView.setTitle("LISTA DE LABORATORIOS");
+        labView.setTitle("LABORATORIOS");
         dskContainer.add(labView);
         FramesUtil.setPosition(dskContainer, labView);
         labView.show();

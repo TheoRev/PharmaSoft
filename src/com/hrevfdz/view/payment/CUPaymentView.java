@@ -1,5 +1,6 @@
 package com.hrevfdz.view.payment;
 
+import Atxy2k.CustomTextField.RestrictedTextField;
 import com.hrevfdz.controller.PaymentsController;
 import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
@@ -39,6 +40,8 @@ public class CUPaymentView extends javax.swing.JInternalFrame implements FrameFu
 
             sdf = new SimpleDateFormat("dd/MM/yyyy");
 
+//            RestrictedTextField r = new RestrictedTextField(txtMonto, "^(\\d|-)?(\\d|,)*\\.?\\d*$");
+//            r.setOnlyNums(true);
             dcFecha.setDate(sdf.parse(sdf.format(new Date())));
             txtMonto.requestFocus();
         } catch (ParseException ex) {
@@ -144,10 +147,15 @@ public class CUPaymentView extends javax.swing.JInternalFrame implements FrameFu
         txtMonto.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         txtMonto.setForeground(new java.awt.Color(0, 0, 0));
         txtMonto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        txtMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMontoKeyTyped(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Descripción");
+        jLabel7.setText("Descripción *");
 
         txtDescripcion.setBackground(new java.awt.Color(255, 255, 255));
         txtDescripcion.setColumns(20);
@@ -195,29 +203,29 @@ public class CUPaymentView extends javax.swing.JInternalFrame implements FrameFu
                             .addComponent(jLabel4))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtLaboratory)
-                            .addComponent(txtProducto))
+                            .addComponent(txtProducto)
+                            .addComponent(txtLaboratory))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnOpenLabSuppSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(49, 49, 49)
-                        .addComponent(txtMonto))
+                        .addComponent(jLabel3)
+                        .addGap(34, 34, 34)
+                        .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(40, 40, 40)
+                        .addGap(32, 32, 32)
                         .addComponent(txtUser))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(45, 45, 45)
+                        .addGap(37, 37, 37)
                         .addComponent(txtCodigo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(42, 42, 42)
-                        .addComponent(dcFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel6)
+                        .addGap(33, 33, 33)
+                        .addComponent(txtMonto)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -254,9 +262,9 @@ public class CUPaymentView extends javax.swing.JInternalFrame implements FrameFu
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -286,6 +294,7 @@ public class CUPaymentView extends javax.swing.JInternalFrame implements FrameFu
         if (validarCamposVacios()) {
             JOptionPane.showMessageDialog(null, MessagesUtil.EMPTY_FIELD_MESSAGE, MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
         } else {
+            boolean t = txtDescripcion.getText().isEmpty();
             pc.getPayments().setMonto(Double.parseDouble(txtMonto.getText()));
             pc.getPayments().setDescripcion(txtDescripcion.getText());
             pc.doExecute();
@@ -300,6 +309,10 @@ public class CUPaymentView extends javax.swing.JInternalFrame implements FrameFu
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         iframe.setVisible(true);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void txtMontoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyTyped
+        FramesUtil.onlyDecimalNumber(evt, txtMonto);
+    }//GEN-LAST:event_txtMontoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -325,6 +338,6 @@ public class CUPaymentView extends javax.swing.JInternalFrame implements FrameFu
 
     @Override
     public boolean validarCamposVacios() {
-        return dcFecha.getDate() == null || txtMonto.getText().isEmpty();
+        return dcFecha.getDate() == null || txtMonto.getText().isEmpty() || txtDescripcion.getText().isEmpty();
     }
 }

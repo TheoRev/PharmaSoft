@@ -136,6 +136,9 @@ public class SaleView extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNomProdKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyTyped(evt);
+            }
         });
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
@@ -171,6 +174,11 @@ public class SaleView extends javax.swing.JInternalFrame {
         btnReport.setContentAreaFilled(false);
         btnReport.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/report/icons8-Print-28.png"))); // NOI18N
         btnReport.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/report/icons8-Print-40.png"))); // NOI18N
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportActionPerformed(evt);
+            }
+        });
 
         btnAdd.setBackground(new java.awt.Color(5, 67, 98));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/add/icons8-Add List-34.png"))); // NOI18N
@@ -470,6 +478,14 @@ public class SaleView extends javax.swing.JInternalFrame {
         FramesUtil.limpiarTabla(tblSales, (DefaultTableModel) tblSales.getModel());
         sc.refreshSales(tblSales, dtm);
     }//GEN-LAST:event_txtNomProdKeyReleased
+
+    private void txtNomProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNomProdKeyTyped
+
+    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+        
+    }//GEN-LAST:event_btnReportActionPerformed
 
     private void loadUsers() {
         cbUser.addItem("Seleccione");

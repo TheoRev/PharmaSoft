@@ -81,6 +81,9 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNomLabKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomLabKeyTyped(evt);
+            }
         });
 
         btnAceptar.setBackground(new java.awt.Color(255, 255, 102));
@@ -229,6 +232,10 @@ public class LabSelectorView extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         iframeLapSeletor.setVisible(true);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void txtNomLabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomLabKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNomLabKeyTyped
 
     private void loadLabs() {
         dtm = (DefaultTableModel) tblLabs.getModel();

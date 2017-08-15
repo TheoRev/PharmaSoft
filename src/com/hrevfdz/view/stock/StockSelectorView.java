@@ -20,22 +20,23 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class StockSelectorView extends javax.swing.JInternalFrame {
-    
+
     private StockController stc = null;
     private SaleController sc = null;
     private JInternalFrame iframe = null;
     private JDesktopPane container = null;
     JTextField txtProducto;
     JTextField txtPrecio;
-    
+    JTextField txtCantidad;
+
     private DefaultTableModel dtm;
     private SimpleDateFormat sdf;
-    
+
     JTable tblSale;
     DefaultTableModel modelSale;
-    
+
     public StockSelectorView(SaleController sc, JInternalFrame iframe, JDesktopPane container, JTable tblSale,
-            DefaultTableModel modelSale, JLabel lblMontoAct, JTextField txtProducto, JTextField txtPrecio) {
+            DefaultTableModel modelSale, JLabel lblMontoAct, JTextField txtProducto, JTextField txtPrecio, JTextField txtCantidad) {
         initComponents();
         this.sc = sc;
         this.iframe = iframe;
@@ -44,16 +45,17 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         this.modelSale = modelSale;
         this.txtProducto = txtProducto;
         this.txtPrecio = txtPrecio;
-        
+        this.txtCantidad = txtCantidad;
+
         stc = new StockController();
         stc.doFindAll();
         doFindAll();
     }
-    
+
     private void doFindAll() {
         sdf = new SimpleDateFormat("dd/MM/yyyy");
         dtm = (DefaultTableModel) tblProductos.getModel();
-        
+
         stc.getStockProductos().stream().map((p) -> {
             Object[] row = new Object[8];
             row[0] = p.getCodStock();
@@ -68,10 +70,10 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         }).forEachOrdered((row) -> {
             dtm.addRow(row);
         });
-        
+
         tblProductos.setModel(dtm);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -124,6 +126,9 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNomProdKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyTyped(evt);
+            }
         });
 
         txtLaboratorio.setBackground(new java.awt.Color(255, 255, 255));
@@ -133,6 +138,9 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         txtLaboratorio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtLaboratorioKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtLaboratorioKeyTyped(evt);
             }
         });
 
@@ -296,6 +304,9 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         if (tblProductos.isRowSelected(tblProductos.getSelectedRow())) {
             txtProducto.setText(sc.getProducto().getNombre());
             this.txtPrecio.setText(String.valueOf(sc.getProducto().getMonto()));
+            this.txtCantidad.setEnabled(true);
+            this.txtCantidad.setText("");
+            this.txtCantidad.requestFocus(true);
             this.dispose();
             iframe.setVisible(true);
         } else {
@@ -314,6 +325,14 @@ public class StockSelectorView extends javax.swing.JInternalFrame {
         FramesUtil.limpiarTabla(tblProductos, (DefaultTableModel) tblProductos.getModel());
         doFindAll();
     }//GEN-LAST:event_txtLaboratorioKeyReleased
+
+    private void txtNomProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNomProdKeyTyped
+
+    private void txtLaboratorioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLaboratorioKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtLaboratorioKeyTyped
 
 //    private void openNewSale(String title, StockProducto sp) throws ParseException {
 //        sdf = new SimpleDateFormat("dd/MM/yyyy");

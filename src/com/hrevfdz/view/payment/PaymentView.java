@@ -241,6 +241,9 @@ public final class PaymentView extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNomProdKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyTyped(evt);
+            }
         });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -487,6 +490,10 @@ public final class PaymentView extends javax.swing.JInternalFrame {
         pc.doFindAll();
         pc.refreshPayments(dtm, tblPayments);
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void txtNomProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNomProdKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

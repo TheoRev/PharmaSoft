@@ -1,5 +1,6 @@
 package com.hrevfdz.view.stock;
 
+import Atxy2k.CustomTextField.RestrictedTextField;
 import com.hrevfdz.view.sale.LabSelectorView;
 import com.hrevfdz.controller.StockController;
 import com.hrevfdz.util.FrameFunctions;
@@ -12,24 +13,27 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class CUStockView extends javax.swing.JInternalFrame implements FrameFunctions {
-
+    
     StockController stc;
     private final JInternalFrame iframe;
     JDesktopPane container;
     JTable tblStock;
     DefaultTableModel dtm;
-
+    
     public CUStockView(StockController stc, JInternalFrame iframe, JDesktopPane container,
             JTable tblStock, DefaultTableModel dtm) {
         initComponents();
-
+        
         this.stc = stc;
         this.iframe = iframe;
         this.container = container;
         this.tblStock = tblStock;
         this.dtm = dtm;
+        
+        RestrictedTextField r = new RestrictedTextField(txtCantidad);
+        r.setOnlyNums(true);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -106,6 +110,11 @@ public class CUStockView extends javax.swing.JInternalFrame implements FrameFunc
         txtPrecio.setForeground(new java.awt.Color(0, 0, 0));
         txtPrecio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtPrecio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204), 2));
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
 
         btnGuardar.setBackground(new java.awt.Color(0, 102, 102));
         btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -138,6 +147,11 @@ public class CUStockView extends javax.swing.JInternalFrame implements FrameFunc
         txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 204), 2));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtLab.setBackground(new java.awt.Color(255, 255, 255));
         txtLab.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -300,6 +314,14 @@ public class CUStockView extends javax.swing.JInternalFrame implements FrameFunc
         iframe.setVisible(true);
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        FramesUtil.onlyDecimalNumber(evt, txtPrecio);
+    }//GEN-LAST:event_txtPrecioKeyTyped
+    
     private void asignarDatos() {
         stc.getStockProducto().setNombre(txtNombre.getText());
         stc.getStockProducto().setPresentacion(txtPresentacion.getText());
@@ -337,5 +359,5 @@ public class CUStockView extends javax.swing.JInternalFrame implements FrameFunc
         return txtNombre.getText().isEmpty() || txtPresentacion.getText().isEmpty() || txtLab.getText().isEmpty()
                 || txtLote.getText().isEmpty() || txtCantidad.getText().isEmpty() || txtPrecio.getText().isEmpty() || dcFecVenc.getDate() == null;
     }
-
+    
 }

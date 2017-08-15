@@ -78,6 +78,9 @@ public final class LoginView extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtUsuarioKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyTyped(evt);
+            }
         });
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -222,6 +225,10 @@ public final class LoginView extends javax.swing.JFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtUsuarioKeyTyped
 
     private void keyEnterPressed(java.awt.event.KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {

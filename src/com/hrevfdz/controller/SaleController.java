@@ -30,9 +30,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class SaleController extends PharmaSoftController {
 
@@ -71,6 +74,10 @@ public class SaleController extends PharmaSoftController {
 //                stream.flush();
 //            }
 //            FacesContext.getCurrentInstance().responseComplete();
+            String url = "D:\\backup\\NetBeansProjects\\PharmaSoft\\src\\com\\hrevfdz\\report\\ventas.jrxml";
+            JasperReport jr = JasperCompileManager.compileReport(url);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parametro, Conexion.getConexion());
+            JasperViewer.viewReport(jasperPrint, false);
         } catch (ParseException ex) {
             Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -172,7 +179,7 @@ public class SaleController extends PharmaSoftController {
         }
     }
 
-    public void doCreate() {
+    private void doCreate() {
         StockProductoDAO daoSt = new StockProductoDAO();
         boolean result = false;
         boolean resultST = false;
@@ -210,7 +217,7 @@ public class SaleController extends PharmaSoftController {
                         JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar la venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar esta venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (Exception e) {
@@ -218,7 +225,7 @@ public class SaleController extends PharmaSoftController {
         }
     }
 
-    public void doUpdate(Sale s) {
+    private void doUpdate(Sale s) {
         dao = new SaleDAO();
         StockProductoDAO daoSt = new StockProductoDAO();
         boolean result = false;
@@ -268,7 +275,7 @@ public class SaleController extends PharmaSoftController {
                         JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar la venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar esta venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (Exception e) {
@@ -306,7 +313,7 @@ public class SaleController extends PharmaSoftController {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
-    }    
+    }
 
     public void getAllUsers() {
         IPharmacy<Users> daou = new UsersDAO();

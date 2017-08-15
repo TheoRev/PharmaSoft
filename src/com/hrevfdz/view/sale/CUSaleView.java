@@ -1,5 +1,6 @@
 package com.hrevfdz.view.sale;
 
+import Atxy2k.CustomTextField.RestrictedTextField;
 import com.hrevfdz.controller.SaleController;
 import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
@@ -21,7 +22,7 @@ public class CUSaleView extends javax.swing.JInternalFrame implements FrameFunct
     JTable tblSale;
     DefaultTableModel modelSale;
 
-    private JLabel lblMontoAct;
+    JLabel lblMontoAct;
 
     private SaleController sc;
     JDesktopPane container;
@@ -37,6 +38,9 @@ public class CUSaleView extends javax.swing.JInternalFrame implements FrameFunct
         this.lblMontoAct = lblMontoAct;
         this.container = container;
         this.iframeSale = iframeSale;
+
+        RestrictedTextField r = new RestrictedTextField(txtCantidad);
+        r.setOnlyNums(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -151,6 +155,7 @@ public class CUSaleView extends javax.swing.JInternalFrame implements FrameFunct
         txtCantidad.setForeground(new java.awt.Color(0, 0, 0));
         txtCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtCantidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204)));
+        txtCantidad.setEnabled(false);
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyReleased(evt);
@@ -270,10 +275,11 @@ public class CUSaleView extends javax.swing.JInternalFrame implements FrameFunct
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnSelectStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectStockActionPerformed
-        StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSale, modelSale, this.lblMontoAct, txtProducto, txtPrecio);
+        StockSelectorView ssv = new StockSelectorView(sc, this, container, tblSale, modelSale, this.lblMontoAct, txtProducto, txtPrecio, txtCantidad);
         container.add(ssv);
         FramesUtil.setPosition(container, ssv);
         this.setVisible(false);
+        txtCantidad.requestFocus(true);
         ssv.show();
     }//GEN-LAST:event_btnSelectStockActionPerformed
 

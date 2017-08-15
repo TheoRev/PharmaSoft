@@ -89,6 +89,9 @@ public class StockView extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNameProdKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNameProdKeyTyped(evt);
+            }
         });
 
         txtLab.setBackground(new java.awt.Color(255, 255, 255));
@@ -98,6 +101,9 @@ public class StockView extends javax.swing.JInternalFrame {
         txtLab.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtLabKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtLabKeyTyped(evt);
             }
         });
 
@@ -392,6 +398,14 @@ public class StockView extends javax.swing.JInternalFrame {
         stc.doFindAll();
         refresTable();
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void txtNameProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameProdKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtNameProdKeyTyped
+
+    private void txtLabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLabKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtLabKeyTyped
 
     private void refresTable() {
         FramesUtil.limpiarTabla(tblStock, (DefaultTableModel) tblStock.getModel());

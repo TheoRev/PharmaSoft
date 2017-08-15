@@ -4,6 +4,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -104,5 +105,22 @@ public class FramesUtil {
     public static void enablerActionButtons(JButton update, JButton delete, boolean state) {
         update.setEnabled(state);
         delete.setEnabled(state);
+    }
+
+    public static void convertToMayucula(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (Character.isLowerCase(c)) {
+            String text = ("" + c).toUpperCase();
+            c = text.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }
+
+    public static void onlyDecimalNumber(java.awt.event.KeyEvent evt, JTextField txtComponent) {
+        char c = evt.getKeyChar();
+
+        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '.' || txtComponent.getText().contains("."))) {
+            evt.consume();
+        }
     }
 }

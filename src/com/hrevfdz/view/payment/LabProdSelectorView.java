@@ -359,6 +359,9 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtLaboratorioKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtLaboratorioKeyTyped(evt);
+            }
         });
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -598,6 +601,10 @@ public class LabProdSelectorView extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         iframe.setVisible(true);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void txtLaboratorioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLaboratorioKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtLaboratorioKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
