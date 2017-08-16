@@ -65,4 +65,35 @@ public class StockProductoDAO extends PharmacyService<StockProducto> {
         return end;
     }
 
+    public List<StockProducto> doFindByName(String name) {
+        List<StockProducto> lista = null;
+
+        try {
+            em = PharmacyConexion.getInstance().getFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT s FROM StockProducto s WHERE s.nombre LIKE :name AND s.state = TRUE");
+            query.setParameter("name", name + "%");
+            lista = query.getResultList();
+            em.close();
+        } catch (Exception e) {
+            throw e;
+        }
+        return lista;
+    }
+
+    public List<StockProducto> doFindByNameLab(String lab) {
+        List<StockProducto> lista = null;
+
+        try {
+            em = PharmacyConexion.getInstance().getFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT s FROM StockProducto s WHERE s.codLab.nomLab LIKE :lab and s.state = TRUE");
+            query.setParameter("lab", lab + "%");
+            lista = query.getResultList();
+            em.close();
+        } catch (Exception e) {
+            throw e;
+        }
+        return lista;
+    }
 }

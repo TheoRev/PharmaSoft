@@ -152,43 +152,43 @@
 			</line>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="70" height="20" uuid="d891fcbf-d439-4f29-af74-34e2c6ca3f93"/>
-				<textElement>
-					<font size="14"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cod_sale}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="184" y="0" width="92" height="20" uuid="20083bd2-5131-4bfb-ac52-616c18b065c6"/>
 				<textElement textAlignment="Left">
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="368" y="0" width="92" height="20" uuid="e55c1387-f657-45e0-906d-cd4aff17d9c1"/>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="460" y="0" width="92" height="20" uuid="470921e4-03e4-4c57-b6a7-f1eefcb550b8"/>
 				<textElement textAlignment="Center">
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="70" y="0" width="92" height="20" uuid="3880fc17-1191-44be-a485-20892645ab52"/>
 				<textElement textAlignment="Center">
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00">
 				<reportElement x="254" y="0" width="102" height="20" uuid="944c415b-1b28-48ca-97cb-55681df9b57b"/>
 				<textElement textAlignment="Center">
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
 			</textField>

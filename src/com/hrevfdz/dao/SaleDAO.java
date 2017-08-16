@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.hrevfdz.service.PharmacyService;
 import java.util.Date;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.Query;
 
 public class SaleDAO extends PharmacyService<Sale> {
 
@@ -41,7 +39,6 @@ public class SaleDAO extends PharmacyService<Sale> {
 //    public Sale findBy(String q) throws Exception {
 //        return super.findBy(q);
 //    }
-
     @Override
     public List<Sale> findByQuery(String q) throws Exception {
         return super.findByQuery(q);
@@ -58,15 +55,41 @@ public class SaleDAO extends PharmacyService<Sale> {
             if (fecha != null) {
                 em = PharmacyConexion.getInstance().getFactory().createEntityManager();
                 em.getTransaction().begin();
-                CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-                Root<Sale> root = cq.from(Sale.class);
-                cq.select(cq.from(Sale.class));
-                Predicate p = em.getCriteriaBuilder().equal(root.get("fecha"), fecha);
-                cq.where(p);
-                cq.orderBy(em.getCriteriaBuilder().desc(root.get(getCod())));
-                lista = em.createQuery(cq).getResultList();
+                Query query = em.createQuery("SELECT s FROM Sale s WHERE s.fecha = :fecha");
+                query.setParameter("fecha", fecha);
+                lista = query.getResultList();
                 em.close();
             }
+        } catch (Exception e) {
+            throw e;
+        }
+        return lista;
+    }
+
+    public List<Sale> findByUser(String name) {
+        List<Sale> lista = null;
+
+        try {
+            em = PharmacyConexion.getInstance().getFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT s FROM Sale s WHERE s.userId.username = :name");
+            query.setParameter("name", name);
+            lista = query.getResultList();
+        } catch (Exception e) {
+            throw e;
+        }
+        return lista;
+    }
+
+    public List<Sale> findByNameProd(String name) {
+        List<Sale> lista = null;
+
+        try {
+            em = PharmacyConexion.getInstance().getFactory().createEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT s FROM Sale s WHERE s.codStock.nombre LIKE :name");
+            query.setParameter("name", name + "%");
+            lista = query.getResultList();
         } catch (Exception e) {
             throw e;
         }

@@ -1,8 +1,10 @@
 package com.hrevfdz.util;
 
 import com.toedter.calendar.JDateChooser;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -16,24 +18,20 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author lheo
- */
 public class FramesUtil {
 
     public static void limpiarCampos(JPanel jp) {
-        for (int i = 0; i < jp.getComponents().length; i++) {
-            if (jp.getComponents()[i] instanceof JTextField) {
-                ((JTextField) jp.getComponents()[i]).setText("");
-            } else if (jp.getComponents()[i] instanceof JDateChooser) {
-                ((JDateChooser) jp.getComponents()[i]).setDate(null);
-            } else if (jp.getComponents()[i] instanceof JSpinner) {
-                ((JSpinner) jp.getComponents()[i]).setValue(0);
-            } else if (jp.getComponents()[i] instanceof JCheckBox) {
-                ((JCheckBox) jp.getComponents()[i]).setSelected(false);
-            } else if (jp.getComponents()[i] instanceof JComboBox) {
-                ((JComboBox) jp.getComponents()[i]).setSelectedIndex(0);
+        for (Component component : jp.getComponents()) {
+            if (component instanceof JTextField) {
+                ((JTextField) component).setText("");
+            } else if (component instanceof JDateChooser) {
+                ((JDateChooser) component).setDate(null);
+            } else if (component instanceof JSpinner) {
+                ((JSpinner) component).setValue(0);
+            } else if (component instanceof JCheckBox) {
+                ((JCheckBox) component).setSelected(false);
+            } else if (component instanceof JComboBox) {
+                ((JComboBox) component).setSelectedIndex(0);
             }
         }
     }
@@ -107,5 +105,22 @@ public class FramesUtil {
     public static void enablerActionButtons(JButton update, JButton delete, boolean state) {
         update.setEnabled(state);
         delete.setEnabled(state);
+    }
+
+    public static void convertToMayucula(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (Character.isLowerCase(c)) {
+            String text = ("" + c).toUpperCase();
+            c = text.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }
+
+    public static void onlyDecimalNumber(java.awt.event.KeyEvent evt, JTextField txtComponent) {
+        char c = evt.getKeyChar();
+
+        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '.' || txtComponent.getText().contains("."))) {
+            evt.consume();
+        }
     }
 }

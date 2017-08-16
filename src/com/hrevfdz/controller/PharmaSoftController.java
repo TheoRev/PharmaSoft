@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 public class PharmaSoftController {
 
-    private SimpleDateFormat sdf;
+    SimpleDateFormat sdf;
     private StartWork startWork;
 
     public double doGetMontoActualCaja(Date fecha) {

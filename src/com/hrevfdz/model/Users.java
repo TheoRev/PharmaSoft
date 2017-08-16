@@ -6,9 +6,7 @@
 package com.hrevfdz.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -45,16 +41,6 @@ public class Users implements Serializable {
     private String username;
     @Column(name = "password")
     private String password;
-    @OneToMany(mappedBy = "userId")
-    private List<Sale> saleList;
-    @OneToMany(mappedBy = "userId")
-    private List<Access> accessList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private List<StartWork> startWorkList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private List<Payments> paymentsList;
-    @OneToMany(mappedBy = "userId")
-    private List<Recarga> recargaList;
 
     public Users() {
     }
@@ -87,51 +73,6 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    @XmlTransient
-    public List<Sale> getSaleList() {
-        return saleList;
-    }
-
-    public void setSaleList(List<Sale> saleList) {
-        this.saleList = saleList;
-    }
-
-    @XmlTransient
-    public List<Access> getAccessList() {
-        return accessList;
-    }
-
-    public void setAccessList(List<Access> accessList) {
-        this.accessList = accessList;
-    }
-
-    @XmlTransient
-    public List<StartWork> getStartWorkList() {
-        return startWorkList;
-    }
-
-    public void setStartWorkList(List<StartWork> startWorkList) {
-        this.startWorkList = startWorkList;
-    }
-
-    @XmlTransient
-    public List<Payments> getPaymentsList() {
-        return paymentsList;
-    }
-
-    public void setPaymentsList(List<Payments> paymentsList) {
-        this.paymentsList = paymentsList;
-    }
-
-    @XmlTransient
-    public List<Recarga> getRecargaList() {
-        return recargaList;
-    }
-
-    public void setRecargaList(List<Recarga> recargaList) {
-        this.recargaList = recargaList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -154,7 +95,7 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-//        return "com.hrevfdz.model.Users[ id=" + id + " ]";
+        //        return "com.hrevfdz.model.Users[ id=" + id + " ]";
         return this.username;
     }
 

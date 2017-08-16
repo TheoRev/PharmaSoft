@@ -13,6 +13,7 @@ public final class LoadingDialogView extends javax.swing.JFrame {
         initComponents();
         this.users = users;
         
+        
         FramesUtil.setIcon(this);
         
         setLocationRelativeTo(null);

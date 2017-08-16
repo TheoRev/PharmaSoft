@@ -7,9 +7,7 @@ package com.hrevfdz.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,16 +17,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lheo2
+ * @author Theo
  */
 @Entity
 @Table(name = "stock_producto", catalog = "farmasur", schema = "pharmacy")
@@ -42,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StockProducto.findByMonto", query = "SELECT s FROM StockProducto s WHERE s.monto = :monto")
     , @NamedQuery(name = "StockProducto.findByCantidad", query = "SELECT s FROM StockProducto s WHERE s.cantidad = :cantidad")
     , @NamedQuery(name = "StockProducto.findByCosto", query = "SELECT s FROM StockProducto s WHERE s.costo = :costo")
-    , @NamedQuery(name = "StockProducto.findByFecVen", query = "SELECT s FROM StockProducto s WHERE s.fecVen = :fecVen")})
+    , @NamedQuery(name = "StockProducto.findByFecVen", query = "SELECT s FROM StockProducto s WHERE s.fecVen = :fecVen")
+    , @NamedQuery(name = "StockProducto.findByState", query = "SELECT s FROM StockProducto s WHERE s.state = :state")})
 public class StockProducto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,24 +61,26 @@ public class StockProducto implements Serializable {
     private Integer cantidad;
     @Column(name = "costo")
     private Double costo;
+    @Basic(optional = false)
     @Column(name = "fec_ven")
     @Temporal(TemporalType.DATE)
     private Date fecVen;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codStock")
-    private List<IngresoProducto> ingresoProductoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codStock")
-    private List<Sale> saleList;
+    @Column(name = "state")
+    private Boolean state;
     @JoinColumn(name = "cod_lab", referencedColumnName = "cod_lab")
     @ManyToOne
     private Laboratory codLab;
-    @OneToMany(mappedBy = "codStock")
-    private List<Payments> paymentsList;
 
     public StockProducto() {
     }
 
     public StockProducto(Integer codStock) {
         this.codStock = codStock;
+    }
+
+    public StockProducto(Integer codStock, Date fecVen) {
+        this.codStock = codStock;
+        this.fecVen = fecVen;
     }
 
     public Integer getCodStock() {
@@ -148,22 +147,12 @@ public class StockProducto implements Serializable {
         this.fecVen = fecVen;
     }
 
-    @XmlTransient
-    public List<IngresoProducto> getIngresoProductoList() {
-        return ingresoProductoList;
+    public Boolean getState() {
+        return state;
     }
 
-    public void setIngresoProductoList(List<IngresoProducto> ingresoProductoList) {
-        this.ingresoProductoList = ingresoProductoList;
-    }
-
-    @XmlTransient
-    public List<Sale> getSaleList() {
-        return saleList;
-    }
-
-    public void setSaleList(List<Sale> saleList) {
-        this.saleList = saleList;
+    public void setState(Boolean state) {
+        this.state = state;
     }
 
     public Laboratory getCodLab() {
@@ -172,15 +161,6 @@ public class StockProducto implements Serializable {
 
     public void setCodLab(Laboratory codLab) {
         this.codLab = codLab;
-    }
-
-    @XmlTransient
-    public List<Payments> getPaymentsList() {
-        return paymentsList;
-    }
-
-    public void setPaymentsList(List<Payments> paymentsList) {
-        this.paymentsList = paymentsList;
     }
 
     @Override
@@ -205,8 +185,8 @@ public class StockProducto implements Serializable {
 
     @Override
     public String toString() {
-//        return "com.hrevfdz.model.StockProducto[ codStock=" + codStock + " ]";
+        //return "com.hrevfdz.model.StockProducto[ codStock=" + codStock + " ]";
         return this.nombre;
     }
-
+    
 }

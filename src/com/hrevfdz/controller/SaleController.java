@@ -3,15 +3,18 @@ package com.hrevfdz.controller;
 import com.hrevfdz.dao.AccessDAO;
 import com.hrevfdz.dao.SaleDAO;
 import com.hrevfdz.dao.StockProductoDAO;
+import com.hrevfdz.dao.UsersDAO;
 import com.hrevfdz.model.Access;
 import com.hrevfdz.model.Sale;
 import com.hrevfdz.model.StockProducto;
+import com.hrevfdz.model.Users;
 import com.hrevfdz.report.Conexion;
 import com.hrevfdz.service.IPharmacy;
 import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.util.QueriesUtil;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -20,17 +23,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
-public class SaleController extends PharmaSoftController{
+public class SaleController extends PharmaSoftController {
 
     private IPharmacy<Sale> dao;
     private List<Sale> sales;
@@ -41,32 +44,28 @@ public class SaleController extends PharmaSoftController{
     private String accion;
     private boolean estado;
     private Access access;
+    private List<Users> users;
+    private Users user;
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     private Date fecha = new Date();
     private String fecAct = sdf.format(fecha);
 
-    public void generarReporte() throws JRException, IOException, SQLException {
+    public void doGenerateReport() {
         try {
             SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
             fecha = sdfr.parse(sdfr.format(fecha));
             Map<String, Object> parametro = new HashMap<String, Object>();
             parametro.put("fec", fecha);
 
-//            File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/ventas.jasper"));
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametro, Conexion.getConexion());
-//
-//            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//            String filename = "Reporte de Ventas - (" + sdfr.format(fecha) + ").pdf";
-//            response.addHeader("Content-disposition", "attachment; filename=" + filename);
-//            try (ServletOutputStream stream = response.getOutputStream()) {
-//                JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
-//                stream.flush();
-//            }
-//            FacesContext.getCurrentInstance().responseComplete();
-        } catch (ParseException ex) {
-            Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
+//            String url = "D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/report/ventas.jrxml";
+            String path = new File("src/com/hrevfdz/report/ventas.jrxml").getCanonicalPath();
+            JasperReport jr = JasperCompileManager.compileReport(path);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parametro, Conexion.getConexion());
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (ParseException | SQLException | JRException | IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -119,15 +118,12 @@ public class SaleController extends PharmaSoftController{
     }
 
     public void doFindByFecha() {
-        dao = new SaleDAO();
-        sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        final String query = "SELECT s FROM Sale s WHERE s.fecha = '" + sdf.format(fecha) + "'";
+        SaleDAO daos = new SaleDAO();
 
         try {
             if (fecha != null) {
                 sales.clear();
-                sales = dao.findByQuery(query);
+                sales = daos.findByDate(fecha);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -169,7 +165,7 @@ public class SaleController extends PharmaSoftController{
         }
     }
 
-    public void doCreate() {
+    private void doCreate() {
         StockProductoDAO daoSt = new StockProductoDAO();
         boolean result = false;
         boolean resultST = false;
@@ -195,6 +191,7 @@ public class SaleController extends PharmaSoftController{
 
                     if (result) {
                         producto.setCantidad(tempSt.getCantidad() - sale.getCantidad());
+                        producto.setState(true);
                         resultST = daoSt.Update(producto);
                     }
 
@@ -206,7 +203,7 @@ public class SaleController extends PharmaSoftController{
                         JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar la venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar esta venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (Exception e) {
@@ -214,7 +211,7 @@ public class SaleController extends PharmaSoftController{
         }
     }
 
-    public void doUpdate(Sale s) {
+    private void doUpdate(Sale s) {
         dao = new SaleDAO();
         StockProductoDAO daoSt = new StockProductoDAO();
         boolean result = false;
@@ -252,6 +249,7 @@ public class SaleController extends PharmaSoftController{
                         producto.setCantidad(producto.getCantidad() - venta);
                     }
 
+                    producto.setState(true);
                     resultST = daoSt.Update(producto);
 
                     if (result && resultST) {
@@ -263,7 +261,7 @@ public class SaleController extends PharmaSoftController{
                         JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar la venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar esta venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (Exception e) {
@@ -283,9 +281,39 @@ public class SaleController extends PharmaSoftController{
         }
     }
 
+    public void doFindByUser(String name) {
+        SaleDAO daou = new SaleDAO();
+
+        try {
+            sales = daou.findByUser(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void doFindByNameProd(String name) {
+        SaleDAO daou = new SaleDAO();
+
+        try {
+            sales = daou.findByNameProd(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void getAllUsers() {
+        IPharmacy<Users> daou = new UsersDAO();
+
+        try {
+            String query = "SELECT u FROM Users u";
+            users = daou.findByQuery(query);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void refreshSales(JTable tblSale, DefaultTableModel modelSale) {
         FramesUtil.limpiarTabla(tblSale, (DefaultTableModel) tblSale.getModel());
-        doFindAll();
         try {
             loadData(modelSale, tblSale);
         } catch (ParseException ex) {
@@ -307,6 +335,7 @@ public class SaleController extends PharmaSoftController{
             StockProducto sp = daoSt.findBy(QueriesUtil.STOCK_X_COD + producto.getCodStock());
             producto.setCantidad(producto.getCantidad() + sale.getCantidad());
 
+            producto.setState(true);
             resultST = daoSt.Update(producto);
 
             result = dao.Delete(s);
@@ -437,6 +466,22 @@ public class SaleController extends PharmaSoftController{
 
     public void setTempSale(Sale tempSale) {
         this.tempSale = tempSale;
+    }
+
+    public List<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Users> users) {
+        this.users = users;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 
 }

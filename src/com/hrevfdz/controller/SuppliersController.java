@@ -7,6 +7,8 @@ import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class SuppliersController extends PharmaSoftController {
 
@@ -25,7 +27,33 @@ public class SuppliersController extends PharmaSoftController {
         }
     }
 
-    public void doCreate() {
+    public void doFindByName(String name) {
+        SuppliersDAO dao = new SuppliersDAO();
+
+        try {
+            supplierses = dao.findByName(name);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void loadData(DefaultTableModel dtm, JTable tblSupp) {
+        dtm = (DefaultTableModel) tblSupp.getModel();
+
+        for (Suppliers s : supplierses) {
+            Object[] row = new Object[6];
+            row[0] = s.getCodigo();
+            row[1] = s.getNombre();
+            row[2] = s.getEncargado();
+            row[3] = s.getTelefono();
+            row[4] = s.getEmail();
+            row[5] = s.getRuc();
+            dtm.addRow(row);
+        }
+        tblSupp.setModel(dtm);
+    }
+
+    private void doCreate() {
         IPharmacy dao = new SuppliersDAO();
 
         try {
@@ -43,7 +71,7 @@ public class SuppliersController extends PharmaSoftController {
         }
     }
 
-    public void doUpdate(Suppliers s) {
+    private void doUpdate(Suppliers s) {
         IPharmacy dao = new SuppliersDAO();
 
         try {
@@ -53,12 +81,12 @@ public class SuppliersController extends PharmaSoftController {
                 supplierses.clear();
                 doFindAll();
                 suppliers = new Suppliers();
-                JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, MessagesUtil.SAVE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No cuenta con stock para realizar la venta", "Stock insuficiante", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 

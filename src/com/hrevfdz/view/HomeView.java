@@ -4,10 +4,12 @@ import com.hrevfdz.controller.IngresoProdController;
 import com.hrevfdz.controller.PharmaSoftController;
 import com.hrevfdz.model.Users;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.view.laboratory.LabView;
 import com.hrevfdz.view.payment.PaymentView;
 import com.hrevfdz.view.sale.SaleView;
 import com.hrevfdz.view.stock.StockView;
-import java.text.ParseException;
+import com.hrevfdz.view.suppliers.SupplierView;
+import com.hrevfdz.view.work.WorkView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -56,12 +58,13 @@ public final class HomeView extends javax.swing.JFrame {
         btnCaja = new javax.swing.JButton();
         btnLab = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        dskContainer = new javax.swing.JDesktopPane();
         jPanel2 = new javax.swing.JPanel();
         lblUser = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
         lblFecha = new javax.swing.JLabel();
         lblMontoAct = new javax.swing.JLabel();
+        dskContainer = new javax.swing.JDesktopPane();
+        lblVersion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PharmaSoft");
@@ -120,6 +123,11 @@ public final class HomeView extends javax.swing.JFrame {
         btnSuppliers.setContentAreaFilled(false);
         btnSuppliers.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/supplier/icons8-Queue-40.png"))); // NOI18N
         btnSuppliers.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/supplier/icons8-Queue-56.png"))); // NOI18N
+        btnSuppliers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuppliersActionPerformed(evt);
+            }
+        });
 
         btnCaja.setBackground(new java.awt.Color(36, 47, 65));
         btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-48.png"))); // NOI18N
@@ -129,6 +137,11 @@ public final class HomeView extends javax.swing.JFrame {
         btnCaja.setContentAreaFilled(false);
         btnCaja.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-40.png"))); // NOI18N
         btnCaja.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-56.png"))); // NOI18N
+        btnCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCajaActionPerformed(evt);
+            }
+        });
 
         btnLab.setBackground(new java.awt.Color(36, 47, 65));
         btnLab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-48.png"))); // NOI18N
@@ -138,6 +151,11 @@ public final class HomeView extends javax.swing.JFrame {
         btnLab.setContentAreaFilled(false);
         btnLab.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-40.png"))); // NOI18N
         btnLab.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-56.png"))); // NOI18N
+        btnLab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLabActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -185,6 +203,7 @@ public final class HomeView extends javax.swing.JFrame {
         btnCerrarSesion.setBackground(new java.awt.Color(255, 153, 153));
         btnCerrarSesion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnCerrarSesion.setForeground(new java.awt.Color(51, 51, 51));
+        btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/login/icons8-Exit-24.png"))); // NOI18N
         btnCerrarSesion.setText("CERRAR SESION");
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,7 +228,7 @@ public final class HomeView extends javax.swing.JFrame {
                 .addComponent(lblFecha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMontoAct, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                 .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCerrarSesion)
@@ -230,23 +249,30 @@ public final class HomeView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        dskContainer.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lblVersion.setBackground(new java.awt.Color(53, 85, 109));
+        lblVersion.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblVersion.setForeground(new java.awt.Color(255, 255, 255));
+        lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblVersion.setText("Versión 0.1.2");
+        lblVersion.setOpaque(true);
+
+        dskContainer.setLayer(lblVersion, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout dskContainerLayout = new javax.swing.GroupLayout(dskContainer);
         dskContainer.setLayout(dskContainerLayout);
         dskContainerLayout.setHorizontalGroup(
             dskContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         dskContainerLayout.setVerticalGroup(
             dskContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dskContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskContainerLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout pnlMainContainerLayout = new javax.swing.GroupLayout(pnlMainContainer);
@@ -256,12 +282,17 @@ public final class HomeView extends javax.swing.JFrame {
             .addGroup(pnlMainContainerLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dskContainer))
+                .addGroup(pnlMainContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dskContainer)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         pnlMainContainerLayout.setVerticalGroup(
             pnlMainContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(dskContainer)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlMainContainerLayout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dskContainer))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -283,7 +314,7 @@ public final class HomeView extends javax.swing.JFrame {
         sv.setClosable(true);
         sv.setMaximizable(true);
         sv.setIconifiable(true);
-        sv.setTitle("LISTA DE VENTAS");
+        sv.setTitle("VENTAS");
         sv.setToolTipText("LISTA DE VENTAS");
         btnSale.setEnabled(false);
         dskContainer.add(sv);
@@ -298,7 +329,7 @@ public final class HomeView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
-        StockView stockView = new StockView(this.btnStock);
+        StockView stockView = new StockView(this.dskContainer, this.btnStock);
         stockView.setClosable(true);
         stockView.setMaximizable(true);
         stockView.setIconifiable(true);
@@ -314,12 +345,48 @@ public final class HomeView extends javax.swing.JFrame {
         paymentView.setClosable(true);
         paymentView.setMaximizable(true);
         paymentView.setIconifiable(true);
-        paymentView.setTitle("LISTA DE PAGOS");
+        paymentView.setTitle("PAGOS");
         dskContainer.add(paymentView);
         FramesUtil.setPosition(dskContainer, paymentView);
         paymentView.show();
         btnPayments.setEnabled(false);
     }//GEN-LAST:event_btnPaymentsActionPerformed
+
+    private void btnSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuppliersActionPerformed
+        SupplierView sv = new SupplierView(dskContainer, btnSuppliers);
+        sv.setIconifiable(true);
+        sv.setMaximizable(true);
+        sv.setClosable(true);
+        sv.setTitle("DISTRIBUIDORES");
+        dskContainer.add(sv);
+        FramesUtil.setPosition(dskContainer, sv);
+        sv.show();
+        btnSuppliers.setEnabled(false);
+    }//GEN-LAST:event_btnSuppliersActionPerformed
+
+    private void btnLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLabActionPerformed
+        LabView labView = new LabView(dskContainer, btnLab);
+        labView.setIconifiable(true);
+        labView.setMaximizable(true);
+        labView.setClosable(true);
+        labView.setTitle("LABORATORIOS");
+        dskContainer.add(labView);
+        FramesUtil.setPosition(dskContainer, labView);
+        labView.show();
+        btnLab.setEnabled(false);
+    }//GEN-LAST:event_btnLabActionPerformed
+
+    private void btnCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCajaActionPerformed
+        WorkView wv=new WorkView(dskContainer, btnCaja);
+        wv.setIconifiable(true);
+        wv.setMaximizable(true);
+        wv.setClosable(true);
+        wv.setTitle("HISTORIAL DE ACTIVIDADES");
+        dskContainer.add(wv);
+        FramesUtil.setPosition(dskContainer, wv);
+        wv.show();
+        btnCaja.setEnabled(false);
+    }//GEN-LAST:event_btnCajaActionPerformed
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -368,6 +435,7 @@ public final class HomeView extends javax.swing.JFrame {
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblMontoAct;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JLabel lblVersion;
     private javax.swing.JPanel pnlMainContainer;
     // End of variables declaration//GEN-END:variables
 }

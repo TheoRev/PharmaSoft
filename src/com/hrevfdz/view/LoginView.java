@@ -7,6 +7,7 @@ import com.hrevfdz.model.StartWork;
 import com.hrevfdz.model.Users;
 import com.hrevfdz.model.Access;
 import com.hrevfdz.service.IPharmacy;
+import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import java.awt.event.KeyEvent;
@@ -17,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public final class LoginView extends javax.swing.JFrame {
+public final class LoginView extends javax.swing.JFrame implements FrameFunctions {
 
     private List<Users> usuarios;
     private Users usuario;
@@ -70,13 +71,16 @@ public final class LoginView extends javax.swing.JFrame {
         jLabel1.setText("Usuario");
 
         txtUsuario.setBackground(new java.awt.Color(36, 47, 65));
-        txtUsuario.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtUsuario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtUsuario.setForeground(new java.awt.Color(255, 255, 255));
         txtUsuario.setToolTipText("");
         txtUsuario.setBorder(null);
         txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtUsuarioKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyTyped(evt);
             }
         });
 
@@ -85,7 +89,7 @@ public final class LoginView extends javax.swing.JFrame {
         jLabel2.setText("Password");
 
         txtPassword.setBackground(new java.awt.Color(36, 47, 65));
-        txtPassword.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtPassword.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword.setBorder(null);
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -97,6 +101,7 @@ public final class LoginView extends javax.swing.JFrame {
         btnIngresar.setBackground(new java.awt.Color(0, 102, 102));
         btnIngresar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/login/icons8-Enter-24.png"))); // NOI18N
         btnIngresar.setText("INGRESAR");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -222,6 +227,10 @@ public final class LoginView extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btnCloseActionPerformed
 
+    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
+        FramesUtil.convertToMayucula(evt);
+    }//GEN-LAST:event_txtUsuarioKeyTyped
+
     private void keyEnterPressed(java.awt.event.KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             logear();
@@ -229,42 +238,46 @@ public final class LoginView extends javax.swing.JFrame {
     }
 
     public void logear() {
-        final String query = "select u from Users u where u.username='" + txtUsuario.getText()
-                + "' and u.password='" + txtPassword.getText() + "'";
+        if (validarCamposVacios()) {
+            JOptionPane.showMessageDialog(null, "Los campos no pueden estar vacios, ingrese su usuario y password.", MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
+        } else {
+            final String query = "select u from Users u where u.username='" + txtUsuario.getText()
+                    + "' and u.password='" + txtPassword.getText() + "'";
 
-        try {
-            IPharmacy<Users> dao = new UsersDAO();
+            try {
+                IPharmacy<Users> dao = new UsersDAO();
 
-            List<Users> userses = dao.findByQuery(query);
-            if (userses != null && userses.size() == 1) {
-                Users u = new Users();
-                for (Users us : userses) {
-                    u = us;
-                }
-                if (u.getUsername().equals(txtUsuario.getText())
-                        && u.getPassword().equals(txtPassword.getText())) {
-                    usuario = u;
-
-                    if (findStartWork()) {
-                        LoadingDialogView ldv = new LoadingDialogView(usuario);
-                        ldv.setVisible(true);
-                        this.dispose();
-                    } else {
-                        StartWorkView workView = new StartWorkView(usuario);
-                        workView.setUsers(u);
-                        workView.setVisible(true);
-                        this.dispose();
+                List<Users> userses = dao.findByQuery(query);
+                if (userses != null && userses.size() == 1) {
+                    Users u = new Users();
+                    for (Users us : userses) {
+                        u = us;
                     }
+                    if (u.getUsername().equals(txtUsuario.getText())
+                            && u.getPassword().equals(txtPassword.getText())) {
+                        usuario = u;
 
-                    createAccess(u);
+                        if (findStartWork()) {
+                            LoadingDialogView ldv = new LoadingDialogView(usuario);
+                            ldv.setVisible(true);
+                            this.dispose();
+                        } else {
+                            StartWorkView workView = new StartWorkView(usuario);
+                            workView.setUsers(u);
+                            workView.setVisible(true);
+                            this.dispose();
+                        }
+
+                        createAccess(u);
+                    } else {
+                        errorValidation();
+                    }
                 } else {
                     errorValidation();
                 }
-            } else {
-                errorValidation();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -354,4 +367,9 @@ public final class LoginView extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public boolean validarCamposVacios() {
+        return txtUsuario.getText().isEmpty() || txtPassword.getText().isEmpty();
+    }
 }

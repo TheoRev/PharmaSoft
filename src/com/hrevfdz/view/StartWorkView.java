@@ -3,14 +3,17 @@ package com.hrevfdz.view;
 import com.hrevfdz.controller.StartWorkController;
 import com.hrevfdz.model.StartWork;
 import com.hrevfdz.model.Users;
+import com.hrevfdz.util.FrameFunctions;
 import com.hrevfdz.util.FramesUtil;
+import com.hrevfdz.util.MessagesUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
-public final class StartWorkView extends javax.swing.JFrame {
+public final class StartWorkView extends javax.swing.JFrame implements FrameFunctions {
 
     private Users users = new Users();
     private StartWork startWork = new StartWork();
@@ -53,27 +56,34 @@ public final class StartWorkView extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(5, 67, 98));
 
-        jdtFecha.setBackground(new java.awt.Color(5, 67, 98));
-        jdtFecha.setForeground(new java.awt.Color(255, 255, 255));
+        jdtFecha.setBackground(new java.awt.Color(255, 255, 255));
+        jdtFecha.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Fecha");
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Monto en Caja");
+        jLabel2.setText("Monto en Caja *");
 
-        txtMonCaja.setBackground(new java.awt.Color(5, 67, 98));
-        txtMonCaja.setForeground(new java.awt.Color(255, 255, 255));
+        txtMonCaja.setBackground(new java.awt.Color(255, 255, 255));
+        txtMonCaja.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtMonCaja.setForeground(new java.awt.Color(0, 0, 0));
         txtMonCaja.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtMonCaja.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         txtMonCaja.setCaretColor(new java.awt.Color(255, 255, 255));
         txtMonCaja.setMargin(new java.awt.Insets(0, 5, 0, 0));
+        txtMonCaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMonCajaKeyTyped(evt);
+            }
+        });
 
         btnGuardar.setBackground(new java.awt.Color(0, 102, 102));
-        btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnGuardar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/save/icons8-Save-24.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +91,7 @@ public final class StartWorkView extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 13)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("INICIANDO ACTIVIDAD");
@@ -141,13 +151,13 @@ public final class StartWorkView extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jdtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMonCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGuardar)
-                .addGap(30, 30, 30))
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -165,26 +175,34 @@ public final class StartWorkView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try {
-            sdf = new SimpleDateFormat("yyyy-MM-dd");
-            StartWorkController swc = new StartWorkController();
-            startWork.setFecha(sdf.parse(sdf.format(fecAct)));
-            startWork.setCapital(Double.parseDouble(txtMonCaja.getText()));
+        if (validarCamposVacios()) {
+            JOptionPane.showMessageDialog(null, MessagesUtil.EMPTY_FIELD_MESSAGE, MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                sdf = new SimpleDateFormat("yyyy-MM-dd");
+                StartWorkController swc = new StartWorkController();
+                startWork.setFecha(sdf.parse(sdf.format(fecAct)));
+                startWork.setCapital(Double.parseDouble(txtMonCaja.getText()));
 
-            boolean result = swc.doCreate(users, startWork);
-            if (result) {
-                LoadingDialogView ldv = new LoadingDialogView(this.users);
-                ldv.setVisible(result);
-                this.dispose();
+                boolean result = swc.doCreate(users, startWork);
+                if (result) {
+                    LoadingDialogView ldv = new LoadingDialogView(this.users);
+                    ldv.setVisible(result);
+                    this.dispose();
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(StartWorkView.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ParseException ex) {
-            Logger.getLogger(StartWorkView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void txtMonCajaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMonCajaKeyTyped
+        FramesUtil.onlyDecimalNumber(evt, txtMonCaja);
+    }//GEN-LAST:event_txtMonCajaKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
@@ -211,5 +229,10 @@ public final class StartWorkView extends javax.swing.JFrame {
 
     public void setStartWork(StartWork startWork) {
         this.startWork = startWork;
+    }
+
+    @Override
+    public boolean validarCamposVacios() {
+        return txtMonCaja.getText().isEmpty();
     }
 }
