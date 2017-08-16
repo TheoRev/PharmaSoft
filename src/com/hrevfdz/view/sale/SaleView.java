@@ -484,7 +484,8 @@ public class SaleView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtNomProdKeyTyped
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-        
+        sc.setFecha(dcFecha.getDate());
+        sc.doGenerateReport();
     }//GEN-LAST:event_btnReportActionPerformed
 
     private void loadUsers() {

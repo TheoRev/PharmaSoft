@@ -1,12 +1,10 @@
 package com.hrevfdz.controller;
 
 import com.hrevfdz.dao.AccessDAO;
-import com.hrevfdz.dao.LaboratoryDAO;
 import com.hrevfdz.dao.SaleDAO;
 import com.hrevfdz.dao.StockProductoDAO;
 import com.hrevfdz.dao.UsersDAO;
 import com.hrevfdz.model.Access;
-import com.hrevfdz.model.Laboratory;
 import com.hrevfdz.model.Sale;
 import com.hrevfdz.model.StockProducto;
 import com.hrevfdz.model.Users;
@@ -16,6 +14,7 @@ import com.hrevfdz.util.AccionUtil;
 import com.hrevfdz.util.FramesUtil;
 import com.hrevfdz.util.MessagesUtil;
 import com.hrevfdz.util.QueriesUtil;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -24,14 +23,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -56,30 +52,20 @@ public class SaleController extends PharmaSoftController {
     private Date fecha = new Date();
     private String fecAct = sdf.format(fecha);
 
-    public void generarReporte() throws JRException, IOException, SQLException {
+    public void doGenerateReport() {
         try {
             SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
             fecha = sdfr.parse(sdfr.format(fecha));
             Map<String, Object> parametro = new HashMap<String, Object>();
             parametro.put("fec", fecha);
 
-//            File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/ventas.jasper"));
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametro, Conexion.getConexion());
-//
-//            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//            String filename = "Reporte de Ventas - (" + sdfr.format(fecha) + ").pdf";
-//            response.addHeader("Content-disposition", "attachment; filename=" + filename);
-//            try (ServletOutputStream stream = response.getOutputStream()) {
-//                JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
-//                stream.flush();
-//            }
-//            FacesContext.getCurrentInstance().responseComplete();
-            String url = "D:\\backup\\NetBeansProjects\\PharmaSoft\\src\\com\\hrevfdz\\report\\ventas.jrxml";
-            JasperReport jr = JasperCompileManager.compileReport(url);
+//            String url = "D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/report/ventas.jrxml";
+            String path = new File("src/com/hrevfdz/report/ventas.jrxml").getCanonicalPath();
+            JasperReport jr = JasperCompileManager.compileReport(path);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parametro, Conexion.getConexion());
             JasperViewer.viewReport(jasperPrint, false);
-        } catch (ParseException ex) {
-            Logger.getLogger(SaleController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException | SQLException | JRException | IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
 

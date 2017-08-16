@@ -253,7 +253,7 @@ public final class HomeView extends javax.swing.JFrame {
         lblVersion.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         lblVersion.setForeground(new java.awt.Color(255, 255, 255));
         lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblVersion.setText("Versión 1.2.1");
+        lblVersion.setText("Versión 0.1.2");
         lblVersion.setOpaque(true);
 
         dskContainer.setLayer(lblVersion, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -314,7 +314,7 @@ public final class HomeView extends javax.swing.JFrame {
         sv.setClosable(true);
         sv.setMaximizable(true);
         sv.setIconifiable(true);
-        sv.setTitle("LISTA DE VENTAS");
+        sv.setTitle("VENTAS");
         sv.setToolTipText("LISTA DE VENTAS");
         btnSale.setEnabled(false);
         dskContainer.add(sv);
