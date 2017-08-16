@@ -60,11 +60,12 @@ public class SaleController extends PharmaSoftController {
             parametro.put("fec", fecha);
 
 //            String url = "D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/report/ventas.jrxml";
-            String path = new File("src/com/hrevfdz/report/ventas.jrxml").getCanonicalPath();
+//            String path = new File("src/com/hrevfdz/report/ventas.jrxml").getCanonicalPath();
+            String path = "C:/PharmaSoft-deployer/report/ventas.jrxml";
             JasperReport jr = JasperCompileManager.compileReport(path);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parametro, Conexion.getConexion());
             JasperViewer.viewReport(jasperPrint, false);
-        } catch (ParseException | SQLException | JRException | IOException ex) {
+        } catch (ParseException | SQLException | JRException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
