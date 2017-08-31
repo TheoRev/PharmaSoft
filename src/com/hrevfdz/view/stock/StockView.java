@@ -370,6 +370,7 @@ public class StockView extends javax.swing.JInternalFrame {
             cusv.txtPrecio.setEnabled(false);
             cusv.btnLabs.setEnabled(false);
             cusv.setTitle("ACTUALIZAR STOCK");
+            cusv.txtCantidad.requestFocus();
             setDataFromControls(cusv);
         }
     }
