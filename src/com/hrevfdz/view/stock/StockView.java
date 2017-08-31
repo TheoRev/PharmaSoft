@@ -48,6 +48,7 @@ public class StockView extends javax.swing.JInternalFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        btnUpdateStock = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblStock = new javax.swing.JTable();
@@ -198,6 +199,17 @@ public class StockView extends javax.swing.JInternalFrame {
             .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        btnUpdateStock.setBackground(new java.awt.Color(5, 67, 98));
+        btnUpdateStock.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnUpdateStock.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdateStock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/add/icons8-Plus-42.png"))); // NOI18N
+        btnUpdateStock.setText("Actualizar Stock");
+        btnUpdateStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateStockActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -211,8 +223,10 @@ public class StockView extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtNameProd, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                     .addComponent(txtLab))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 315, Short.MAX_VALUE)
+                .addGap(123, 123, 123)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(btnUpdateStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -221,9 +235,6 @@ public class StockView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtNameProd, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -231,7 +242,12 @@ public class StockView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtLab, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(22, 22, 22))))
+                        .addGap(22, 22, 22))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnUpdateStock, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
 
         jPanel3.setBackground(new java.awt.Color(5, 67, 98));
@@ -345,15 +361,27 @@ public class StockView extends javax.swing.JInternalFrame {
         cusv.show();
         this.setVisible(false);
         if (action.equals(AccionUtil.UPDATE)) {
-            cusv.txtCodigo.setText(stc.getStockProducto().getCodStock().toString());
-            cusv.txtNombre.setText(stc.getStockProducto().getNombre());
-            cusv.txtPresentacion.setText(stc.getStockProducto().getPresentacion());
-            cusv.txtLab.setText(stc.getStockProducto().getCodLab().getNomLab());
-            cusv.txtLote.setText(stc.getStockProducto().getLote());
             cusv.txtCantidad.setText(String.valueOf(stc.getStockProducto().getCantidad()));
-            cusv.txtPrecio.setText(String.valueOf(stc.getStockProducto().getMonto()));
-            cusv.dcFecVenc.setDate(stc.getStockProducto().getFecVen());
+            setDataFromControls(cusv);
+        } else if (action.equals(AccionUtil.UPDATE_STOCK)) {
+            cusv.setCantActual(stc.getStockProducto().getCantidad());
+            cusv.txtNombre.setEnabled(false);
+            cusv.txtPresentacion.setEnabled(false);
+            cusv.txtPrecio.setEnabled(false);
+            cusv.btnLabs.setEnabled(false);
+            cusv.setTitle("ACTUALIZAR STOCK");
+            setDataFromControls(cusv);
         }
+    }
+
+    private void setDataFromControls(CUStockView cusv) {
+        cusv.txtCodigo.setText(stc.getStockProducto().getCodStock().toString());
+        cusv.txtNombre.setText(stc.getStockProducto().getNombre());
+        cusv.txtPresentacion.setText(stc.getStockProducto().getPresentacion());
+        cusv.txtLab.setText(stc.getStockProducto().getCodLab().getNomLab());
+        cusv.txtLote.setText(stc.getStockProducto().getLote());
+        cusv.txtPrecio.setText(String.valueOf(stc.getStockProducto().getMonto()));
+        cusv.dcFecVenc.setDate(stc.getStockProducto().getFecVen());
     }
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -407,6 +435,16 @@ public class StockView extends javax.swing.JInternalFrame {
         FramesUtil.convertToMayucula(evt);
     }//GEN-LAST:event_txtLabKeyTyped
 
+    private void btnUpdateStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateStockActionPerformed
+        if (tblStock.isRowSelected(tblStock.getSelectedRow())) {
+            stc.preUpdateStock(stc.getStockProducto());
+            stc.setLab(stc.getStockProducto().getCodLab());
+            openFrameStock(AccionUtil.UPDATE_STOCK);
+        } else {
+            JOptionPane.showMessageDialog(null, MessagesUtil.SELECTED_ROW_MSG, MessagesUtil.SELECTED_ROW_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateStockActionPerformed
+
     private void refresTable() {
         FramesUtil.limpiarTabla(tblStock, (DefaultTableModel) tblStock.getModel());
         stc.loadData(dtm, tblStock);
@@ -431,6 +469,7 @@ public class StockView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnUpdateStock;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

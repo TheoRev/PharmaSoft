@@ -13,27 +13,28 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class CUStockView extends javax.swing.JInternalFrame implements FrameFunctions {
-    
+
     StockController stc;
     private final JInternalFrame iframe;
     JDesktopPane container;
     JTable tblStock;
     DefaultTableModel dtm;
-    
+    private int cantActual;
+
     public CUStockView(StockController stc, JInternalFrame iframe, JDesktopPane container,
             JTable tblStock, DefaultTableModel dtm) {
         initComponents();
-        
+
         this.stc = stc;
         this.iframe = iframe;
         this.container = container;
         this.tblStock = tblStock;
         this.dtm = dtm;
-        
+
         RestrictedTextField r = new RestrictedTextField(txtCantidad);
         r.setOnlyNums(true);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -286,7 +287,13 @@ public class CUStockView extends javax.swing.JInternalFrame implements FrameFunc
         if (validarCamposVacios()) {
             JOptionPane.showMessageDialog(null, MessagesUtil.EMPTY_FIELD_MESSAGE, MessagesUtil.EMPTY_FIELD_TITLE, JOptionPane.WARNING_MESSAGE);
         } else {
-            asignarDatos();
+            if (cantActual > 0) {
+                stc.getStockProducto().setCantidad(cantActual + Integer.parseInt(txtCantidad.getText()));
+                asignarDatos();
+            } else {
+                stc.getStockProducto().setCantidad(Integer.parseInt(txtCantidad.getText()));
+                asignarDatos();
+            }
             stc.doExecute();
             FramesUtil.limpiarTabla(tblStock, (DefaultTableModel) tblStock.getModel());
             stc.doFindAll();
@@ -321,20 +328,19 @@ public class CUStockView extends javax.swing.JInternalFrame implements FrameFunc
     private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
         FramesUtil.onlyDecimalNumber(evt, txtPrecio);
     }//GEN-LAST:event_txtPrecioKeyTyped
-    
+
     private void asignarDatos() {
         stc.getStockProducto().setNombre(txtNombre.getText());
         stc.getStockProducto().setPresentacion(txtPresentacion.getText());
         stc.getStockProducto().setCodLab(stc.getLab());
         stc.getStockProducto().setLote(txtLote.getText());
-        stc.getStockProducto().setCantidad(Integer.parseInt(txtCantidad.getText()));
         stc.getStockProducto().setMonto(Double.parseDouble(txtPrecio.getText()));
         stc.getStockProducto().setFecVen(dcFecVenc.getDate());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnLabs;
+    public javax.swing.JButton btnLabs;
     public com.toedter.calendar.JDateChooser dcFecVenc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -359,5 +365,12 @@ public class CUStockView extends javax.swing.JInternalFrame implements FrameFunc
         return txtNombre.getText().isEmpty() || txtPresentacion.getText().isEmpty() || txtLab.getText().isEmpty()
                 || txtLote.getText().isEmpty() || txtCantidad.getText().isEmpty() || txtPrecio.getText().isEmpty() || dcFecVenc.getDate() == null;
     }
-    
+
+    public int getCantActual() {
+        return cantActual;
+    }
+
+    public void setCantActual(int cantActual) {
+        this.cantActual = cantActual;
+    }
 }

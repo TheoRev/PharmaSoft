@@ -74,6 +74,26 @@ public class StockController extends IngresoProdController {
             JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    private void doUpdateStock(StockProducto sp) {
+        
+        dao = new StockProductoDAO();
+
+        try {
+            stockProducto.setState(true);
+            boolean result = dao.Update(stockProducto);
+
+            if (result) {
+                stockProductos.clear();
+                doFindAll();
+                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_SUCCESS, MessagesUtil.SUCCESS_TITLE, JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, MessagesUtil.UPDATE_FAIL, MessagesUtil.FAIL_TITLE, JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), MessagesUtil.ERROR_SERVER_TITLE, JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     public void doDelete(StockProducto sp) {
         dao = new StockProductoDAO();
@@ -164,7 +184,7 @@ public class StockController extends IngresoProdController {
         }
         return null;
     }
-    
+
     public List<StockProducto> doFindStockByName(String name) {
         StockProductoDAO daos = new StockProductoDAO();
 
@@ -175,7 +195,7 @@ public class StockController extends IngresoProdController {
         }
         return null;
     }
-    
+
     public List<StockProducto> doFindStockByNameLab(String name) {
         StockProductoDAO daos = new StockProductoDAO();
 
@@ -203,6 +223,12 @@ public class StockController extends IngresoProdController {
         doGetLabs();
     }
 
+    public void preUpdateStock(StockProducto sp) {
+        this.accion = AccionUtil.UPDATE_STOCK;
+        stockProducto = sp;
+        doGetLabs();
+    }
+
     public void doUpgrade(StockProducto sp) {
         this.accion = AccionUtil.UPDATE;
         stockProducto = sp;
@@ -216,6 +242,9 @@ public class StockController extends IngresoProdController {
                 break;
             case AccionUtil.UPDATE:
                 doUpdate(stockProducto);
+                break;
+            case AccionUtil.UPDATE_STOCK:
+                doUpdateStock(stockProducto);
                 break;
         }
     }
