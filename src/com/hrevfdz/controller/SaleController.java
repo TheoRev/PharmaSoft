@@ -61,7 +61,24 @@ public class SaleController extends PharmaSoftController {
 
 //            String url = "D:/backup/NetBeansProjects/PharmaSoft/src/com/hrevfdz/report/ventas.jrxml";
 //            String path = new File("src/com/hrevfdz/report/ventas.jrxml").getCanonicalPath();
-            String path = "C:/PharmaSoft-deployer/report/ventas.jrxml";
+            String path = "";
+            String path1 = "C:/PharmaSoft-deployer/report/ventas.jrxml";
+            String path2 = "/home/theo/Documentos/PharmaSoft-deployer/report/ventas2.jrxml";
+
+            File folder1 = new File(path1);
+            File folder2 = new File(path2);
+
+            if (!folder1.exists()) {
+                if (!folder2.exists()) {
+                    JOptionPane.showMessageDialog(null, "La ruta y el archivo no existen", "NOT FOUND", JOptionPane.WARNING_MESSAGE);
+                    return;
+                } else {
+                    path = path2;
+                }
+            } else {
+                path = path1;
+            }
+
             JasperReport jr = JasperCompileManager.compileReport(path);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parametro, Conexion.getConexion());
             JasperViewer.viewReport(jasperPrint, false);
