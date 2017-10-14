@@ -253,7 +253,7 @@ public final class HomeView extends javax.swing.JFrame {
         lblVersion.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         lblVersion.setForeground(new java.awt.Color(255, 255, 255));
         lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblVersion.setText("Versión 0.1.5");
+        lblVersion.setText("Versión 0.1.6");
         lblVersion.setOpaque(true);
 
         dskContainer.setLayer(lblVersion, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -274,6 +274,8 @@ public final class HomeView extends javax.swing.JFrame {
                 .addComponent(lblVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        lblVersion.getAccessibleContext().setAccessibleName("Versión 0.1.6");
 
         javax.swing.GroupLayout pnlMainContainerLayout = new javax.swing.GroupLayout(pnlMainContainer);
         pnlMainContainer.setLayout(pnlMainContainerLayout);

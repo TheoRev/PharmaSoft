@@ -405,9 +405,12 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Versi&#xf3;n 0.1.5"/>
+                <Property name="text" type="java.lang.String" value="Versi&#xf3;n 0.1.6"/>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Versi&#xf3;n 0.1.6"/>
+              </AccessibilityProperties>
             </Component>
           </SubComponents>
         </Container>
