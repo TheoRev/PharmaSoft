@@ -75,12 +75,15 @@ public final class HomeView extends javax.swing.JFrame {
 
         btnSale.setBackground(new java.awt.Color(36, 47, 65));
         btnSale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sale/icons8-Shopping Cart Loaded-48.png"))); // NOI18N
+        btnSale.setText("VENTA");
         btnSale.setToolTipText("VENTA");
         btnSale.setBorder(null);
         btnSale.setBorderPainted(false);
         btnSale.setContentAreaFilled(false);
+        btnSale.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSale.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sale/icons8-Shopping Cart Loaded-40.png"))); // NOI18N
         btnSale.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sale/icons8-Shopping Cart Loaded-56.png"))); // NOI18N
+        btnSale.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnSale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaleActionPerformed(evt);
@@ -89,12 +92,15 @@ public final class HomeView extends javax.swing.JFrame {
 
         btnStock.setBackground(new java.awt.Color(36, 47, 65));
         btnStock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stock/icons8-Scan Stock-48.png"))); // NOI18N
+        btnStock.setText("STOCK");
         btnStock.setToolTipText("STOCK");
         btnStock.setBorder(null);
         btnStock.setBorderPainted(false);
         btnStock.setContentAreaFilled(false);
+        btnStock.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnStock.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stock/icons8-Scan Stock-40.png"))); // NOI18N
         btnStock.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stock/icons8-Scan Stock-52.png"))); // NOI18N
+        btnStock.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStockActionPerformed(evt);
@@ -103,12 +109,15 @@ public final class HomeView extends javax.swing.JFrame {
 
         btnPayments.setBackground(new java.awt.Color(36, 47, 65));
         btnPayments.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-48.png"))); // NOI18N
+        btnPayments.setText("PAGOS");
         btnPayments.setToolTipText("PAGOS");
         btnPayments.setBorder(null);
         btnPayments.setBorderPainted(false);
         btnPayments.setContentAreaFilled(false);
+        btnPayments.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPayments.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-40.png"))); // NOI18N
         btnPayments.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pay/icons8-Cash in Hand-56.png"))); // NOI18N
+        btnPayments.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnPayments.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPaymentsActionPerformed(evt);
@@ -117,12 +126,15 @@ public final class HomeView extends javax.swing.JFrame {
 
         btnSuppliers.setBackground(new java.awt.Color(36, 47, 65));
         btnSuppliers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/supplier/icons8-Queue-48.png"))); // NOI18N
+        btnSuppliers.setText("DIST.");
         btnSuppliers.setToolTipText("DISTRIBUIDORES");
         btnSuppliers.setBorder(null);
         btnSuppliers.setBorderPainted(false);
         btnSuppliers.setContentAreaFilled(false);
+        btnSuppliers.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSuppliers.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/supplier/icons8-Queue-40.png"))); // NOI18N
         btnSuppliers.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/supplier/icons8-Queue-56.png"))); // NOI18N
+        btnSuppliers.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnSuppliers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuppliersActionPerformed(evt);
@@ -131,12 +143,15 @@ public final class HomeView extends javax.swing.JFrame {
 
         btnCaja.setBackground(new java.awt.Color(36, 47, 65));
         btnCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-48.png"))); // NOI18N
+        btnCaja.setText("CAJA");
         btnCaja.setToolTipText("CAJA");
         btnCaja.setBorder(null);
         btnCaja.setBorderPainted(false);
         btnCaja.setContentAreaFilled(false);
+        btnCaja.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCaja.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-40.png"))); // NOI18N
         btnCaja.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/starter/icons8-Paper Money-56.png"))); // NOI18N
+        btnCaja.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCajaActionPerformed(evt);
@@ -145,12 +160,15 @@ public final class HomeView extends javax.swing.JFrame {
 
         btnLab.setBackground(new java.awt.Color(36, 47, 65));
         btnLab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-48.png"))); // NOI18N
+        btnLab.setText("LAB.");
         btnLab.setToolTipText("LABORATORIO");
         btnLab.setBorder(null);
         btnLab.setBorderPainted(false);
         btnLab.setContentAreaFilled(false);
+        btnLab.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnLab.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-40.png"))); // NOI18N
         btnLab.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lab/icons8-Test Tube-56.png"))); // NOI18N
+        btnLab.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnLab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLabActionPerformed(evt);
@@ -164,15 +182,17 @@ public final class HomeView extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnStock, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+            .addComponent(btnStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnPayments, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnSuppliers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnLab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator1)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(btnLab, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +218,7 @@ public final class HomeView extends javax.swing.JFrame {
 
         lblUser.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         lblUser.setForeground(new java.awt.Color(255, 255, 255));
-        lblUser.setText("Usuario: ");
+        lblUser.setText("Sesión: ");
 
         btnCerrarSesion.setBackground(new java.awt.Color(255, 153, 153));
         btnCerrarSesion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -228,7 +248,7 @@ public final class HomeView extends javax.swing.JFrame {
                 .addComponent(lblFecha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMontoAct, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                 .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCerrarSesion)
@@ -253,7 +273,7 @@ public final class HomeView extends javax.swing.JFrame {
         lblVersion.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         lblVersion.setForeground(new java.awt.Color(255, 255, 255));
         lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblVersion.setText("Versión 0.1.6");
+        lblVersion.setText("Versión 0.1.7");
         lblVersion.setOpaque(true);
 
         dskContainer.setLayer(lblVersion, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -274,8 +294,6 @@ public final class HomeView extends javax.swing.JFrame {
                 .addComponent(lblVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        lblVersion.getAccessibleContext().setAccessibleName("Versión 0.1.6");
 
         javax.swing.GroupLayout pnlMainContainerLayout = new javax.swing.GroupLayout(pnlMainContainer);
         pnlMainContainer.setLayout(pnlMainContainerLayout);
